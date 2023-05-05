@@ -1,41 +1,62 @@
-import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox } from './Headerstyled';
+import useHeaderScroll from "../hooks/useHeaderScroll";
+import { useEffect, useState } from 'react';
 
 type HeaderProps = {
     loggedIn: boolean;
 }
 
 function Header({ loggedIn }: HeaderProps) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [pageUrl, setPageUrl] = useState('');
 
+    useHeaderScroll({
+        target: HeaderBox,
+        restoreClassName: "header-top",
+        changeClassName: "header-scroll",
+        scrollValue: 50,
+    });
+
+    const onLogOutClick = () => {
+        alert("로그아웃 되었습니다.")
+        navigate("/");
+    };
+
+    useEffect(() => {
+        setPageUrl(location.pathname.split('/')[1])
+    }, [location])
+    
     return(
         <HeaderBox>
             <HeaderWidth>
                 <LinkBox>
-                    <Link to={'/'}>
-                        Home
-                    </Link>
-                    <Link to={'/gathering'}>
-                        Gathering
-                    </Link>
-                    <Link to={'/share'}>
-                        Share
-                    </Link>
-                    <Link to={'/sell'}>
-                        Sell
-                    </Link>
+                    <LinkStyled to={'/'} isActive={pageUrl === ''}>
+                        HobbyHub
+                    </LinkStyled>
+                    <LinkStyled to={'/share'} isActive={pageUrl === 'share'}>
+                        취미공유
+                    </LinkStyled>
+                    <LinkStyled to={'/sell'} isActive={pageUrl === 'sell'}>
+                        취미거래
+                    </LinkStyled>
+                    <LinkStyled to={'/gathering'} isActive={pageUrl === 'gathering'}>
+                        모임
+                    </LinkStyled>
                 </LinkBox>
                 <LogInBox>
                     {loggedIn ? (<>
-                        <Link to={'/my-page'}>
+                        <LinkStyled to={'/my-page'} isActive={pageUrl === 'my-page'}>
                             MyPage
-                        </Link>
-                        <Link to={'/'}>
+                        </LinkStyled>
+                        <LinkStyled to={'/'} onClick={onLogOutClick}>
                             LogOut
-                        </Link>
+                        </LinkStyled>
                     </>) : (
-                        <Link to={'/login'}>
+                        <LinkStyled to={'/login'} isActive={pageUrl === 'login'}>
                             LogIn
-                        </Link>
+                        </LinkStyled>
                     )}
                 </LogInBox>
             </HeaderWidth>
@@ -44,52 +65,3 @@ function Header({ loggedIn }: HeaderProps) {
 }
 
 export default Header;
-
-const HeaderBox = styled.header`
-    height: 70px;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    background-color: #ffffff;
-    border-bottom: 2px solid #979797;
-`;
-
-const HeaderWidth = styled.div`
-    width: 1024px;
-    height: 100%;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    @media screen and (max-width: 1024px){
-        width: 100%;
-    }
-    nav {
-        display: flex;
-        align-items: center;
-    }
-    a {
-        color: #6b6b6b;
-        font-size: 19px;
-        font-weight: 900;
-        text-decoration: none;
-        &:hover {
-            color: #6f9fe7;
-            text-shadow: -1.8px 0 #000, 0 1.8px #000, 1.8px 0 #000, 0 -1.8px #000;
-            transition: .4s;
-        }
-    }
-`;
-
-const LinkBox = styled.nav`
-    a {
-        margin-right: 15px;
-    }
-`;
-
-const LogInBox = styled.nav`
-    a {
-        margin-left: 15px;
-    }
-`

@@ -9,9 +9,6 @@ function App() {
   const [windowWidth, setwindowWidth] = useState(window.innerWidth); //웹 넓이 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const OnCilck =  () => setLoggedIn(e => !e);
-
-
   //웹 넓이에 반응
   useEffect(() => { 
     const handleResize = () => {
@@ -41,7 +38,6 @@ function App() {
           <span className="visually-hidden">Loading...</span>
         </SpinnerStyled>
       )}
-      <button onClick={OnCilck}>{loggedIn ? 'out' : 'in'}</button>
     </AppBox>
   );
 }
