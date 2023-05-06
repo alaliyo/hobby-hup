@@ -1,7 +1,8 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox } from './Headerstyled';
 import useHeaderScroll from "../hooks/useHeaderScroll";
 import { useEffect, useState } from 'react';
+import { authService } from '../firebase';
 
 type HeaderProps = {
     loggedIn: boolean;
@@ -9,7 +10,6 @@ type HeaderProps = {
 
 function Header({ loggedIn }: HeaderProps) {
     const location = useLocation();
-    const navigate = useNavigate();
     const [pageUrl, setPageUrl] = useState('');
 
     useHeaderScroll({
@@ -20,9 +20,10 @@ function Header({ loggedIn }: HeaderProps) {
     });
 
     const onLogOutClick = () => {
+        authService.signOut();
         alert("로그아웃 되었습니다.")
-        navigate("/");
-    };
+        window.location.href="/"
+    }
 
     useEffect(() => {
         setPageUrl(location.pathname.split('/')[1])
@@ -32,29 +33,29 @@ function Header({ loggedIn }: HeaderProps) {
         <HeaderBox>
             <HeaderWidth>
                 <LinkBox>
-                    <LinkStyled to={'/'} isActive={pageUrl === ''}>
+                    <LinkStyled to={'/'} active={pageUrl === '' ? 'true' : 'false'}>
                         HobbyHub
                     </LinkStyled>
-                    <LinkStyled to={'/share'} isActive={pageUrl === 'share'}>
+                    <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
                         취미공유
                     </LinkStyled>
-                    <LinkStyled to={'/sell'} isActive={pageUrl === 'sell'}>
+                    <LinkStyled to={'/sell'} active={pageUrl === 'sell' ? 'true' : 'false'}>
                         취미거래
                     </LinkStyled>
-                    <LinkStyled to={'/gathering'} isActive={pageUrl === 'gathering'}>
+                    <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
                         모임
                     </LinkStyled>
                 </LinkBox>
                 <LogInBox>
                     {loggedIn ? (<>
-                        <LinkStyled to={'/my-page'} isActive={pageUrl === 'my-page'}>
+                        <LinkStyled to={'/my-page'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
                             MyPage
                         </LinkStyled>
                         <LinkStyled to={'/'} onClick={onLogOutClick}>
                             LogOut
                         </LinkStyled>
                     </>) : (
-                        <LinkStyled to={'/login'} isActive={pageUrl === 'login'}>
+                        <LinkStyled to={'/login'} active={pageUrl === 'login' ? 'true' : 'false'}>
                             LogIn
                         </LinkStyled>
                     )}

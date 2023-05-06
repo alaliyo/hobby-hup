@@ -2,7 +2,7 @@ import { Link, LinkProps } from "react-router-dom";
 import styled from "styled-components";
 
 interface CustomLinkProps extends LinkProps {
-    isActive?: boolean;
+    active?: string;
 }
 
 export const HeaderBox = styled.header`
@@ -42,7 +42,7 @@ export const HeaderWidth = styled.div`
 `;
 
 export const LinkStyled = styled(Link)<CustomLinkProps>`
-    color: ${p => p.isActive ? '#6f9fe7' : '#6b6b6b' };
+    color: ${p => p.active === 'true' ? '#6f9fe7' : '#6b6b6b' };
     font-size: 19px;
     font-weight: 900;
     text-decoration: none;

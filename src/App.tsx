@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
+import { authService } from './firebase';
 import Header from "./components/Header";
 
 function App() {
@@ -21,6 +22,16 @@ function App() {
   // 모든 컴포넌트들이 로딩되었는지 확인하는 이벤트
   useEffect(() => {
     setInit(true);
+  }, []);
+
+  // 로그인 확인
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true);
+      }
+      setInit(true);
+    })
   }, []);
 
   return (
