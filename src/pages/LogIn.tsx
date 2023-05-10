@@ -3,6 +3,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
+    updateProfile,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
 import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
@@ -13,11 +14,6 @@ import SignUpForm from '../components/login/SignUpForm';
 
 interface LogInProps { //props 타입
     loggedIn: boolean
-}
-
-interface User {
-    updateProfile: (profile: {displayName: string}) => Promise<void>;
-    displayName: string;
 }
 
 function LogIn() {
@@ -42,13 +38,14 @@ function LogIn() {
         const passwordRegExp = /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}/;
         try {
             const auth = authService;
+            const nicknameChank = nicknames.includes(nickname);
             
             if (account) {
                 if (!(emailRegExp.test(email))) {
                     return setErrors("아이디 규칙을 확인해 주세요");
                 } else if (!(nicknameRegExp.test(nickname))) {
                     return setErrors("닉네임 규칙을 확인해 주세요.");
-                } else if (nicknames.includes(nickname)) {
+                } else if (nicknameChank) {
                     return setErrors("사용중인 닉네임 입니다."); // 중복 없음
                 } else if (!(passwordRegExp.test(password))) {
                     return setErrors("비밀번호 규칙을 확인해 주세요");
@@ -56,13 +53,14 @@ function LogIn() {
                     return setErrors("비밀번호와 비밀번호 확인이 다릅니다.");   
                 } 
                 await createUserWithEmailAndPassword(auth, email, password);
-                const currentUser = auth.currentUser as unknown as User;
-                await currentUser.updateProfile({ displayName: nickname });
+                const user = auth.currentUser;
+                if (user) {await updateProfile(user, { displayName: nickname });}
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
         } catch (error: any) {
             const message = error.message;
+            console.log(error.message);
             if (message === "Firebase: Error (auth/invalid-email).") {
                 setErrors("아이디를 이메일 형태로 입력해주세요");
             } else if (message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
@@ -73,15 +71,19 @@ function LogIn() {
                 setErrors("아이디가 없습니다."); 
             } else if (message === "Firebase: Error (auth/wrong-password).") {
                 setErrors("비밀번호를 다시 확인해주세.")
+            } else if (message === "Firebase: Error (auth/missing-password).") {
+                setErrors("비밀번호를 입력해 주세요.")
             }
         }
-        try {
-            await addDoc(collection(dbService, 'usersNickname'), {
-                email: email,
-                nickname: nickname,
-            });
-        } catch (error) {
-            alert('서버 에러입니다. 새로고침 후 다시 해주세요~')
+        if (account) {
+            try {
+                await addDoc(collection(dbService, 'usersNickname'), {
+                    email: email,
+                    nickname: nickname,
+                });
+            } catch (error) {
+                alert('서버 에러입니다. 새로고침 후 다시 해주세요~')
+            }
         }
     };
 

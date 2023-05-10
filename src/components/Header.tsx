@@ -1,14 +1,20 @@
 import { useLocation } from 'react-router-dom';
-import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox } from './Headerstyled';
+import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox, ProufailImgBox, ProufailImg } from './Headerstyled';
 import useHeaderScroll from "../hooks/useHeaderScroll";
 import { useEffect, useState } from 'react';
 import { authService } from '../firebase';
+import EmptyImg from '../imgs/EmptyImg.png';
 
-type HeaderProps = {
-    loggedIn: boolean;
+interface userObjProps {
+    photoURL?: string;
 }
 
-function Header({ loggedIn }: HeaderProps) {
+interface HeaderProps {
+    loggedIn: boolean;
+    userObj: userObjProps;
+}
+
+function Header({ loggedIn, userObj }: HeaderProps) {
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
 
@@ -48,9 +54,9 @@ function Header({ loggedIn }: HeaderProps) {
                 </LinkBox>
                 <LogInBox>
                     {loggedIn ? (<>
-                        <LinkStyled to={'/my-page'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
-                            MyPage
-                        </LinkStyled>
+                        <ProufailImgBox to={'/my-page'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
+                            <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg }/>
+                        </ProufailImgBox>
                         <LinkStyled to={'/'} onClick={onLogOutClick}>
                             LogOut
                         </LinkStyled>
@@ -66,3 +72,4 @@ function Header({ loggedIn }: HeaderProps) {
 }
 
 export default Header;
+

@@ -8,8 +8,9 @@ import Header from "./components/Header";
 function App() {
   const [init, setInit] = useState(false);
   const [windowWidth, setwindowWidth] = useState(window.innerWidth); //웹 넓이 
+  const [userObj, setUserObj] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-
+  console.log(userObj);
   //웹 넓이에 반응
   useEffect(() => { 
     const handleResize = () => {
@@ -28,6 +29,7 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
+        setUserObj(user);
         setLoggedIn(true);
       }
       setInit(true);
@@ -37,11 +39,16 @@ function App() {
   return (
     <AppBox>
       {init ? (<>
-        <Header loggedIn={loggedIn} />
+        <Header
+          loggedIn={loggedIn}
+          userObj={userObj}
+        />
+
         <OutletBox>
           <Outlet context={{
             windowWidth: windowWidth,
             loggedIn: loggedIn,
+            userObj: userObj,
           }} />
         </OutletBox>
       </>) : (

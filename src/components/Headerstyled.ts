@@ -52,6 +52,24 @@ export const LinkStyled = styled(Link)<CustomLinkProps>`
     }
 `;
 
+export const ProufailImgBox = styled(Link)<CustomLinkProps>`
+    font-size: 19px;
+    font-weight: 900;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 3px solid ${p => p.active === 'true' ? '#6f9fe7' : '#8b8b8b' };
+    &:hover {
+        border: 3px solid #6f9fe7;
+        transition: .3s;
+    }
+`;
+
+export const ProufailImg = styled.img`
+    width: 34px;
+    height: 34px;
+    border-radius: 18px;
+`;
+
 export const LinkBox = styled.nav`
     a {
         margin-right: 15px;
