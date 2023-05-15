@@ -1,6 +1,7 @@
 import { Button, Form, Stack } from 'react-bootstrap';
 import { LoginTitle } from './LogInStyled';
 import GoogleSignUp from './GoogleSignUp';
+import FindPassword from './FindPassword';
 
 interface LoginFormProps {
     email: string;
@@ -55,7 +56,9 @@ function LogInForm({
                     </Button>
                 </Stack>
             </Form>
-            
+            <Stack direction="horizontal">
+                <FindPassword />
+            </Stack>
         </>
     )
 }
