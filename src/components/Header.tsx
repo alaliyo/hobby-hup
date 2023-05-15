@@ -42,16 +42,20 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                     <LinkStyled to={'/'} active={pageUrl === '' ? 'true' : 'false'}>
                         HobbyHub
                     </LinkStyled>
-                    <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
-                        취미공유
-                    </LinkStyled>
-                    <LinkStyled to={'/sell'} active={pageUrl === 'sell' ? 'true' : 'false'}>
-                        취미거래
-                    </LinkStyled>
-                    <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
-                        모임
-                    </LinkStyled>
+
+                    {pageUrl === 'login' ? null : <>
+                        <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
+                            취미공유
+                        </LinkStyled>
+                        <LinkStyled to={'/sell'} active={pageUrl === 'sell' ? 'true' : 'false'}>
+                            취미거래
+                        </LinkStyled>
+                        <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
+                            모임
+                        </LinkStyled>
+                    </>}
                 </LinkBox>
+                
                 <LogInBox>
                     {loggedIn ? (<>
                         <ProufailImgBox to={'/my-page'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
