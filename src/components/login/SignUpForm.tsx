@@ -41,7 +41,9 @@ function SignUpForm({
                         name="email"
                         placeholder="아이디를 입력해주세요."
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}/>
+                        onChange={(e) => setEmail(e.target.value)}
+                        maxLength={30}    
+                    />
                     <Explanation>이메일 형태, 숫자, 영어 30자 이하만 가능합니다.</Explanation>
                 </Form.Group>
 
@@ -53,7 +55,7 @@ function SignUpForm({
                         placeholder="닉네임을 입력해주세요."
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
-                        required 
+                        maxLength={12} 
                     />
                     <Explanation>한글, 영어, 숫자 2~12자만 가능합니다.</Explanation>
                 </Form.Group>
@@ -66,7 +68,7 @@ function SignUpForm({
                         placeholder="비밀번호를 입력해주세요."
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required 
+                        maxLength={16}
                     />
                     <Explanation>숫자, 영어, !@#$%^&* 포함 한 8~16자만 가능합니다.</Explanation>
                 </Form.Group>
@@ -79,7 +81,7 @@ function SignUpForm({
                         placeholder="다시 비밀번호를 입력해주세요."
                         value={password2}
                         onChange={(e) => setPassword2(e.target.value)}
-                        required 
+                        maxLength={16}
                     />
                 </Form.Group>
 

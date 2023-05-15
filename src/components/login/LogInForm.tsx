@@ -32,7 +32,7 @@ function LogInForm({
                         placeholder="아이디를 입력해주세요."
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+                        maxLength={30}  
                     />
                 </Form.Group>
 
@@ -44,6 +44,7 @@ function LogInForm({
                         placeholder="비밀번호를 입력해주세요."
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        maxLength={16}
                     />
                 </Form.Group>
                 
