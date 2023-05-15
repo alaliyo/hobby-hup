@@ -1,46 +1,63 @@
-# Getting Started with Create React App
+<h1>🎳Hobby-Hup(호비허브)</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br/>
 
-## Available Scripts
+<h2>🖼 프로젝트 소개</h2>
+<div>
+  <span>&emsp;바쁜 현대인들이 건강한 취미 활동을 통해 스트레스를 해소하고, 혼자 하기 어려운 취미를 다양한 사람들과 교류하여 즐기도록 돕고, 배우면서 겪었던 어려움을 넘어서 배움의 즐거움을 느낄 수 있게 해드리기 위해 기획했습니다.</span><br/>
+  <span>&emsp;우리 프로젝트는 취미를 공유하고 판매하며 소통하는 플랫폼입니다. 누구나 취미의 전문가가 될 수 있고, 취미 활동을 희망하는 사람과 페어링을 통하여 소통 교류 할 수 있습니다.</span>
+  <span>&emsp;프로젝트 최종 목표는 누구나 자신만의 특별한 취미를 찾고, 함께 즐길 수 있는 모임을 만들 수 있는 환경을 제공하는 것입니다.</span>
+</div>
 
-In the project directory, you can run:
 
-### `npm start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<h2>💻개방 언어 및 활용 기술</h2>
+<h3>언어 및 프레임워크</h3>
+<ul>
+  <li>HTML, CSS, JS</li>
+  <li>TS</li>
+  <li>React</li>
+</ul>
+<h3>라이브러리</h3>
+<ul>
+  <li>Styled-Components</li>
+  <li>React-Router-dom v6</li>
+  <li>React-Bootstrap</li>
+</ul>
+<h3>DB 및 서버</h3>
+<ul>
+  <li>Firebase</li>
+</ul>
 
-### `npm test`
+<br/>
+<br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<h2>🎨아키텍처</h2>
+<a target='_blank'
+></a>
 
-### `npm run build`
+<br/>
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<h2>📲ERD</h2>
+<a target='_blank'
+></a>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h2>🎇트러블 슈팅</h2>
 
-### `npm run eject`
+<h3>제목</h3>
+<details>
+<h4>소 제목</h4>
+<span>&ensp; 내용 </span>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  ```typescript
+  // 코드 추가
+  ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
+<hr/>
