@@ -9,6 +9,7 @@ import { authService, dbService } from '../firebase';
 import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
+import useKFilter from '../hooks/KFilter';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
 
@@ -26,6 +27,7 @@ function LogIn() {
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const { loggedIn } = useOutletContext<LogInProps>(); //로그인 확인 여부
     const navigate = useNavigate();
+    const { kFilter, checkKFilter } = useKFilter();
 
     // 로그인 및 회원가입 기능
     const onSubmit = async(e: React.FormEvent) => {
@@ -39,7 +41,7 @@ function LogIn() {
         try {
             const auth = authService;
             const nicknameChank = nicknames.includes(nickname);
-            
+            checkKFilter(nickname);
             if (account) {
                 if (!(emailRegExp.test(email))) {
                     return setErrors("아이디 규칙을 확인해 주세요");
@@ -51,7 +53,9 @@ function LogIn() {
                     return setErrors("비밀번호 규칙을 확인해 주세요");
                 } else if (password !== password2) {
                     return setErrors("비밀번호와 비밀번호 확인이 다릅니다.");   
-                } 
+                } else if (kFilter) {
+                    return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
+                }
                 await createUserWithEmailAndPassword(auth, email, password);
                 const user = auth.currentUser;
                 if (user) {await updateProfile(user, { displayName: nickname });}
@@ -60,7 +64,6 @@ function LogIn() {
             }
         } catch (error: any) {
             const message = error.message;
-            console.log(error.message);
             if (message === "Firebase: Error (auth/invalid-email).") {
                 setErrors("아이디를 이메일 형태로 입력해주세요");
             } else if (message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
@@ -107,7 +110,7 @@ function LogIn() {
             const nicknasmsArr = data.map((e: { nickname: string; }) => e.nickname)
             setNicknames(nicknasmsArr);
         });
-    }, [])
+    }, []);
 
     return(
         <div>
