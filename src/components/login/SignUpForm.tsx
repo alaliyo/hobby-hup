@@ -82,13 +82,14 @@ function SignUpForm({
                         required 
                     />
                 </Form.Group>
-                
+
                 <Stack direction="horizontal">
                     <Button className='ms-auto' variant="light" type="submit" >
                         가입
                     </Button>
                 </Stack>
             </Form>
+
         </>
     )
 }

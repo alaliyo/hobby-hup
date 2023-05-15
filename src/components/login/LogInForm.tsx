@@ -1,5 +1,6 @@
 import { Button, Form, Stack } from 'react-bootstrap';
 import { LoginTitle } from './LogInStyled';
+import GoogleSignUp from './GoogleSignUp';
 
 interface LoginFormProps {
     email: string;
@@ -46,11 +47,15 @@ function LogInForm({
                 </Form.Group>
                 
                 <Stack direction="horizontal">
+                    <div>
+                        <GoogleSignUp />
+                    </div>
                     <Button className='ms-auto' variant="light" type="submit" >
                         로그인
                     </Button>
                 </Stack>
             </Form>
+            
         </>
     )
 }

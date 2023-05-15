@@ -4,12 +4,13 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
+    GoogleAuthProvider,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
 import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
-import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import useKFilter from '../hooks/KFilter';
+import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
 
@@ -22,12 +23,12 @@ function LogIn() {
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [nicknames, setNicknames] = useState<string[]>([]);
+    const [nicknames, setNicknames] = useState<string[]>([]); // 닉네임 배열
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const { loggedIn } = useOutletContext<LogInProps>(); //로그인 확인 여부
     const navigate = useNavigate();
-    const { kFilter, checkKFilter } = useKFilter();
+    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
 
     // 로그인 및 회원가입 기능
     const onSubmit = async(e: React.FormEvent) => {
