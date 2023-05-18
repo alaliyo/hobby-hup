@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
+    onAuthStateChanged,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
 import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
@@ -13,10 +14,6 @@ import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
 
-interface LogInProps { //props 타입
-    loggedIn: boolean
-}
-
 function LogIn() {
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
@@ -25,9 +22,26 @@ function LogIn() {
     const [nicknames, setNicknames] = useState<string[]>([]); // 닉네임 배열
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
-    const { loggedIn } = useOutletContext<LogInProps>(); //로그인 확인 여부
     const navigate = useNavigate();
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+
+    // 토큰 확인 로직
+    const checkToken = () => {
+        onAuthStateChanged(authService, (user) => {
+        if (user) {
+            user.getIdToken()
+            .then((token) => {
+                token && navigate("/");
+            })
+            .catch((error) => {
+                alert(error);
+            });
+        }
+        });
+    };
+
+    // 토큰 확인 호출
+    checkToken();
 
     // 로그인 및 회원가입 기능
     const onSubmit = async(e: React.FormEvent) => {
@@ -92,11 +106,6 @@ function LogIn() {
 
     // 로그인, 회원가임 컴퍼넌트 변경 함수
     const toggleAccount = () => setAccount(prev => !prev);
-
-    // 로그인 되어 있으면 홈으로
-    useEffect(() => {
-        if (loggedIn) navigate("/");
-    }, [loggedIn, navigate])
 
     // nickname GET
     useEffect(() => {

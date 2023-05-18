@@ -10,7 +10,7 @@ function App() {
   const [windowWidth, setwindowWidth] = useState(window.innerWidth); //웹 넓이 
   const [userObj, setUserObj] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  console.log(userObj);
+  
   //웹 넓이에 반응
   useEffect(() => { 
     const handleResize = () => {
@@ -47,7 +47,6 @@ function App() {
         <OutletBox>
           <Outlet context={{
             windowWidth: windowWidth,
-            loggedIn: loggedIn,
             userObj: userObj,
           }} />
         </OutletBox>
