@@ -34,8 +34,16 @@
 <br/>
 <br/>
 
+<h2>api 및 data명세서</h2>
+<a href="https://reliable-hawk-4da.notion.site/Hobby-Hup-2d6ae2c8e01444dd8e72935616ffb6d3" target='_blank'>
+  api 및 data명세서
+</a>
+
+<br/>
+<br/>
+
 <h2>🎨아키텍처</h2>
-<a target='_blank'
+<a href="" target='_blank'
 ></a>
 
 <br/>
