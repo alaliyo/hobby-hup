@@ -34,7 +34,7 @@
 <br/>
 <br/>
 
-<h2>api 및 data명세서</h2>
+<h2>📑api 및 data명세서</h2>
 <li>
   <a href="https://reliable-hawk-4da.notion.site/Hobby-Hup-2d6ae2c8e01444dd8e72935616ffb6d3"
     target="_blank" rel="noopener noreferrer"
@@ -60,10 +60,10 @@
 
 <h2>📲ERD</h2>
 <li>
-  <a href=""
-    target="_blank"
+  <a href="https://www.erdcloud.com/d/5q4zL4MSygb56A7D8"
+    target="_blank" rel="noopener noreferrer"
   >
-    
+    Hobby-Hup ERD
   </a>
 </li>
 
