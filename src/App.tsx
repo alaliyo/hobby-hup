@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     setInit(true);
   }, []);
-
+  console.log(userObj);
   // 로그인 확인
   useEffect(() => {
     authService.onAuthStateChanged((user) => {

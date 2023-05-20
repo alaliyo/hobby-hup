@@ -87,11 +87,12 @@ function LogIn() {
             } else if (message === "Firebase: Error (auth/user-not-found).") {
                 setErrors("아이디가 없습니다."); 
             } else if (message === "Firebase: Error (auth/wrong-password).") {
-                setErrors("비밀번호를 다시 확인해주세.")
+                setErrors("비밀번호를 다시 확인해주세요.")
             } else if (message === "Firebase: Error (auth/missing-password).") {
                 setErrors("비밀번호를 입력해 주세요.")
             }
         }
+
         if (account) {
             try {
                 await addDoc(collection(dbService, 'usersNickname'), {
