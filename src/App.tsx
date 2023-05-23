@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
 import { authService } from './firebase';
-import Header from "./components/Header";
+import Header from "./components/Common/Header";
 
 function App() {
   const [init, setInit] = useState(false);

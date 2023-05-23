@@ -9,6 +9,7 @@ import {
 import { authService, dbService } from '../firebase';
 import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
+import Filter from 'bad-words';
 import useKFilter from '../hooks/KFilter';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
@@ -24,6 +25,8 @@ function LogIn() {
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const navigate = useNavigate();
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+
+    const filter = new Filter();
 
     // 토큰 확인 로직
     const checkToken = () => {
@@ -69,7 +72,9 @@ function LogIn() {
                     return setErrors("비밀번호와 비밀번호 확인이 다릅니다.");   
                 } else if (kFilter) {
                     return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
-                }
+                } else if (filter.isProfane(nickname)) {
+                    return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
+                  }
                 await createUserWithEmailAndPassword(auth, email, password);
                 const user = auth.currentUser;
                 if (user) {await updateProfile(user, { displayName: nickname });}

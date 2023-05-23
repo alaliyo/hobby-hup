@@ -5,9 +5,9 @@ import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
 import { checkToken } from "../utils/authUtils";
-import UserInfo from "../components/myPage/UserInfo";
-import EditUserInfo from "../components/myPage/EditUserInfo";
-import PasswordModal from "../components/myPage/PasswordModal";
+import UserInfo from "../components/MyPage/UserInfo";
+import EditUserInfo from "../components/MyPage/EditUserInfo";
+import PasswordModal from "../components/MyPage/PasswordModal";
 
 
 interface userObj {
@@ -82,10 +82,6 @@ function MyPage() {
           >
             {change ? '취소' : '프로필 수정'}
           </ButtonStyle>
-          <br />
-          {change && (
-            <PatchBtn variant="outline-danger">완료</PatchBtn>
-          )}
         </BtnBox>
       </UserInfoBox>
       <Test />
@@ -129,10 +125,6 @@ const BtnBox = styled.div`
 
 const ButtonStyle = styled(Button)`
     height: 40px;
-`;
-
-const PatchBtn = styled(Button)`
-    margin-top: 105px;
 `;
 
 const Test = styled.div`

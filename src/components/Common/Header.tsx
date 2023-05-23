@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox, ProufailImgBox, ProufailImg } from './Headerstyled';
-import useHeaderScroll from "../hooks/useHeaderScroll";
+import useHeaderScroll from "../../hooks/useHeaderScroll";
 import { useEffect, useState } from 'react';
-import { authService } from '../firebase';
-import EmptyImg from '../imgs/EmptyImg.png';
+import { authService } from '../../firebase';
+import EmptyImg from '../../imgs/EmptyImg.png';
 
 interface userObjProps {
     photoURL?: string;
