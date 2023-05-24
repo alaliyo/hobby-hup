@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     signInWithEmailAndPassword,
@@ -7,20 +7,20 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
-import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
 import Filter from 'bad-words';
 import useKFilter from '../hooks/KFilter';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
+import { fetchNicknames } from '../hooks/nicknameChack';
 
 function LogIn() {
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [nicknames, setNicknames] = useState<string[]>([]); // 닉네임 배열
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const navigate = useNavigate();
@@ -57,14 +57,13 @@ function LogIn() {
         const passwordRegExp = /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}/;
         try {
             const auth = authService;
-            const nicknameChank = nicknames.includes(nickname);
             checkKFilter(nickname);
             if (account) {
                 if (!(emailRegExp.test(email))) {
                     return setErrors("아이디 규칙을 확인해 주세요");
                 } else if (!(nicknameRegExp.test(nickname))) {
                     return setErrors("닉네임 규칙을 확인해 주세요.");
-                } else if (nicknameChank) {
+                } else if (fetchNicknames(nickname)) {
                     return setErrors("사용중인 닉네임 입니다."); // 중복 없음
                 } else if (!(passwordRegExp.test(password))) {
                     return setErrors("비밀번호 규칙을 확인해 주세요");
@@ -74,7 +73,7 @@ function LogIn() {
                     return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
                 } else if (filter.isProfane(nickname)) {
                     return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
-                  }
+                }
                 await createUserWithEmailAndPassword(auth, email, password);
                 const user = auth.currentUser;
                 if (user) {await updateProfile(user, { displayName: nickname });}
@@ -112,20 +111,6 @@ function LogIn() {
 
     // 로그인, 회원가임 컴퍼넌트 변경 함수
     const toggleAccount = () => setAccount(prev => !prev);
-
-    // nickname GET
-    useEffect(() => {
-        const q = query(
-            collection(dbService, "usersNickname"),
-        );
-        onSnapshot(q, (snapshot) => {
-            const data: any = snapshot.docs.map((doc) => ({
-                ...doc.data(),
-            }));
-            const nicknasmsArr = data.map((e: { nickname: string; }) => e.nickname)
-            setNicknames(nicknasmsArr);
-        });
-    }, []);
 
     return(
         <div>

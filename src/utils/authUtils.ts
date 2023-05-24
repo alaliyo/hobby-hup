@@ -1,6 +1,7 @@
+import { NavigateFunction } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { authService } from "../firebase";
-import { NavigateFunction } from "react-router-dom";
+
 
 export const checkToken = (navigate: NavigateFunction) => {
     

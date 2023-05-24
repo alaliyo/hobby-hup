@@ -4,6 +4,9 @@ import { storage, authService } from '../../firebase';
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Button, Form } from "react-bootstrap";
+import Filter from 'bad-words';
+import useKFilter from "../../hooks/KFilter";
+import { fetchNicknames } from "../../hooks/nicknameChack";
 
 interface userObj {
     displayName: string;
@@ -18,11 +21,14 @@ interface EditUserInfoProps {
 function EditUserInfo({ userObj }: EditUserInfoProps) {
     const [nickname, setNickname] = useState(userObj.displayName);
     const [image, setImage] = useState<File | null>(null);
+    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const filter = new Filter();
 
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNickname(e.target.value);
+        
     };
-    
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setImage(e.target.files[0]);
@@ -39,7 +45,7 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 await updateProfile(user, {
                     photoURL: newImageURL,
                 });
-                alert('프로필이 변경되었습니다.');
+                alert('프로필 이미지가 변경되었습니다.');
             }
         } catch (error) {
             alert('이미지 업로드에 실패했습니다.');
@@ -49,6 +55,18 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
     const handleNicknameUpdate = async () => {
         try {
             const user = authService.currentUser;
+            const nicknameRegExp = /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[0-9a-zA-Zㄱ-ㅎ가-힣]{2,12}$/;
+            checkKFilter(nickname);
+            console.log(kFilter)
+            if (!(nicknameRegExp.test(nickname))) {
+                return alert("닉네임 규칙을 확인해 주세요.");
+            } else if (kFilter) {
+                return alert(`닉네임(${nickname})에 비속어가 있습니다.`);
+            } else if (filter.isProfane(nickname)) {
+                return alert(`닉네임(${nickname})에 비속어가 있습니다.`);
+            } else if (fetchNicknames(nickname)) {
+                return alert('이미 사용중인 닉네임입니다.')
+            }
             if (user) {
                 await updateProfile(user, {
                     displayName: nickname,
@@ -79,6 +97,8 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 <InputStyle
                     type="text"
                     value={nickname}
+                    maxLength={12}
+                    placeholder='한글, 영어, 숫자 2~12자만 가능'
                     onChange={handleNicknameChange}
                 />
                 <Button 
