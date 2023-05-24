@@ -53,7 +53,6 @@ function LogIn() {
             const arr = data.map((e) => e.nickname);
             setNicknames(arr);
         });
-        
     }, [nickname]) 
 
     // 로그인 및 회원가입 기능
