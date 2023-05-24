@@ -14,7 +14,7 @@ import useKFilter from '../hooks/KFilter';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
-import { fetchNicknames } from '../hooks/nicknameChack';
+import { fetchNicknames } from '../utils/nicknameChack';
 
 function LogIn() {
     const [email, setEmail] = useState("");

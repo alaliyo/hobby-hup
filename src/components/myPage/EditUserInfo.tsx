@@ -6,7 +6,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";
-import { fetchNicknames } from "../../hooks/nicknameChack";
+import { fetchNicknames } from "../../utils/nicknameChack";
 
 interface userObj {
     displayName: string;
