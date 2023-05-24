@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     signInWithEmailAndPassword,
@@ -7,20 +7,20 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
 import Filter from 'bad-words';
 import useKFilter from '../hooks/KFilter';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
-import { fetchNicknames } from '../utils/nicknameChack';
 
 function LogIn() {
     const [email, setEmail] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+    const [nicknames, setNicknames] = useState<any[]>([]);
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const navigate = useNavigate();
@@ -46,6 +46,16 @@ function LogIn() {
     // 토큰 확인 호출
     checkToken();
 
+    useEffect(() => {
+        const q = query(collection(dbService, "usersNickname"));
+        return onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map((doc) => doc.data());
+            const arr = data.map((e) => e.nickname);
+            setNicknames(arr);
+        });
+        
+    }, [nickname]) 
+
     // 로그인 및 회원가입 기능
     const onSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
@@ -63,7 +73,7 @@ function LogIn() {
                     return setErrors("아이디 규칙을 확인해 주세요");
                 } else if (!(nicknameRegExp.test(nickname))) {
                     return setErrors("닉네임 규칙을 확인해 주세요.");
-                } else if (fetchNicknames(nickname)) {
+                } else if (nicknames.includes(nickname)) {
                     return setErrors("사용중인 닉네임 입니다."); // 중복 없음
                 } else if (!(passwordRegExp.test(password))) {
                     return setErrors("비밀번호 규칙을 확인해 주세요");

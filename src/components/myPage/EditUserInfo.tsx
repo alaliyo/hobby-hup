@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { storage, authService } from '../../firebase';
+import { storage, authService, dbService } from '../../firebase';
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";
-import { fetchNicknames } from "../../utils/nicknameChack";
+import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 
 interface userObj {
     displayName: string;
@@ -22,6 +22,7 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
     const [nickname, setNickname] = useState(userObj.displayName);
     const [image, setImage] = useState<File | null>(null);
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const [nicknames, setNicknames] = useState<any[]>([]);
     const filter = new Filter();
 
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,28 +52,46 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
             alert('이미지 업로드에 실패했습니다.');
         }
     };
+
+    useEffect(() => {
+        const q = query(collection(dbService, "usersNickname"));
+        return onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map((doc) => doc.data());
+            const arr = data.map((e) => e.nickname);
+            setNicknames(arr);
+        });
+    }, [nickname]) 
     
     const handleNicknameUpdate = async () => {
         try {
             const user = authService.currentUser;
             const nicknameRegExp = /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[0-9a-zA-Zㄱ-ㅎ가-힣]{2,12}$/;
             checkKFilter(nickname);
-            console.log(kFilter)
+            
             if (!(nicknameRegExp.test(nickname))) {
                 return alert("닉네임 규칙을 확인해 주세요.");
             } else if (kFilter) {
                 return alert(`닉네임(${nickname})에 비속어가 있습니다.`);
             } else if (filter.isProfane(nickname)) {
                 return alert(`닉네임(${nickname})에 비속어가 있습니다.`);
-            } else if (fetchNicknames(nickname)) {
-                return alert('이미 사용중인 닉네임입니다.')
+            } else if (nicknames.includes(nickname)) {
+                return alert("사용중인 닉네임 입니다."); // 중복 없음
             }
             if (user) {
                 await updateProfile(user, {
                     displayName: nickname,
                 });
+                const queryRef = query(collection(dbService, "usersNickname"), where("email", "==", userObj.email));
+                const querySnapshot = await getDocs(queryRef);
+                querySnapshot.forEach((doc) => {
+                    const docRef = doc.ref;
+                    updateDoc(docRef, {
+                    nickname: nickname,
+                    });
+                });
                 alert('닉네임이 변경되었습니다.');
             }
+            
         } catch (error) {
             alert('닉네임 업데이트에 실패했습니다.');
         }
