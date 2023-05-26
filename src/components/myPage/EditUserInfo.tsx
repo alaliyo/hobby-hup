@@ -39,8 +39,25 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
     const handleImageUpload = async () => {
         try {
             const user = authService.currentUser;
+
             if (image && user) {
-                const storageRef = ref(storage, image.name);
+                const allowedExtensions = ['.jpg', '.png', 'jpeg']; // 허용된 확장자 목록
+                const fileExtension = image.name.substring(image.name.lastIndexOf('.')).toLowerCase();
+
+                if (!allowedExtensions.includes(fileExtension)) {
+                    alert('확장자는 jpg, png만 지원합니다.');
+                    return;
+                }
+
+                // 파일 크기 확인
+                const maxSizeInBytes = 0.8 * 1024 * 1024; // 10MB 제한
+                if (image.size > maxSizeInBytes) {
+                    alert('프로필 이미지는 800KB, 가로, 세로 1024 이하만 가능합니다.');
+                    return;
+                }
+
+                const fileName = `${user.email}`
+                const storageRef = ref(storage, fileName);
                 await uploadBytes(storageRef, image);
                 const newImageURL = await getDownloadURL(storageRef);
                 await updateProfile(user, {
@@ -135,6 +152,7 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 </LabelStyle>
                 <InputStyle
                     type="file"
+                    placeholder="800KB, 가로, 세로 1024 이하, 확장자 jpg, png만 가능"
                     onChange={handleImageChange}
                 />
                 <Button
