@@ -84,7 +84,6 @@ function MyPage() {
           </ButtonStyle>
         </BtnBox>
       </UserInfoBox>
-      <Test />
 
       <PasswordModal
         show={passwordModalOpen}
@@ -125,8 +124,4 @@ const BtnBox = styled.div`
 
 const ButtonStyle = styled(Button)`
     height: 40px;
-`;
-
-const Test = styled.div`
-    height: 100vh;
 `;

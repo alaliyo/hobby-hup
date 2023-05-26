@@ -4,9 +4,11 @@ import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Gathering from "./pages/Gathering";
 import Share from "./pages/Share";
-import Sell from "./pages/Sell";
+import Transaction from "./pages/Transaction";
 import MyPage from "./pages/MyPage";
 import LogIn from "./pages/LogIn";
+import Buy from "./components/Transaction/Buy";
+import Sell from "./components/Transaction/Sell";
 
 const router = createBrowserRouter([
     {
@@ -18,23 +20,34 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: '/gathering',
+                path: 'gathering',
                 element: <Gathering />
             },
             {
-                path: '/share',
-                element: <Share />
+                path: 'share',
+                element: <Share />,
+
             },
             {
-                path: '/sell',
-                element: <Sell />
+                path: 'transaction',
+                element: <Transaction />,
+                children: [
+                    {
+                        path: 'buy',
+                        element: <Buy />
+                    },
+                    {
+                        path: 'sell',
+                        element: <Sell />,
+                    },
+                ],
             },
             {
-                path: '/my-page',
+                path: 'my-page',
                 element: <MyPage />
             },
             {
-                path: '/login',
+                path: 'login',
                 element: <LogIn />
             },
         ],
