@@ -48,10 +48,10 @@
 
 <h2>🎨아키텍처</h2>
 <li>
-  <a href=""
+  <a href="https://ovenapp.io/project/g7nkgXzzySTW6DxFZPw0PMHUiczswlWP#OBCor"
     target="_blank"
   >
-    
+    아키텍처 링크
   </a>
 </li>
 
