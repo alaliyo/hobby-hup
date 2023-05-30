@@ -2,13 +2,22 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
-import Gathering from "./pages/Gathering";
-import Share from "./pages/Share";
-import Transaction from "./pages/Transaction";
-import MyPage from "./pages/MyPage";
 import LogIn from "./pages/LogIn";
+
+import MyPage from "./pages/MyPage";
+import MyTransaction from "./components/MyPage/MyTransaction";
+import MyShare from "./components/MyPage/MyShare";
+import MyGathering from "./components/MyPage/MyGathering";
+
+import Gathering from "./pages/Gathering";
+
+import Share from "./pages/Share";
+
+import Transaction from "./pages/Transaction";
 import Buy from "./components/Transaction/Buy";
 import Sell from "./components/Transaction/Sell";
+
+
 
 const router = createBrowserRouter([
     {
@@ -18,6 +27,24 @@ const router = createBrowserRouter([
             {
                 path: '',
                 element: <Home />
+            },
+            {
+                path: 'my-page',
+                element: <MyPage />,
+                children: [
+                    {
+                        path: 'transaction',
+                        element: <MyTransaction />,
+                    },
+                    {
+                        path: 'share',
+                        element: <MyShare />,
+                    },
+                    {
+                        path: 'gathering',
+                        element: <MyGathering />,
+                    },
+                ]
             },
             {
                 path: 'gathering',
@@ -41,10 +68,6 @@ const router = createBrowserRouter([
                         element: <Sell />,
                     },
                 ],
-            },
-            {
-                path: 'my-page',
-                element: <MyPage />
             },
             {
                 path: 'login',

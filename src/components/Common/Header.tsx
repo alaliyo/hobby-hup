@@ -60,15 +60,15 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                 
                 <LogInBox>
                     {loggedIn ? (<>
-                        <ProufailImgBox to={'/my-page'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
+                        <ProufailImgBox to={'/my-page/transaction'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
                             <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg } />
                         </ProufailImgBox>
                         <LinkStyled to={'/'} onClick={onLogOutClick}>
-                            LogOut
+                            로그아웃
                         </LinkStyled>
                     </>) : (
                         <LinkStyled to={'/login'} active={pageUrl === 'login' ? 'true' : 'false'}>
-                            LogIn
+                            로그인
                         </LinkStyled>
                     )}
                 </LogInBox>

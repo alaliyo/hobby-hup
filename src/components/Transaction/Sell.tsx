@@ -1,15 +1,13 @@
-import styled from "styled-components";
+import PostCard from "./PostCard";
+import { Body } from './styled';
 
 function Sell() {
     return(
         <Body>
-            <h1>Sell</h1>
+            <PostCard />
         </Body>
     );
 }
 
 export default Sell;
 
-const Body = styled.div`
-    
-`;

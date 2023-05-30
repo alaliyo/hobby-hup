@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
@@ -8,6 +8,7 @@ import { checkToken } from "../utils/authUtils";
 import UserInfo from "../components/MyPage/UserInfo";
 import EditUserInfo from "../components/MyPage/EditUserInfo";
 import PasswordModal from "../components/MyPage/PasswordModal";
+import MyPageNav from "../components/MyPage/MyPageNav";
 
 
 interface userObj {
@@ -66,24 +67,29 @@ function MyPage() {
   
   return (
     <MyPageBox>
-      <UserInfoBox>
-        <InfoBox>
-          {change ? (
-            <EditUserInfo userObj={userObj} />
-          ) : (
-            <UserInfo userObj={userObj} />
-          )}
-        </InfoBox>
-        <BtnBox>
-          <ButtonStyle
-            className="ms-auto"
-            variant="light"
-            onClick={onChange}
-          >
-            {change ? '취소' : '프로필 수정'}
-          </ButtonStyle>
-        </BtnBox>
-      </UserInfoBox>
+      <HeaderStyle>
+        <UserInfoBox>
+          <InfoBox>
+            {change ? (
+              <EditUserInfo userObj={userObj} />
+            ) : (
+              <UserInfo userObj={userObj} />
+            )}
+          </InfoBox>
+          <BtnBox>
+            <ButtonStyle
+              className="ms-auto"
+              variant="light"
+              onClick={onChange}
+            >
+              {change ? '취소' : '프로필 수정'}
+            </ButtonStyle>
+          </BtnBox>
+        </UserInfoBox>
+        <MyPageNav />
+      </HeaderStyle>
+
+      <Outlet />
 
       <PasswordModal
         show={passwordModalOpen}
@@ -98,24 +104,27 @@ function MyPage() {
 
 export default MyPage;
 
-const UserInfoBox = styled.div`
-    padding-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #cecece;
+const MyPageBox = styled.div`
+  margin: 100px 5% 0 5%;
+  padding: 30px 3% 0 3%;
+  background-color: #ffffff;
+  border: 2px solid #e7e7e7;
+  border-radius: 20px;
+  box-shadow: 2px 2px 6px gray;
 `;
 
-const MyPageBox = styled.div`
-    margin: 100px 5% 0 5%;
-    padding: 30px 3% 0 3%;
-    background-color: #ffffff;
-    border: 2px solid #e7e7e7;
-    border-radius: 20px;
-    box-shadow: 2px 2px 6px gray;
+const HeaderStyle = styled.header`
+  border-bottom: 2px solid #cecece;
+`;
+
+const UserInfoBox = styled.div`
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const InfoBox = styled.div`
-    width: 70%;
+  width: 70%;
 `;
 
 const BtnBox = styled.div`
@@ -123,5 +132,5 @@ const BtnBox = styled.div`
 `
 
 const ButtonStyle = styled(Button)`
-    height: 40px;
+  height: 40px;
 `;

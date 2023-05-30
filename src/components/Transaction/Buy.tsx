@@ -1,15 +1,18 @@
-import styled from "styled-components";
+import PostCard from "./PostCard";
+import { Body } from './styled';
 
 function Buy() {
     return(
         <Body>
-            <h1>Buy</h1>
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
         </Body>
     );
 }
 
 export default Buy;
-
-const Body = styled.div`
-    
-`;
