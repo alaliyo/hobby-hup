@@ -58,18 +58,6 @@
 <br/>
 <br/>
 
-<h2>📲ERD</h2>
-<li>
-  <a href="https://www.erdcloud.com/d/5q4zL4MSygb56A7D8"
-    target="_blank" rel="noopener noreferrer"
-  >
-    Hobby-Hup ERD
-  </a>
-</li>
-
-<br/>
-<br/>
-
 <h2>🎇트러블 슈팅</h2>
 
 <h3>닉네임 중복 조회</h3>
