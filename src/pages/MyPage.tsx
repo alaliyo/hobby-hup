@@ -88,8 +88,10 @@ function MyPage() {
         </UserInfoBox>
         <MyPageNav />
       </HeaderStyle>
-
-      <Outlet />
+      
+      <OutletBox>
+        <Outlet />
+      </OutletBox>
 
       <PasswordModal
         show={passwordModalOpen}
@@ -106,7 +108,7 @@ export default MyPage;
 
 const MyPageBox = styled.div`
   margin: 100px 5% 0 5%;
-  padding: 30px 3% 0 3%;
+  padding: 30px 3% 30px 3%;
   background-color: #ffffff;
   border: 2px solid #e7e7e7;
   border-radius: 20px;
@@ -133,4 +135,8 @@ const BtnBox = styled.div`
 
 const ButtonStyle = styled(Button)`
   height: 40px;
+`;
+
+const OutletBox = styled.div`
+  height: 500px;
 `;

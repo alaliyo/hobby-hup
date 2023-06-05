@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import{ ButtonColor } from '../Common/ButtonStyle';
 
 function MyPageNav() {  
     const [location, setLocation] = useState('거래');
@@ -22,6 +23,10 @@ function MyPageNav() {
                     <LinkBox to="share" onClick={() => locationChamg('공유')}>공유</LinkBox>
                     <LinkBox to="gathering" onClick={() => locationChamg('모임')}>모임</LinkBox>
                 </DropdownMenu>
+
+                <ButtonColor variant="outline-secondary">작성한 글</ButtonColor>
+                <ButtonColor variant="outline-secondary">좋아요</ButtonColor>
+                <ButtonColor variant="outline-secondary">채팅창</ButtonColor>
             </Dropdown>
         </div>
     );
@@ -34,11 +39,11 @@ const DropdownToggl = styled(Dropdown.Toggle)`
     color: black;
     font-size: 900;
     --bs-btn-border-color: gray;
-    --bs-btn-active-bg: gray;
-    --bs-btn-active-border-color: gray;
+    --bs-btn-active-bg: #6f9fe7;
+    --bs-btn-active-border-color: #6f9fe7;
     :hover {
-        background-color: gray;
-        border-color: gray;
+        background-color: #6f9fe7;
+        border-color: #6f9fe7;
     }
 `;
 
@@ -58,3 +63,4 @@ const LinkBox = styled(Link)`
         color: black;
     }
 `;
+

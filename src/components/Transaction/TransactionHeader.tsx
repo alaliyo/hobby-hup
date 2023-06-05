@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Dropdown, InputGroup, Form } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import{ ButtonColor } from '../Common/ButtonStyle';
 
 function TransactionHeader() {
-    const [location, setLocation] = useState('판매');
+    const [menuLocation, setMenuLocation] = useState('판매');
+    const location = useLocation();
+    const [pageUrl, setPageUrl] = useState('');
 
     const locationChamg = (text: string) => {
-        setLocation(text);
+        setMenuLocation(text);
     }
+
+    useEffect(() => {
+        setPageUrl(location.pathname.split('/')[2])
+    }, [location])
 
     return(
         <Header>
             <Dropdown>
                 <DropdownToggl id="dropdown-basic">
-                    {location}
+                    {menuLocation}
                 </DropdownToggl>
 
                 <DropdownMenu>
@@ -22,6 +29,21 @@ function TransactionHeader() {
                     <LinkBox to="sell" onClick={() => locationChamg('구매')}>구매</LinkBox>
                 </DropdownMenu>
             </Dropdown>
+            {
+                pageUrl === 'buy' || pageUrl === 'sell' ? (
+                    <InputGroupstyle>
+                        <Form.Control
+                            placeholder="내용을 입력해주세요"
+                        />
+                        <ButtonColor variant="outline-secondary" id="button-addon2">
+                            검색
+                        </ButtonColor>
+                    </InputGroupstyle>
+                ) : null
+            }
+            
+
+            <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
         </Header>
     );
 }
@@ -29,8 +51,11 @@ function TransactionHeader() {
 export default TransactionHeader;
 
 const Header = styled.header`
-    height: 100px;
+    height: 70px;
+    padding-bottom: 30px;
     border-bottom: 2px solid gray;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const DropdownToggl = styled(Dropdown.Toggle)`
@@ -38,11 +63,11 @@ const DropdownToggl = styled(Dropdown.Toggle)`
     color: black;
     font-size: 900;
     --bs-btn-border-color: gray;
-    --bs-btn-active-bg: gray;
-    --bs-btn-active-border-color: gray;
+    --bs-btn-active-bg: #6f9fe7;
+    --bs-btn-active-border-color: #6f9fe7;
     :hover {
-        background-color: gray;
-        border-color: gray;
+        background-color: #6f9fe7;
+        border-color: #6f9fe7;
     }
 `;
 
@@ -61,4 +86,8 @@ const LinkBox = styled(Link)`
         text-decoration: underline;
         color: black;
     }
+`;
+
+const InputGroupstyle = styled(InputGroup)`
+    width: 50%;
 `;

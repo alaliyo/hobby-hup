@@ -9,8 +9,6 @@ function Buy() {
             <PostCard />
             <PostCard />
             <PostCard />
-            <PostCard />
-            <PostCard />
         </Body>
     );
 }
