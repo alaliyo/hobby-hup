@@ -17,6 +17,7 @@ import Transaction from "./pages/Transaction";
 import Buy from "./components/Transaction/Buy";
 import Sell from "./components/Transaction/Sell";
 import TransactionDetail from "./components/Transaction/TransactionDetail";
+import TransactionWrite from "./components/Transaction/TransactionWrite";
 
 
 const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
                     {
                         path: ':postId',
                         element: <TransactionDetail />
+                    },
+                    {
+                        path: 'write',
+                        element: <TransactionWrite />
                     },
                 ],
             },

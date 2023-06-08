@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import EmptyImg from '../../imgs/EmptyImg.png';
+import { Button, Form, InputGroup } from "react-bootstrap";
 
 function DetailBody() {
     const [writerImg, setWriterImg] = useState('');
@@ -11,6 +12,14 @@ function DetailBody() {
                 <p>내용</p>
             </ContentsBox>
             <CommentTitle>댓글</CommentTitle>
+            <InputGroup className="mb-1">
+                <Form.Control
+                    placeholder="댓글을 입력해주세요."
+                />
+                <CommentBtn variant="outline-secondary" id="button-addon2">
+                    완료
+                </CommentBtn>
+            </InputGroup>
             <CommentBox>
                 <CommentDetail>
                     <CommentImg src={writerImg ? '' : EmptyImg} />
@@ -44,6 +53,13 @@ const CommentTitle = styled.p`
     font-weight: 900;
 `;
 
+const CommentBtn = styled(Button)`
+    --bs-btn-hover-bg: #6f9fe7;
+    --bs-btn-hover-border-color: #6f9fe7;
+    --bs-btn-active-bg: #3e80e4;
+    --bs-btn-active-border-color: #3e80e4;
+`;
+
 const CommentBox = styled.div`
     padding: 10px;
     margin-bottom: 20px;
@@ -73,3 +89,4 @@ const CommentContents = styled.p`
 const CommentDate = styled.p`
     margin-left: auto;
 `;
+

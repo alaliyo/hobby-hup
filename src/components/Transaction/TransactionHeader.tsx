@@ -30,7 +30,7 @@ function TransactionHeader() {
                 </DropdownMenu>
             </Dropdown>
             {
-                pageUrl === 'buy' || pageUrl === 'sell' ? (
+                pageUrl === 'buy' || pageUrl === 'sell' ? (<>
                     <InputGroupstyle>
                         <Form.Control
                             placeholder="내용을 입력해주세요"
@@ -39,11 +39,14 @@ function TransactionHeader() {
                             검색
                         </ButtonColor>
                     </InputGroupstyle>
-                ) : null
+                    <Link to='/transaction/write'>
+                        <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
+                    </Link>
+                </>) : null
             }
             
 
-            <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
+            
         </Header>
     );
 }

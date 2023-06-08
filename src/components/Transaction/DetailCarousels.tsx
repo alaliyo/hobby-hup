@@ -1,13 +1,24 @@
 import { SetStateAction, useEffect, useState } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import { Carousel, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
 function DetailCarousels() {
     const [index, setIndex] = useState(0);
     const [imgArr, setImgArr] = useState<string[]>();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string>('');
 
     const handleSelect = (selectedIndex: SetStateAction<number>) => {
         setIndex(selectedIndex);
+    };
+
+    const openModal = (image: string) => {
+        setSelectedImage(image);
+        setShowModal(true);
+    };
+    
+    const closeModal = () => {
+    setShowModal(false);
     };
 
     useEffect(() => {
@@ -20,19 +31,24 @@ function DetailCarousels() {
     }, []);
 
     return (
-        <CarouselStyld activeIndex={index} onSelect={handleSelect}>
-            {imgArr?.map((e, i) => (
-                <CarouselItem key={i}>
-                    <a href={e}>
+        <>
+            <CarouselStyld activeIndex={index} onSelect={handleSelect}>
+                {imgArr?.map((e, i) => (
+                    <CarouselItem key={i} onClick={() => openModal(e)}>
                         <img
                             className="d-block w-100"
                             src={e}
                             alt="이미지 오류 새로고침하세요."
                         />
-                    </a>
-                </CarouselItem>
-            ))}
-        </CarouselStyld>
+                    </CarouselItem>
+                ))}
+            </CarouselStyld>
+        
+            <ModalStyle show={showModal} onHide={closeModal} centered>
+                <img src={selectedImage} alt="이미지 오류 새로고침하세요." />
+            </ModalStyle>
+        </>
+        
     );
 }
 
@@ -58,4 +74,8 @@ const CarouselItem = styled(Carousel.Item)`
         object-fit: cover;
         object-position: center;
     }
+`;
+
+const ModalStyle = styled(Modal)`
+    --bs-modal-width: 80%;
 `;

@@ -25,6 +25,7 @@ function DetailHeader() {
             </InfoBox>
             <InfoBox>
                 <Price>가격: {'1,000'}원</Price>
+                <Info>주소: 경남 양산시 서창동</Info>
             </InfoBox>
         </DetailHeaderbox>
     );
@@ -63,10 +64,11 @@ const WriterNickname = styled.p`
 `;
 
 const Info = styled.p`
-    margin-top: 10px;
+    color: gray;
+    font-weight: 900;
+    margin-top: 5px;
     margin-left: 10px;
     margin-bottom: 0px;
-    font-weight: 900;
 `;
 
 const PostTitle = styled.p`
