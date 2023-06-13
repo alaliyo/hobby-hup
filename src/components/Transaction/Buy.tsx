@@ -5,10 +5,6 @@ function Buy() {
     return(
         <Body>
             <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
         </Body>
     );
 }

@@ -23,7 +23,7 @@ function TransactionWrite() {
                 <FormFlex>
                     <Form.Group controlId="formFile" className="mb-3">
                         <FormLabel>이미지</FormLabel>
-                        <Form.Control type="file" />
+                        <Form.Control type="file" multiple />
                     </Form.Group>
                 
 
@@ -33,7 +33,7 @@ function TransactionWrite() {
                     </Form.Group>
                 </FormFlex>
 
-                <Button variant="primary" type="button">
+                <Button variant="outline-secondary" type="button">
                     작성완료
                 </Button>
             </Form>

@@ -21,7 +21,11 @@ function DetailHeader() {
             </InfoBox>
             <InfoBox>
                 <PostTitle>{'제목'}</PostTitle>
-                <ChattingBtn variant="outline-secondary">1:1 채팅</ChattingBtn>
+                <PostInfo>
+                    <Category>판매</Category>
+                    <ChattingBtn variant="outline-secondary">1:1 채팅</ChattingBtn>
+                </PostInfo>
+                
             </InfoBox>
             <InfoBox>
                 <Price>가격: {'1,000'}원</Price>
@@ -77,7 +81,15 @@ const PostTitle = styled.p`
     font-weight: 900;
 `
 
+const Category = styled.p`
+    font-size: 18px;
+    font-weight: 900;
+    margin-top: 7px;
+    color: gray;
+`
+
 const ChattingBtn = styled(Button)`
+    margin-left: 10px;
     --bs-btn-hover-bg: #6f9fe7;
     --bs-btn-hover-border-color: #6f9fe7;
     --bs-btn-active-bg: #3e80e4;

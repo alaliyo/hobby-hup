@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 function PostCard() {
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState([]);
 
     return(
         <LinkStyle to='/transaction/0'>
             <CardStyle style={{ width: '17rem' }}>
-                <Card.Img variant="top" src={image ? image : HubImg} />
+                <Card.Img variant="top" src={image.length > 0 ? image[0] : HubImg} />
                 <CardBody>
                     <Card.Title>제목</Card.Title>
 
