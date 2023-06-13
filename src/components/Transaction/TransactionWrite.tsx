@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import styled from "styled-components";
+import SampleComponent from './SampleComponent ';
 
 function TransactionWrite() {
     return(
@@ -32,6 +33,8 @@ function TransactionWrite() {
                         <Form.Control type="number" placeholder="가격을 입력해주세요." />
                     </Form.Group>
                 </FormFlex>
+
+                <SampleComponent />
 
                 <Button variant="outline-secondary" type="button">
                     작성완료
