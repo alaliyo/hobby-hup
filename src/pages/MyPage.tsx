@@ -5,10 +5,10 @@ import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
 import { checkToken } from "../utils/authUtils";
-import UserInfo from "../components/MyPage/UserInfo";
-import EditUserInfo from "../components/MyPage/EditUserInfo";
-import PasswordModal from "../components/MyPage/PasswordModal";
-import MyPageNav from "../components/MyPage/MyPageNav";
+import UserInfo from "../components/myPage/UserInfo";
+import EditUserInfo from "../components/myPage/EditUserInfo";
+import PasswordModal from "../components/myPage/PasswordModal";
+import MyPageNav from "../components/myPage/MyPageNav";
 
 
 interface userObj {
