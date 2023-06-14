@@ -5,9 +5,9 @@ import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
 
 import MyPage from "./pages/MyPage";
-import MyTransaction from "./components/myPage/MyTransaction";
-import MyShare from "./components/myPage/MyShare";
-import MyGathering from "./components/myPage/MyGathering";
+import MyTransaction from "./components/MyPage/MyTransaction";
+import MyShare from "./components/MyPage/MyShare";
+import MyGathering from "./components/MyPage/MyGathering";
 
 import Gathering from "./pages/Gathering";
 

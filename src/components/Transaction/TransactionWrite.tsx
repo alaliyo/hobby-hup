@@ -1,9 +1,21 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useState, ChangeEvent } from "react";
+import { Button, Form } from 'react-bootstrap';
 import styled from "styled-components";
-import SampleComponent from './SampleComponent ';
+import AddressDrop from './AddressDrop';
 
 function TransactionWrite() {
+    const [selectedCity, setSelectedCity] = useState<string>(""); // 선택된 시/도
+    const [selectedDistrict, setSelectedDistrict] = useState<string>(""); // 선택된 구/군
+
+    const handleCityChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCity(event.target.value);
+        setSelectedDistrict(""); // 시/도 변경 시 구/군 초기화
+    };
+
+    const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSelectedDistrict(event.target.value);
+    };
+    
     return(
         <WriteBox>
             <Form>
@@ -34,11 +46,21 @@ function TransactionWrite() {
                     </Form.Group>
                 </FormFlex>
 
-                <SampleComponent />
-
-                <Button variant="outline-secondary" type="button">
-                    작성완료
-                </Button>
+                
+                <FormLabel>주소</FormLabel>
+                <AddressDrop
+                    selectedCity={selectedCity}
+                    selectedDistrict={selectedDistrict}
+                    handleCityChange={handleCityChange}
+                    handleDistrictChange={handleDistrictChange}
+                />
+                
+                <br />
+                <div>
+                    <BtnStyle variant="outline-secondary" type="button">
+                        작성완료
+                    </BtnStyle>
+                </div>
             </Form>
         </WriteBox>
     );
@@ -61,4 +83,8 @@ const FormFlex = styled.div`
     div {
         width: 48%;
     }
+`;
+
+const BtnStyle = styled(Button)`
+    float: right;
 `;
