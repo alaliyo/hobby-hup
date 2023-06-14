@@ -52,9 +52,9 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                             취미공유
                         </LinkStyled>
                         
-                        <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
+                        {/* <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
                             모임
-                        </LinkStyled>
+                        </LinkStyled> */}
                     </>}
                 </LinkBox>
                 

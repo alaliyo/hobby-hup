@@ -21,7 +21,7 @@ function MyPageNav() {
                 <DropdownMenu>
                     <LinkBox to="transaction" onClick={() => locationChamg('거래')}>거래</LinkBox>
                     <LinkBox to="share" onClick={() => locationChamg('공유')}>공유</LinkBox>
-                    <LinkBox to="gathering" onClick={() => locationChamg('모임')}>모임</LinkBox>
+                    {/* <LinkBox to="gathering" onClick={() => locationChamg('모임')}>모임</LinkBox> */}
                 </DropdownMenu>
 
                 <ButtonColor variant="outline-secondary">작성한 글</ButtonColor>
