@@ -1,16 +1,19 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Button, Form } from 'react-bootstrap';
 import styled from "styled-components";
 import AddressDrop from './AddressDrop';
 
+
+
 function TransactionWrite() {
-    const [title, setTitle] = useState<string>("") // 제목
-    const [content, setContent] = useState<string>(""); // 내용
+    const [title, setTitle] = useState("") // 제목
+    const [content, setContent] = useState(""); // 내용
     const [imgs, setImgs] = useState<FileList | null>(); // 이미지
     const [price, setPrice] = useState<number>(); // 가격
-    const [selectedCity, setSelectedCity] = useState<string>(""); // 선택된 시/도
-    const [selectedDistrict, setSelectedDistrict] = useState<string>(""); // 선택된 구/군/시
-    console.log(title, content, price)
+    const [selected, setSelected] = useState('') // 주소
+    const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
+    const [selectedDistrict, setSelectedDistrict] = useState(""); // 선택된 구/군/시
+    
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {
             target: { name, value },
@@ -33,6 +36,10 @@ function TransactionWrite() {
     const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedDistrict(event.target.value);
     };
+
+    useEffect(() => {
+        setSelected(`${selectedCity} ${selectedDistrict}`);
+    }, [selectedCity, selectedDistrict])
     
     return(
         <WriteBox>
