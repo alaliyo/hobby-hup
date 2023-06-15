@@ -2,6 +2,8 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { Button, Form } from 'react-bootstrap';
 import styled from "styled-components";
 import AddressDrop from './AddressDrop';
+import { storage } from "../../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 
 
@@ -35,6 +37,41 @@ function TransactionWrite() {
 
     const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedDistrict(event.target.value);
+    };
+    
+    const uploadImage = async (images: any): Promise<any> => {
+        const imageUrlPromises: Promise<string>[] = [];
+        const allowedExtensions = ['.jpg', '.png', 'jpeg'];
+        const fileExtension = images.map((e: { name: string; }) => e.name.substring(e.name.lastIndexOf('.')).toLowerCase());
+
+        if (fileExtension.length > 5) {
+            alert('이미지는 5장 이하만 가능합니다.');
+            return;
+        }
+
+        for (const e of fileExtension) {
+            if (!allowedExtensions.includes(e)) {
+                alert('확장자는 jpg, png만 지원합니다.');
+                return;
+            }
+        }
+
+        const date = new Date()
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+            const storageRef = ref(storage, `transaction/${date.getFullYear()} ${date.getMonth()}/${date.getDate()} ${title+i}.png`);
+            try {
+                await uploadBytes(storageRef, image);
+                const imageUrlPromise = getDownloadURL(storageRef);
+                imageUrlPromises.push(imageUrlPromise);
+            } catch (error) {
+                console.error('에러가 발생했습니다. 새로고침 후 다시 시도해주세요.');
+                throw new Error('이미지 업로드 중 오류가 발생했습니다.');
+            }
+        }
+
+        const imageUrls = await Promise.all(imageUrlPromises);
+        return imageUrls;
     };
 
     useEffect(() => {
