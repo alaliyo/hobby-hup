@@ -3,13 +3,14 @@ import { useState } from "react";
 // 한글 비속어 차단 판별 hook
 const useKFilter = () => {
   const [kFilter, setKFilter] = useState(false);
-
+  
   // 비속어 판별해 boolen으로 반환
   const checkKFilter = (text: string) => {
     const words = text.split(' ');
-
+    
     for (const word of words) {
       if (kFilterList.includes(word)) {
+        
         setKFilter(true);
         return;
       }
