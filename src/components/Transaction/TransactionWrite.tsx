@@ -2,19 +2,24 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { Button, Form } from 'react-bootstrap';
 import styled from "styled-components";
 import AddressDrop from './AddressDrop';
-import { storage } from "../../firebase";
+import { authService, storage, dbService } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
-
+import useKFilter from "../../hooks/KFilter";
+import Filter from 'bad-words';
+import { doc, setDoc } from "firebase/firestore";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
     const [content, setContent] = useState(""); // 내용
-    const [imgs, setImgs] = useState<FileList | null>(); // 이미지
+    const [imgs, setImgs] = useState<any>([]); // 이미지
     const [price, setPrice] = useState<number>(); // 가격
     const [selected, setSelected] = useState('') // 주소
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
     const [selectedDistrict, setSelectedDistrict] = useState(""); // 선택된 구/군/시
+    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const [titleKFilter, setTitleKFilter] = useState(true);
+    const [contentKFilter, setContentKFilter] = useState(true); // 내용;
+    const filter = new Filter();
     
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {
@@ -22,10 +27,17 @@ function TransactionWrite() {
         } = e;
         if (name === 'title') {
             setTitle(value);
+            checkKFilter(value);
+            setTitleKFilter(kFilter);
         } else if (name === 'content') {
             setContent(value);
+            checkKFilter(value);
+            setContentKFilter(kFilter);
         } else if (name === 'price') {
             setPrice(parseInt(value, 10));
+        } else if (name === 'img') {
+            const selectedImages = Array.from(e.target.files || []);
+            setImgs(selectedImages);
         }
         //const LineBreaks = value.replace(/\n/g, '\\n'); // 줄 바꿈 문자를 \n으로 대체하여 저장
     };
@@ -74,6 +86,43 @@ function TransactionWrite() {
         return imageUrls;
     };
 
+    const handleNicknameUpdate = async (e: any) => {
+        e.preventDefault();
+        try {
+            const user = authService.currentUser;
+            
+            if (title.length > 40) {
+                return alert("제목은 40자 이하만 가능합니다.");
+            } else if (titleKFilter) {
+                return alert("제목에 비속어가 포함되어 있습니다.");
+            } else if (filter.isProfane(title)) {
+                return alert("제목에 비속어가 포함되어 있습니다.");
+            } else if (contentKFilter) {
+                return alert("내용에 비속어가 포함되어 있습니다.");
+            } else if (filter.isProfane(content)) {
+                return alert("내용에 비속어가 포함되어 있습니다.");
+            } else if (imgs.length < 1) {
+                return alert("이미지를 넣어주세요.");
+            } else if (selected.length < 1) {
+                return alert("주소를 선택해주세요.")
+            }
+
+            if (user) {
+                const imageUrls = await uploadImage(imgs);
+                await setDoc(doc(dbService, "Transaction", "transaction1"), {
+                    title: title,
+                    content: content,
+                    price: price,
+                    selected: selected,
+                    imgs: imageUrls,
+                });
+                alert('개시물이 업로드 되었습니다.')
+            }
+        } catch (error) {
+            alert(error);
+        }
+    };
+
     useEffect(() => {
         setSelected(`${selectedCity} ${selectedDistrict}`);
     }, [selectedCity, selectedDistrict])
@@ -99,7 +148,6 @@ function TransactionWrite() {
                         placeholder="내용을 입력해주세요."
                         style={{resize: 'none'}}
                         name='content'
-                        
                         onChange={textChange}
                     />
                 </Form.Group>
@@ -110,6 +158,8 @@ function TransactionWrite() {
                         <Form.Control
                             type="file"
                             multiple
+                            name="img"
+                            onChange={textChange}
                         />
                     </Form.Group>
                 
@@ -136,7 +186,11 @@ function TransactionWrite() {
                 
                 <br />
                 <div>
-                    <BtnStyle variant="outline-secondary" type="button">
+                    <BtnStyle
+                        variant="outline-secondary"
+                        type="button"
+                        onClick={handleNicknameUpdate}
+                    >
                         작성완료
                     </BtnStyle>
                 </div>
