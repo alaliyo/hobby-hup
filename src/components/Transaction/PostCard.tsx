@@ -4,31 +4,42 @@ import HubImg from '../../imgs/HobbyHubImg.png';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-function PostCard() {
-    const [image, setImage] = useState([]);
+interface transactionDataProps {
+    title: string;
+    selected: string;
+    writer: string;
+    imgs: string[];
+    createdAt: string;
+    like: number;
+}
 
+interface PostCardprops {
+    data: transactionDataProps;
+}
+
+function PostCard({ data }: PostCardprops) {
     return(
         <LinkStyle to='/transaction/0'>
             <CardStyle style={{ width: '17rem' }}>
-                <Card.Img variant="top" src={image.length > 0 ? image[0] : HubImg} />
+                <Card.Img variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HubImg} />
                 <CardBody>
-                    <Card.Title>제목</Card.Title>
+                    <Card.Title>{data.title}</Card.Title>
 
                     <InfoBox>
                         <CardText>
-                            조회수: {0}
+                            {data.selected}
                         </CardText>
                         <CardText>
-                            작성자
+                            {data.writer}
                         </CardText>
                     </InfoBox>
 
                     <InfoBox>
                         <CardText>
-                            ❤: {0}
+                            ❤: {data.like}
                         </CardText>
                         <CardText>
-                            날짜
+                            {data.createdAt}
                         </CardText>
                     </InfoBox>
                     

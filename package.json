@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@types/bad-words": "^3.0.1"
+    "@types/bad-words": "^3.0.1",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }
