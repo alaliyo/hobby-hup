@@ -7,24 +7,14 @@ import Header from "./components/Common/Header";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [windowWidth, setwindowWidth] = useState(window.innerWidth); //웹 넓이 
   const [userObj, setUserObj] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  
-  //웹 넓이에 반응
-  useEffect(() => { 
-    const handleResize = () => {
-      setwindowWidth(window.innerWidth);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [])
 
   // 모든 컴포넌트들이 로딩되었는지 확인하는 이벤트
   useEffect(() => {
     setInit(true);
   }, []);
-  console.log(userObj);
+  
   // 로그인 확인
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -46,7 +36,6 @@ function App() {
 
         <OutletBox>
           <Outlet context={{
-            windowWidth: windowWidth,
             userObj: userObj,
           }} />
         </OutletBox>

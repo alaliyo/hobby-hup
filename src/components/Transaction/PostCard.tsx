@@ -25,7 +25,7 @@ function PostCard() {
 
                     <InfoBox>
                         <CardText>
-                            🤍❤: {0}
+                            ❤: {0}
                         </CardText>
                         <CardText>
                             날짜

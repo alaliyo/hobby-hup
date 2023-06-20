@@ -1,9 +1,19 @@
-import { useLocation } from 'react-router-dom';
-import { HeaderBox, HeaderWidth, LinkStyled, LinkBox, LogInBox, ProufailImgBox, ProufailImg } from './Headerstyled';
-import useHeaderScroll from "../../hooks/useHeaderScroll";
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import {
+    HeaderBox,
+    HeaderWidth,
+    LinkStyled,
+    LinkBox,
+    LogInBox,
+    ProufailImgBox,
+    ProufailImg
+} from './Headerstyled';
+import useHeaderScroll from "../../hooks/useHeaderScroll";
 import { authService } from '../../firebase';
 import EmptyImg from '../../imgs/EmptyImg.png';
+import { useWindowWidth } from '../../hooks/WindowWidthTracker';
+import OffenNav from './OffenNav';
 
 interface userObjProps {
     photoURL?: string;
@@ -16,8 +26,9 @@ interface HeaderProps {
 
 function Header({ loggedIn, userObj }: HeaderProps) {
     const location = useLocation();
+    const windowWidth = useWindowWidth(); 
     const [pageUrl, setPageUrl] = useState('');
-
+    
     useHeaderScroll({
         target: HeaderBox,
         restoreClassName: "header-top",
@@ -38,40 +49,49 @@ function Header({ loggedIn, userObj }: HeaderProps) {
     return(
         <HeaderBox>
             <HeaderWidth>
-                <LinkBox>
-                    <LinkStyled to={'/'} active={pageUrl === '' ? 'true' : 'false'}>
-                        HobbyHub
-                    </LinkStyled>
-
-                    {pageUrl === 'login' ? null : <>
-                        <LinkStyled to={'/transaction/buy'} active={pageUrl === 'transaction' ? 'true' : 'false'}>
-                            취미거래
+                {windowWidth >= 650 ? (<>
+                    <LinkBox>
+                        <LinkStyled to={'/'} active={pageUrl === '' ? 'true' : 'false'}>
+                            HobbyHub
                         </LinkStyled>
                         
-                        <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
-                            취미공유
+                        {pageUrl === 'login' ? null : <>
+                            <LinkStyled to={'/transaction/buy'} active={pageUrl === 'transaction' ? 'true' : 'false'}>
+                                취미거래
+                            </LinkStyled>
+                            
+                            <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
+                                취미공유
+                            </LinkStyled>
+                            
+                            {/* <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
+                                모임
+                            </LinkStyled> */}
+                        </>}
+                    </LinkBox>
+                    
+                    <LogInBox>
+                        {loggedIn ? (<>
+                            <ProufailImgBox to={'/my-page/transaction'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
+                                <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg } />
+                            </ProufailImgBox>
+                            <LinkStyled to={'/'} onClick={onLogOutClick}>
+                                로그아웃
+                            </LinkStyled>
+                        </>) : (
+                            <LinkStyled to={'/login'} active={pageUrl === 'login' ? 'true' : 'false'}>
+                                로그인
+                            </LinkStyled>
+                        )}
+                    </LogInBox>
+                </>) : (<>
+                    <LinkBox>
+                        <LinkStyled to={'/'} active={pageUrl === '' ? 'true' : 'false'}>
+                            HobbyHub
                         </LinkStyled>
-                        
-                        {/* <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
-                            모임
-                        </LinkStyled> */}
-                    </>}
-                </LinkBox>
-                
-                <LogInBox>
-                    {loggedIn ? (<>
-                        <ProufailImgBox to={'/my-page/transaction'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
-                            <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg } />
-                        </ProufailImgBox>
-                        <LinkStyled to={'/'} onClick={onLogOutClick}>
-                            로그아웃
-                        </LinkStyled>
-                    </>) : (
-                        <LinkStyled to={'/login'} active={pageUrl === 'login' ? 'true' : 'false'}>
-                            로그인
-                        </LinkStyled>
-                    )}
-                </LogInBox>
+                    </LinkBox>
+                    <OffenNav loggedIn={loggedIn}/>
+                </>)}
             </HeaderWidth>
         </HeaderBox>
     );
