@@ -7,6 +7,7 @@ import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";
 import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { uploadImages } from "../../utils/storageService";
 
 interface userObj {
     displayName: string;
@@ -20,19 +21,19 @@ interface EditUserInfoProps {
 
 function EditUserInfo({ userObj }: EditUserInfoProps) {
     const [nickname, setNickname] = useState(userObj.displayName);
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<File[]>([]);
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
     const [nicknames, setNicknames] = useState<any[]>([]);
     const filter = new Filter();
-
+    console.log(image);
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNickname(e.target.value);
-        
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setImage(e.target.files[0]);
+        if (e.target.files) {
+            const selectedImages = Array.from(e.target.files || []);
+            setImage(selectedImages);
         }
     };
     
@@ -41,32 +42,17 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
             const user = authService.currentUser;
 
             if (image && user) {
-                const allowedExtensions = ['.jpg', '.png', 'jpeg']; // 허용된 확장자 목록
-                const fileExtension = image.name.substring(image.name.lastIndexOf('.')).toLowerCase();
+                const storageRef = await uploadImages(
+                    image, userObj.email, 1, "profileImg"
+                );
 
-                if (!allowedExtensions.includes(fileExtension)) {
-                    alert('확장자는 jpg, png만 지원합니다.');
-                    return;
-                }
-
-                // 파일 크기 확인
-                const maxSizeInBytes = 0.8 * 1024 * 1024; // 10MB 제한
-                if (image.size > maxSizeInBytes) {
-                    alert('프로필 이미지는 800KB, 가로, 세로 1024 이하만 가능합니다.');
-                    return;
-                }
-
-                const fileName = `${user.email}`
-                const storageRef = ref(storage, fileName);
-                await uploadBytes(storageRef, image);
-                const newImageURL = await getDownloadURL(storageRef);
                 await updateProfile(user, {
-                    photoURL: newImageURL,
+                    photoURL: storageRef[0],
                 });
                 alert('프로필 이미지가 변경되었습니다.');
             }
         } catch (error) {
-            alert('이미지 업로드에 실패했습니다.');
+            alert('이미지 업로드에 실패했습니다.' + error);
         }
     };
 

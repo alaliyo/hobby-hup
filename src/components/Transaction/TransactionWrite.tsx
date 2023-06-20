@@ -1,10 +1,10 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Form } from 'react-bootstrap';
-import { authService, storage, dbService } from "../../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { authService, dbService } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Filter from 'bad-words';
+import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
 
@@ -21,7 +21,7 @@ function TransactionWrite() {
     const [titleKFilter, setTitleKFilter] = useState(true);
     const [contentKFilter, setContentKFilter] = useState(true); // 내용;
     const filter = new Filter();
-    console.log(title, content, imgs, price, selected, category);
+    
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
             target: { name, value },
@@ -53,41 +53,6 @@ function TransactionWrite() {
     const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedDistrict(event.target.value);
     };
-    
-    const uploadImage = async (images: any): Promise<any> => {
-        const imageUrlPromises: Promise<string>[] = [];
-        const allowedExtensions = ['.jpg', '.png', 'jpeg'];
-        const fileExtension = images.map((e: { name: string; }) => e.name.substring(e.name.lastIndexOf('.')).toLowerCase());
-
-        if (fileExtension.length > 5) {
-            alert('이미지는 5장 이하만 가능합니다.');
-            return;
-        }
-
-        for (const e of fileExtension) {
-            if (!allowedExtensions.includes(e)) {
-                alert('확장자는 jpg, png만 지원합니다.');
-                return;
-            }
-        }
-
-        const date = new Date()
-        for (let i = 0; i < images.length; i++) {
-            const image = images[i];
-            const storageRef = ref(storage, `transaction/${date.getFullYear()} ${date.getMonth()}/${date.getDate()} ${title+i}.png`);
-            try {
-                await uploadBytes(storageRef, image);
-                const imageUrlPromise = getDownloadURL(storageRef);
-                imageUrlPromises.push(imageUrlPromise);
-            } catch (error) {
-                console.error('에러가 발생했습니다. 새로고침 후 다시 시도해주세요.');
-                throw new Error('이미지 업로드 중 오류가 발생했습니다.');
-            }
-        }
-
-        const imageUrls = await Promise.all(imageUrlPromises);
-        return imageUrls;
-    };
 
     const handleNicknameUpdate = async (e: any) => {
         e.preventDefault();
@@ -113,7 +78,10 @@ function TransactionWrite() {
             }
 
             if (user) {
-                const imageUrls = await uploadImage(imgs);
+                const imageUrls = await uploadImages(
+                    imgs, title, 5, 'transaction'
+                );
+                alert(imageUrls);
                 const categoryBoolen = category === '판매';
                 await setDoc(doc(
                     dbService,
