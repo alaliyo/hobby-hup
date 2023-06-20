@@ -16,7 +16,6 @@ function useCurrentDate() {
             clearInterval(intervalId);
         };
     }, []);
-
     useEffect(() => {
         setCurrentDate(`${year}.${month}.${date}`);
     }, [year, month, date]);
