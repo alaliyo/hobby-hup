@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 function useCurrentDate() {
     const [currentDate, setCurrentDate] = useState('');
     const [newDate, setNewDate] = useState(new Date);
-    const [year, setYear] = useState(newDate.getFullYear());
-    const [month] = useState(newDate.getMonth());
+    const [year, setYear] = useState('');
+    const [month] = useState(newDate.getMonth()+1);
     const [date] = useState(newDate.getDate());
 
     useEffect(() => {
@@ -16,6 +16,11 @@ function useCurrentDate() {
             clearInterval(intervalId);
         };
     }, []);
+
+    useEffect(() => {
+        setYear(newDate.getFullYear().toString().slice(2, 4));
+    }, [newDate]);
+
     useEffect(() => {
         setCurrentDate(`${year}.${month}.${date}`);
     }, [year, month, date]);
