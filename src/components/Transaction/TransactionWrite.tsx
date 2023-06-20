@@ -7,6 +7,7 @@ import Filter from 'bad-words';
 import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
+import useCurrentDate from "../../hooks/currentDate";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -20,6 +21,7 @@ function TransactionWrite() {
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
     const [titleKFilter, setTitleKFilter] = useState(true);
     const [contentKFilter, setContentKFilter] = useState(true); // 내용;
+    const currentDate = useCurrentDate();
     const filter = new Filter();
     
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
@@ -81,7 +83,7 @@ function TransactionWrite() {
                 const imageUrls = await uploadImages(
                     imgs, title, 5, 'transaction'
                 );
-                alert(imageUrls);
+                
                 const categoryBoolen = category === '판매';
                 await setDoc(doc(
                     dbService,
@@ -93,6 +95,8 @@ function TransactionWrite() {
                     price: price,
                     selected: selected,
                     imgs: imageUrls,
+                    like: 0,
+                    createdAt: currentDate,
                 });
                 alert('개시물이 업로드 되었습니다.')
                 window.location.href="/transaction/buy"
