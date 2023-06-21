@@ -69,7 +69,7 @@ const router = createBrowserRouter([
                         element: <Sell />,
                     },
                     {
-                        path: ':postId',
+                        path: ':category/:postId',
                         element: <TransactionDetail />
                     },
                     {

@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { Card } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import HubImg from '../../imgs/HobbyHubImg.png';
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+
 
 interface transactionDataProps {
+    id: number;
     title: string;
     selected: string;
     writer: string;
@@ -18,8 +19,9 @@ interface PostCardprops {
 }
 
 function PostCard({ data }: PostCardprops) {
+
     return(
-        <LinkStyle to='/transaction/0'>
+        <LinkStyle to={`${data.id}`}>
             <CardStyle style={{ width: '17rem' }}>
                 <CardImg variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HubImg} />
                 <CardBody>

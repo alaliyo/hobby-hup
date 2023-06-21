@@ -9,7 +9,7 @@ import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
 import { UserDataObj } from "../../utils/authUtils";
-import { BuyDatasMaxId } from "../../utils/dbService";
+import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -27,7 +27,7 @@ function TransactionWrite() {
     const filter = new Filter();
     const userData = UserDataObj();
     const buyMaxId = BuyDatasMaxId();
-
+    const sellMaxId = SellDatasMaxId();
     
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
@@ -93,7 +93,7 @@ function TransactionWrite() {
                 await setDoc(doc(
                     dbService,
                     categoryBoolen ? "transactionBuy" : "transactionSell",
-                    categoryBoolen ? `buyId${buyMaxId+1}` : "sellId0"
+                    categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`
                     ), {
                         id: buyMaxId + 1,
                         email: userData.email,
