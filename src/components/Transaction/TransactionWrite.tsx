@@ -8,6 +8,8 @@ import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
+import { UserDataObj } from "../../utils/authUtils";
+import { BuyDatasMaxId } from "../../utils/dbService";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -23,6 +25,9 @@ function TransactionWrite() {
     const [contentKFilter, setContentKFilter] = useState(true); // 내용;
     const currentDate = useCurrentDate();
     const filter = new Filter();
+    const userData = UserDataObj();
+    const buyMaxId = BuyDatasMaxId();
+
     
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
@@ -88,16 +93,20 @@ function TransactionWrite() {
                 await setDoc(doc(
                     dbService,
                     categoryBoolen ? "transactionBuy" : "transactionSell",
-                    categoryBoolen ? "buyId0" : "sellId0"
+                    categoryBoolen ? `buyId${buyMaxId+1}` : "sellId0"
                     ), {
-                    title: title,
-                    content: content,
-                    price: price,
-                    selected: selected,
-                    imgs: imageUrls,
-                    like: 0,
-                    createdAt: currentDate,
-                });
+                        id: buyMaxId + 1,
+                        email: userData.email,
+                        writer: userData.displayName,
+                        title: title,
+                        content: content,
+                        price: price,
+                        selected: selected,
+                        imgs: imageUrls,
+                        like: 0,
+                        createdAt: currentDate,
+                    }
+                );
                 alert('개시물이 업로드 되었습니다.')
                 window.location.href="/transaction/buy"
             }

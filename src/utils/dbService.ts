@@ -16,7 +16,7 @@ interface transactionDataProps {
 
 export function TransactionBuyDatas() {
     const [datas, setdata] = useState<transactionDataProps[]>([]);
-
+    
     useEffect(() => {
         const q = query(
             collection(dbService, "transactionBuy"),
@@ -31,4 +31,17 @@ export function TransactionBuyDatas() {
     }, []);
     
     return datas;
+}
+
+export function BuyDatasMaxId() {
+    const datas = TransactionBuyDatas();
+    const [buyMaxId, setBuyMaxId] = useState<any>();
+
+    useEffect(() => {
+        if(datas.length > 0) {
+            setBuyMaxId(datas[0].id);
+        }
+    }, [datas])
+    
+    return buyMaxId;
 }

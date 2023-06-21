@@ -21,7 +21,7 @@ function PostCard({ data }: PostCardprops) {
     return(
         <LinkStyle to='/transaction/0'>
             <CardStyle style={{ width: '17rem' }}>
-                <Card.Img variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HubImg} />
+                <CardImg variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HubImg} />
                 <CardBody>
                     <Card.Title>{data.title}</Card.Title>
 
@@ -60,6 +60,10 @@ const LinkStyle = styled(Link)`
     }
     margin: 8px;
 `;
+
+const CardImg = styled(Card.Img)`
+    height: 150px;
+`
 
 const CardBody = styled(Card.Body)`
     padding: 10px 10px 5px 10px;
