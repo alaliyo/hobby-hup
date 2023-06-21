@@ -95,7 +95,7 @@ function TransactionWrite() {
                     categoryBoolen ? "transactionBuy" : "transactionSell",
                     categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`
                     ), {
-                        id: buyMaxId + 1,
+                        id: categoryBoolen ? buyMaxId+1 : sellMaxId+1,
                         email: userData.email,
                         writer: userData.displayName,
                         title: title,

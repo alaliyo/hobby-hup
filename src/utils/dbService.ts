@@ -71,7 +71,7 @@ export function TransactionSellDatas() {
 
 // Sell max id
 export function SellDatasMaxId() {
-    const datas = TransactionBuyDatas();
+    const datas = TransactionSellDatas();
     const [sellMaxId, setSellMaxId] = useState<any>();
 
     useEffect(() => {
