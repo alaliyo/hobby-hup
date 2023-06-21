@@ -14,7 +14,7 @@ function DetailHeader() {
                     <WriterNickname>작성자</WriterNickname>
                 </PostInfo>
                 <PostInfo>
-                    <Info>🤍❤: {0}</Info>
+                    <Info>♥: {0}</Info>
                     <Info>조회수: {0}</Info>
                     <Info>{'23.06.05'}</Info>
                 </PostInfo>

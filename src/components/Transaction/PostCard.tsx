@@ -36,7 +36,7 @@ function PostCard({ data }: PostCardprops) {
 
                     <InfoBox>
                         <CardText>
-                            ❤: {data.like}
+                            ♥: {data.like}
                         </CardText>
                         <CardText>
                             {data.createdAt}
