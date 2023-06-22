@@ -5,3 +5,7 @@ export const Body = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;
+
+export const HeartColor = styled.span`
+    color: #6f9fe7;
+`;

@@ -2,6 +2,7 @@ import { Card } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import HubImg from '../../imgs/HobbyHubImg.png';
 import styled from "styled-components";
+import { HeartColor } from "./styled";
 
 
 interface transactionDataProps {
@@ -38,7 +39,8 @@ function PostCard({ data }: PostCardprops) {
 
                     <InfoBox>
                         <CardText>
-                            ♥: {data.like}
+                            <HeartColor>♥</HeartColor>
+                            {data.like}
                         </CardText>
                         <CardText>
                             {data.createdAt}

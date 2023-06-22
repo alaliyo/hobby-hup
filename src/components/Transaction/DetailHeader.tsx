@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import EmptyImg from '../../imgs/EmptyImg.png';
 import { Button } from "react-bootstrap";
+import { HeartColor } from "./styled";
 
 function DetailHeader() {
     const [writerImg, setWriterImg] = useState('');
@@ -14,7 +15,10 @@ function DetailHeader() {
                     <WriterNickname>작성자</WriterNickname>
                 </PostInfo>
                 <PostInfo>
-                    <Info>♥: {0}</Info>
+                    <Info>
+                        <HeartColor>♥</HeartColor>
+                        {0}
+                    </Info>
                     <Info>조회수: {0}</Info>
                     <Info>{'23.06.05'}</Info>
                 </PostInfo>
