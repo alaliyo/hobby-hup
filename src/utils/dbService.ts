@@ -34,24 +34,6 @@ export function TransactionBuyDatas() {
     return buyBatas;
 }
 
-export function TransactionBuyDetailData(postUrl: string) {
-    const [buyBata, setBuyBata] = useState<transactionDataProps>();
-    
-    useEffect(() => {
-        const buyRef = doc(dbService, `transactionBuy/${postUrl}`);
-        const unsubscribe = onSnapshot(buyRef, (snapshot) => {
-            const postData = snapshot.data() as transactionDataProps;
-            setBuyBata(postData);
-        });
-    
-        return () => {
-          unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
-        };
-      }, [postUrl]);
-    
-    return buyBata;
-}
-
 // Buy max id
 export function BuyDatasMaxId() {
     const datas = TransactionBuyDatas();
