@@ -2,8 +2,6 @@ import { Card } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import HubImg from '../../imgs/HobbyHubImg.png';
 import styled from "styled-components";
-import { HeartColor } from "./styled";
-
 
 interface transactionDataProps {
     id: number;
@@ -86,4 +84,8 @@ const CardText = styled(Card.Text)`
 const InfoBox = styled.div`
     display: flex;
     justify-content: space-between;
+`;
+
+const HeartColor = styled.span`
+    color: #6f9fe7;
 `;

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
-import { checkToken } from "../utils/authUtils";
+import { CheckToken } from "../utils/authUtils";
 import UserInfo from "../components/MyPage/UserInfo";
 import EditUserInfo from "../components/MyPage/EditUserInfo";
 import PasswordModal from "../components/MyPage/PasswordModal";
@@ -26,7 +26,6 @@ function MyPage() {
   const [change, setChange] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const openPasswordModal = () => {
     setPasswordModalOpen(true);
@@ -62,9 +61,9 @@ function MyPage() {
   };
 
   useEffect(() => {
-    checkToken(navigate);
-  }, [navigate, userObj])
-  
+    CheckToken('마이 페이지를');
+  }, [userObj])
+
   return (
     <MyPageBox>
       <HeaderStyle>

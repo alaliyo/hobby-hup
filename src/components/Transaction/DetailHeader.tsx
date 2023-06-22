@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import EmptyImg from '../../imgs/EmptyImg.png';
 import { Button } from "react-bootstrap";
-import { HeartColor } from "./styled";
 
 interface transactionDataProps {
     title: string;
@@ -33,10 +32,7 @@ function DetailHeader({
                 </PostInfo>
 
                 <PostInfo>
-                    <Info>
-                        <HeartColor>♥</HeartColor>
-                        {like}
-                    </Info>
+                    <HeartInfo>♥{like}</HeartInfo>
                     
                     <Info>{createdAt}</Info>
                 </PostInfo>
@@ -98,6 +94,26 @@ const Info = styled.p`
     margin-top: 5px;
     margin-left: 10px;
     margin-bottom: 0px;
+    :hover {
+        transition: .3s;
+        
+    }
+`;
+
+const HeartInfo = styled.p`
+    font-size: 17px;
+    font-weight: 900;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-bottom: 0px;
+    color: #6f9fe7;
+    cursor: pointer;
+    
+    :hover {
+        margin-top: -2px;
+        font-size: 20px;
+        transition: .3s;
+    }
 `;
 
 const PostTitle = styled.p`

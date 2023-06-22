@@ -37,8 +37,6 @@ export const HeaderWidth = styled.div`
         display: flex;
         align-items: center;
     }
-    a {
-    }
 `;
 
 export const LinkStyled = styled(Link)<CustomLinkProps>`

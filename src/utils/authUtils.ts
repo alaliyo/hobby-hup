@@ -1,10 +1,9 @@
-import { NavigateFunction } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { authService } from "../firebase";
 import { useEffect, useState } from "react";
 
-export const checkToken = (navigate: NavigateFunction) => {
-    
+export const CheckToken = (text: string) => {
+
     onAuthStateChanged(authService, (user) => {
         if (user) {
         user.getIdToken()
@@ -14,8 +13,8 @@ export const checkToken = (navigate: NavigateFunction) => {
                 alert(`${error} 서버 에러입니다. 다시 시도해주세요.`);
             });
         } else {
-            alert('로그인 후 사용 가능합니다.');
-            navigate("/");
+            alert(`로그인 후 ${text} 볼 수 있습니다.`);
+            window.history.go(-1);
         }
     });
 };
