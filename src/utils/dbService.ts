@@ -1,4 +1,4 @@
-import { collection, doc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbService } from "../firebase";
 
@@ -7,6 +7,7 @@ interface transactionDataProps {
     title: string;
     content: string;
     writer: string
+    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];

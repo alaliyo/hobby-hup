@@ -3,13 +3,18 @@ import styled from "styled-components";
 import EmptyImg from '../../imgs/EmptyImg.png';
 import { Button, Form, InputGroup } from "react-bootstrap";
 
-function DetailBody() {
+interface DetailBodyProps {
+    content: string;
+}
+
+
+function DetailBody({ content }: DetailBodyProps) {
     const [writerImg, setWriterImg] = useState('');
 
     return(
         <div>
             <ContentsBox>
-                <p>내용</p>
+                <p>{content}</p>
             </ContentsBox>
             <CommentTitle>댓글</CommentTitle>
             <InputGroup className="mb-1">

@@ -14,9 +14,9 @@ function TransactionHeader() {
     }
 
     useEffect(() => {
-        setPageUrl(location.pathname.split('/')[2])
+        setPageUrl(location.pathname.split('/')[2] + location.pathname.split('/')[3])
     }, [location])
-
+    
     return(
         <Header>
             <Dropdown>
@@ -30,7 +30,7 @@ function TransactionHeader() {
                 </DropdownMenu>
             </Dropdown>
             {
-                pageUrl === 'buy' || pageUrl === 'sell' ? (<>
+                pageUrl === 'buyundefined' || pageUrl === 'sellundefined' ? (<>
                     <InputGroupstyle>
                         <Form.Control
                             placeholder="내용을 입력해주세요"

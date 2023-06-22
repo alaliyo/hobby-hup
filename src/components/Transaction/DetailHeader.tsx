@@ -1,39 +1,60 @@
-import { useState } from "react";
 import styled from "styled-components";
 import EmptyImg from '../../imgs/EmptyImg.png';
 import { Button } from "react-bootstrap";
 import { HeartColor } from "./styled";
 
-function DetailHeader() {
-    const [writerImg, setWriterImg] = useState('');
+interface transactionDataProps {
+    title: string;
+    writer: string
+    selected: string;
+    price: number | string;
+    createdAt: string;
+    like: number;
+    catedory: string;
+    writerProfile: string;
+}
 
+function DetailHeader({
+    title,
+    writer,
+    selected,
+    price,
+    createdAt,
+    like,
+    catedory,
+    writerProfile
+}: transactionDataProps) {
     return(
         <DetailHeaderbox>
             <InfoBox>
                 <PostInfo>
-                    <WriterImg src={writerImg ? '' : EmptyImg} />
-                    <WriterNickname>작성자</WriterNickname>
+                    <WriterImg src={writerProfile ? writerProfile : EmptyImg} />
+                    <WriterNickname>{writer}</WriterNickname>
                 </PostInfo>
+
                 <PostInfo>
                     <Info>
                         <HeartColor>♥</HeartColor>
-                        {0}
+                        {like}
                     </Info>
-                    <Info>조회수: {0}</Info>
-                    <Info>{'23.06.05'}</Info>
+                    
+                    <Info>{createdAt}</Info>
                 </PostInfo>
             </InfoBox>
+
             <InfoBox>
-                <PostTitle>{'제목'}</PostTitle>
+                <PostTitle>{title}</PostTitle>
+
                 <PostInfo>
-                    <Category>판매</Category>
+                    <Category>{catedory === 'buy' ? '판매' : '구매'}</Category>
                     <ChattingBtn variant="outline-secondary">1:1 채팅</ChattingBtn>
                 </PostInfo>
-                
             </InfoBox>
+
             <InfoBox>
-                <Price>가격: {'1,000'}원</Price>
-                <Info>주소: 경남 양산시 서창동</Info>
+                <Price>가격: {price}원</Price>
+
+                <Info>주소: {selected}</Info>
             </InfoBox>
         </DetailHeaderbox>
     );

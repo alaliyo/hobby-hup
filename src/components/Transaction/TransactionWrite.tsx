@@ -60,7 +60,7 @@ function TransactionWrite() {
     const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedDistrict(event.target.value);
     };
-
+    
     const handleNicknameUpdate = async (e: any) => {
         e.preventDefault();
         try {
@@ -98,6 +98,7 @@ function TransactionWrite() {
                         id: categoryBoolen ? buyMaxId+1 : sellMaxId+1,
                         email: userData.email,
                         writer: userData.displayName,
+                        writerProfile: userData.photoURL,
                         title: title,
                         content: content,
                         price: price,

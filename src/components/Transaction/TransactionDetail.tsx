@@ -12,7 +12,8 @@ interface transactionDataProps {
     id: number
     title: string;
     content: string;
-    writer: string
+    writer: string;
+    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];
@@ -24,40 +25,54 @@ function TransactionDetail() {
     const location = useLocation();
     const [catedory, setCatedory] = useState('');
     const [postUrl, setPostUrl] = useState('');
-    const [detailData, setDetailData] = useState<transactionDataProps>()
+    const [datailData, setDatailData] = useState<transactionDataProps>()
     
     useEffect(() => {
-        const UrlArr = location.pathname.split('/')
+        const UrlArr = location.pathname.split('/');
         const detailUrl = `${UrlArr[2]}Id${UrlArr[3]}`;
 
         setCatedory(UrlArr[2]);
         setPostUrl(detailUrl);
-        
     }, [location]);
     
     useEffect(() => {
         const fetchData = async () => {
-            const docRef = doc(dbService, "transactionBuy", postUrl);
+            const docRef = doc(
+                dbService,
+                catedory === "buy" ? "transactionBuy" : "transactionSell",
+                postUrl
+            );
             const snapshot = await getDoc(docRef);
             if (snapshot.exists()) {
                 const postData = snapshot.data() as transactionDataProps;
-                setDetailData(postData);
-            } else {
-                // 문서가 존재하지 않을 때 처리
+                setDatailData(postData);
             }
         };
 
         if (postUrl) {
             fetchData();
         }
-    }, [postUrl]);
-    
+    }, [catedory, postUrl]);
+
     return(
         <DetailBox>
-            {detailData ? (<>
-                <DetailCarousels />
-                <DetailHeader />
-                <DetailBody />
+            {datailData ? (<>
+                <DetailCarousels
+                    imgs = {datailData.imgs}
+                />
+                <DetailHeader
+                    title = {datailData.title}
+                    writer = {datailData.writer}
+                    writerProfile = {datailData.writerProfile}
+                    selected = {datailData.selected}
+                    price = {datailData.price}
+                    createdAt = {datailData.createdAt}
+                    like = {datailData.like}
+                    catedory = {catedory}
+                />
+                <DetailBody
+                    content = {datailData.content}
+                />
             </>) : <CommonSpinner />
             }
         </DetailBox>

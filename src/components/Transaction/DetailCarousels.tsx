@@ -1,10 +1,9 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { Key, SetStateAction, useState } from 'react';
 import { Carousel, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
-function DetailCarousels() {
+function DetailCarousels({ imgs }: any) {
     const [index, setIndex] = useState(0);
-    const [imgArr, setImgArr] = useState<string[]>();
     const [showModal, setShowModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>('');
 
@@ -21,19 +20,10 @@ function DetailCarousels() {
     setShowModal(false);
     };
 
-    useEffect(() => {
-        setImgArr([
-            'https://cdn.pixabay.com/photo/2015/05/04/10/16/vegetables-752153_1280.jpg',
-            'https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg',
-            'https://cdn.pixabay.com/photo/2013/06/09/06/07/meat-123668_1280.jpg',
-            'https://cdn.pixabay.com/photo/2017/07/27/17/30/tray-2546077_1280.jpg',
-        ])
-    }, []);
-
     return (
         <>
             <CarouselStyld activeIndex={index} onSelect={handleSelect}>
-                {imgArr?.map((e, i) => (
+                {imgs?.map((e: string, i: Key) => (
                     <CarouselItem key={i} onClick={() => openModal(e)}>
                         <img
                             className="d-block w-100"
@@ -45,6 +35,7 @@ function DetailCarousels() {
             </CarouselStyld>
         
             <ModalStyle show={showModal} onHide={closeModal} centered>
+                <ModalHeader closeButton></ModalHeader>
                 <img src={selectedImage} alt="이미지 오류 새로고침하세요." />
             </ModalStyle>
         </>
@@ -78,4 +69,11 @@ const CarouselItem = styled(Carousel.Item)`
 
 const ModalStyle = styled(Modal)`
     --bs-modal-width: 80%;
+`;
+
+const ModalHeader = styled(Modal.Header)`
+    position: absolute;
+    border-bottom: 0;
+    width: 100%;
+    float: right;
 `;
