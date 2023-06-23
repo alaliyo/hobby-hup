@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import styled, { keyframes  } from "styled-components";
-import { Button, Form, Spinner } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { authService, dbService } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Filter from 'bad-words';
@@ -207,9 +207,9 @@ function TransactionWrite() {
                 {loading &&
                     <SpinnerBox>
                         <h3>업로드 중입니다</h3>
-                        <SpinnerStyle animation="grow" />
-                        <SpinnerStyle animation="grow" />
-                        <SpinnerStyle animation="grow" />
+                        <DotStyle animation={DotAnimation1}>•</DotStyle>
+                        <DotStyle animation={DotAnimation2}>•</DotStyle>
+                        <DotStyle animation={DotAnimation3}>•</DotStyle>
                     </SpinnerBox>
                 }
             </Form>
@@ -258,13 +258,39 @@ const SpinnerBox = styled.div`
     justify-content: center;
 `;
 
-const SpinnerStyle = styled(Spinner)`
-    height: 7px;
-    width: 7px;
-    margin-left: 5px;
+const DotAnimation1 = keyframes`
+    0%, 40% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(-10px);
+    }
+`;
+
+const DotAnimation2 = keyframes`
+    20%, 60% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+`;
+
+const DotAnimation3 = keyframes`
+    40%, 80% {
+        transform: translateY(0);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+`;
+
+const DotStyle = styled.div<{ animation: any }>`
+    width: 10px;
     font-weight: 900;
-    --bs-spinner-border-width: 0.5em;
-    border-color: #7b8088;
-    border-right-color: #ffffff;
+    margin-left: 5px;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: ${({ animation }) => animation};
 `;
 
