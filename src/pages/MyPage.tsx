@@ -9,6 +9,7 @@ import UserInfo from "../components/MyPage/UserInfo";
 import EditUserInfo from "../components/MyPage/EditUserInfo";
 import PasswordModal from "../components/MyPage/PasswordModal";
 import MyPageNav from "../components/MyPage/MyPageNav";
+import { fadeInAnimation } from "./PageStyled";
 
 
 interface userObj {
@@ -112,6 +113,7 @@ const MyPageBox = styled.div`
   border: 2px solid #e7e7e7;
   border-radius: 20px;
   box-shadow: 2px 2px 6px gray;
+  animation: ${fadeInAnimation} 0.15s ease-in;
 `;
 
 const HeaderStyle = styled.header`

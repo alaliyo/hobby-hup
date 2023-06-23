@@ -8,6 +8,7 @@ import { dbService } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import CommonSpinner from "../Common/CommonSpinner";
 import { CheckToken } from "../../utils/authUtils";
+import { fadeInAnimation } from "../../pages/PageStyled";
 
 interface transactionDataProps {
     id: number
@@ -61,7 +62,7 @@ function TransactionDetail() {
 
     return(
         <DetailBox>
-            {datailData ? (<>
+            {datailData && (<>
                 <DetailCarousels
                     imgs = {datailData.imgs}
                 />
@@ -78,8 +79,7 @@ function TransactionDetail() {
                 <DetailBody
                     content = {datailData.content}
                 />
-            </>) : <CommonSpinner />
-            }
+            </>)}
         </DetailBox>
     );
 }
@@ -89,4 +89,5 @@ export default TransactionDetail;
 const DetailBox = styled.div`
     margin: 10px 10%;
     padding: 10px;
+    animation: ${fadeInAnimation} 0.5s ease-in;
 `;

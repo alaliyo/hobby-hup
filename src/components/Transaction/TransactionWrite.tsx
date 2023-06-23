@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
-import styled from "styled-components";
-import { Button, Form } from 'react-bootstrap';
+import styled, { keyframes  } from "styled-components";
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { authService, dbService } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Filter from 'bad-words';
@@ -10,6 +10,7 @@ import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
 import { UserDataObj } from "../../utils/authUtils";
 import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
+import { fadeInAnimation } from "../../pages/PageStyled";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -28,6 +29,7 @@ function TransactionWrite() {
     const userData = UserDataObj();
     const buyMaxId = BuyDatasMaxId();
     const sellMaxId = SellDatasMaxId();
+    const [loading, setLoading] = useState(true); //업로드 대기
     
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
@@ -85,6 +87,7 @@ function TransactionWrite() {
             }
 
             if (user) {
+                setLoading(true);
                 const imageUrls = await uploadImages(
                     imgs, title, 5, 'transaction'
                 );
@@ -109,6 +112,7 @@ function TransactionWrite() {
                     }
                 );
                 alert('개시물이 업로드 되었습니다.')
+                setLoading(false); // 로딩 상태 비활성화
                 window.location.href="/transaction/buy"
             }
         } catch (error) {
@@ -190,15 +194,24 @@ function TransactionWrite() {
                     </div>
                 </FormFlex>
                 
-                <div>
-                    <BtnStyle
-                        variant="outline-secondary"
-                        type="button"
-                        onClick={handleNicknameUpdate}
-                    >
-                        작성완료
-                    </BtnStyle>
-                </div>
+                
+                    <div>
+                        <BtnStyle
+                            variant="outline-secondary"
+                            type="button"
+                            onClick={handleNicknameUpdate}
+                        >
+                            작성완료
+                        </BtnStyle>
+                    </div>
+                {loading &&
+                    <SpinnerBox>
+                        <h3>업로드 중입니다</h3>
+                        <SpinnerStyle animation="grow" />
+                        <SpinnerStyle animation="grow" />
+                        <SpinnerStyle animation="grow" />
+                    </SpinnerBox>
+                }
             </Form>
         </WriteBox>
     );
@@ -208,6 +221,7 @@ export default TransactionWrite;
 
 const WriteBox = styled.div`
     padding: 30px;
+    animation: ${fadeInAnimation} 0.15s ease-in;
 `;
 
 const FormLabel = styled(Form.Label)`
@@ -231,3 +245,26 @@ const DropStyle = styled.select`
     height: 35px;
     width: 70px;
 `;
+
+const SpinnerBox = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const SpinnerStyle = styled(Spinner)`
+    height: 7px;
+    width: 7px;
+    margin-left: 5px;
+    font-weight: 900;
+    --bs-spinner-border-width: 0.5em;
+    border-color: #7b8088;
+    border-right-color: #ffffff;
+`;
+

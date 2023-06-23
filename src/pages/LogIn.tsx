@@ -14,6 +14,7 @@ import useKFilter from '../hooks/KFilter';
 import { LogInBox, ChangeBut } from '../components/login/LogInStyled';
 import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
+import { PageBody } from './PageStyled';
 
 function LogIn() {
     const [email, setEmail] = useState("");
@@ -122,7 +123,7 @@ function LogIn() {
     const toggleAccount = () => setAccount(prev => !prev);
 
     return(
-        <div>
+        <PageBody>
             <LogInBox>
                 {account ?
                     <SignUpForm
@@ -151,7 +152,7 @@ function LogIn() {
                     {account ? '로그인하러 가기' : '회원가입하러 가기'}
                 </ChangeBut>
             </LogInBox>
-        </div>
+        </PageBody>
     );
 }
 

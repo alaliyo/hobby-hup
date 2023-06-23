@@ -9,7 +9,7 @@ function TransactionHeader() {
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
 
-    const locationChamg = (text: string) => {
+    const locationChange = (text: string) => {
         setMenuLocation(text);
     }
 
@@ -25,12 +25,12 @@ function TransactionHeader() {
                 </DropdownToggl>
 
                 <DropdownMenu>
-                    <LinkBox to="buy" onClick={() => locationChamg('판매')}>판매</LinkBox>
-                    <LinkBox to="sell" onClick={() => locationChamg('구매')}>구매</LinkBox>
+                    <LinkBox to="buy" onClick={() => locationChange('판매')}>판매</LinkBox>
+                    <LinkBox to="sell" onClick={() => locationChange('구매')}>구매</LinkBox>
                 </DropdownMenu>
             </Dropdown>
-            {
-                pageUrl === 'buyundefined' || pageUrl === 'sellundefined' ? (<>
+            {pageUrl === 'buyundefined' || pageUrl === 'sellundefined' ?
+                (<>
                     <InputGroupstyle>
                         <Form.Control
                             placeholder="내용을 입력해주세요"
@@ -44,9 +44,6 @@ function TransactionHeader() {
                     </Link>
                 </>) : null
             }
-            
-
-            
         </Header>
     );
 }
@@ -77,6 +74,8 @@ const DropdownToggl = styled(Dropdown.Toggle)`
 const DropdownMenu = styled(Dropdown.Menu)`
     --bs-dropdown-min-width: 70px;
     padding: 5px;
+    position: absolute;
+    z-index: 1;
 `;
 
 const LinkBox = styled(Link)`
