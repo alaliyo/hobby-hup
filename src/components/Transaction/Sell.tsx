@@ -1,5 +1,4 @@
 import { TransactionSellDatas } from "../../utils/dbService";
-import CommonSpinner from "../Common/CommonSpinner";
 import PostCard from "./PostCard";
 import { Body } from './styled';
 
@@ -16,17 +15,15 @@ interface transactionDataProps {
 }
 
 function Sell() {
-    const datas: transactionDataProps[] = TransactionSellDatas();
-
+    const datas: transactionDataProps[] | undefined = TransactionSellDatas();
+    
     return(
         <Body>
-            {datas.length > 0 ? datas.map((data) => 
+            {datas && datas.map((data) => 
                 <PostCard
                     key={`${data.id}`}
                     data={data}
                 />
-            ) : (
-                <CommonSpinner />
             )}
         </Body>
     );

@@ -9,7 +9,7 @@ interface SampleComponentProps {
     handleDistrictChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-function SampleComponent({
+function AddressDrop({
     selectedCity,
     selectedDistrict,
     handleCityChange,
@@ -17,7 +17,7 @@ function SampleComponent({
 }: SampleComponentProps ) {
   
     return (
-        <div>
+        <DropBox>
             <SelectStyle value={selectedCity} onChange={handleCityChange}>
                 <option value="">시/도 선택</option>
                 {addressArr.map((option: AddressData) => (
@@ -33,13 +33,18 @@ function SampleComponent({
                     ))}
                 </SelectStyle>
             )}
-        </div>
+        </DropBox>
     );
 };
 
-export default SampleComponent;
+export default AddressDrop;
+
+const DropBox = styled.div`
+    display: flex;
+`;
 
 const SelectStyle = styled.select`
     height: 35px;
     width: 120px;
+    margin-right: 5px;
 `;

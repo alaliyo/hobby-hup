@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
 import { authService } from './firebase';
 import Header from "./components/Common/Header";
+import Footer from "./components/Common/Footer";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -44,6 +45,7 @@ function App() {
           <span className="visually-hidden">Loading...</span>
         </SpinnerStyled>
       )}
+      <Footer />
     </AppBox>
   );
 }

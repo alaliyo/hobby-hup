@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { Dropdown, InputGroup, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import{ ButtonColor } from '../Common/ButtonStyle';
+import { authService } from "../../firebase";
 
 function TransactionHeader() {
     const [menuLocation, setMenuLocation] = useState('판매');
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
+    const user = authService.currentUser;
 
     const locationChange = (text: string) => {
         setMenuLocation(text);
@@ -39,9 +41,13 @@ function TransactionHeader() {
                             검색
                         </ButtonColor>
                     </InputGroupstyle>
-                    <Link to='/transaction/write'>
-                        <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
-                    </Link>
+                    {user ? (
+                        <Link to='/transaction/write'>
+                            <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
+                        </Link>
+                    ) : (
+                        <div></div>
+                    )}
                 </>) : null
             }
         </Header>

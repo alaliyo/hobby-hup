@@ -1,7 +1,6 @@
 import { TransactionBuyDatas } from "../../utils/dbService";
 import PostCard from "./PostCard";
 import { Body } from './styled';
-import CommonSpinner from "../Common/CommonSpinner";
 
 interface transactionDataProps {
     id: number
@@ -20,13 +19,11 @@ function Buy() {
     
     return(
         <Body>
-            {datas.length > 0 ? datas.map((data) => 
+            {datas && datas.map((data) => 
                 <PostCard
                     key={`${data.id}`}
                     data={data}
                 />
-            ) : (
-                <CommonSpinner />
             )}
         </Body>
     );

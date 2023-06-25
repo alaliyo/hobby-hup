@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 function useCurrentDate() {
     const [currentDate, setCurrentDate] = useState('');
-    const [newDate, setNewDate] = useState(new Date);
+    const [newDate, setNewDate] = useState(new Date());
     const [year, setYear] = useState('');
     const [month] = useState(newDate.getMonth()+1);
     const [date] = useState(newDate.getDate());

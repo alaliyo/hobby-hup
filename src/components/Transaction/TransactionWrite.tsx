@@ -8,9 +8,9 @@ import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
-import { UserDataObj } from "../../utils/authUtils";
 import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
 import { fadeInAnimation } from "../../pages/PageStyled";
+import { CheckToken } from "../../utils/authUtils";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -22,15 +22,15 @@ function TransactionWrite() {
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
     const [selectedDistrict, setSelectedDistrict] = useState(""); // 선택된 구/군/시
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
-    const [titleKFilter, setTitleKFilter] = useState(true);
-    const [contentKFilter, setContentKFilter] = useState(true); // 내용;
-    const currentDate = useCurrentDate();
-    const filter = new Filter();
-    const userData = UserDataObj();
-    const buyMaxId = BuyDatasMaxId();
-    const sellMaxId = SellDatasMaxId();
-    const [loading, setLoading] = useState(true); //업로드 대기
-    
+    const [titleKFilter, setTitleKFilter] = useState(true); //제목 비속어 확인
+    const [contentKFilter, setContentKFilter] = useState(true); // 내용 비속어 확인;
+    const currentDate = useCurrentDate(); // 현재 날짜
+    const filter = new Filter(); // 영어 비속어 필터
+    const buyMaxId = BuyDatasMaxId(); // 판메 postId 값
+    const sellMaxId = SellDatasMaxId(); // 구매 postId 값
+    const [loading, setLoading] = useState(false); //업로드 대기
+
+    // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
             target: { name, value },
@@ -51,23 +51,27 @@ function TransactionWrite() {
         } else if (name === 'category') {
             setCategory(value);
         }
-        //const LineBreaks = value.replace(/\n/g, '\\n'); // 줄 바꿈 문자를 \n으로 대체하여 저장
     };
 
+    // 시/도 받는 이벤트
     const handleCityChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedCity(event.target.value);
-        setSelectedDistrict(""); // 시/도 변경 시 구/군 초기화
+        setSelectedDistrict("");
     };
 
+    // 구/군/시 받는 이벤트
     const handleDistrictChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedDistrict(event.target.value);
     };
     
-    const handleNicknameUpdate = async (e: any) => {
+    // firebase post
+    const handlePostUpdate = async (e: any) => {
         e.preventDefault();
+        
         try {
             const user = authService.currentUser;
             
+            // 업로드 전 게시물 조건 필터
             if (title.length > 40) {
                 return alert("제목은 40자 이하만 가능합니다.");
             } else if (titleKFilter) {
@@ -87,10 +91,15 @@ function TransactionWrite() {
             }
 
             if (user) {
-                setLoading(true);
+                setLoading(true); // 로딩 상태 활성화
+
+                // 사진 업로드 비동기 호출
                 const imageUrls = await uploadImages(
                     imgs, title, 5, 'transaction'
                 );
+                
+                // post 줄 바꿈 \\으로 변환
+                const LineBreaks = content.replace(/\n/g, '\\n');
                 
                 const categoryBoolen = category === '판매';
                 await setDoc(doc(
@@ -99,16 +108,16 @@ function TransactionWrite() {
                     categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`
                     ), {
                         id: categoryBoolen ? buyMaxId+1 : sellMaxId+1,
-                        email: userData.email,
-                        writer: userData.displayName,
-                        writerProfile: userData.photoURL,
+                        email: user.email,
+                        writer: user.displayName,
+                        writerProfile: user.photoURL,
                         title: title,
-                        content: content,
+                        content: LineBreaks,
+                        createdAt: currentDate,
                         price: price,
                         selected: selected,
                         imgs: imageUrls,
                         like: 0,
-                        createdAt: currentDate,
                     }
                 );
                 alert('개시물이 업로드 되었습니다.')
@@ -120,9 +129,14 @@ function TransactionWrite() {
         }
     };
 
+    // 주소 합하기
     useEffect(() => {
         setSelected(`${selectedCity} ${selectedDistrict}`);
-    }, [selectedCity, selectedDistrict])
+    }, [selectedCity, selectedDistrict]);
+
+    useEffect(() => {
+        CheckToken("게시물 작성 페이지는 사용할 수 있습니다.")
+    }, [])
     
     return(
         <WriteBox>
@@ -199,7 +213,7 @@ function TransactionWrite() {
                         <BtnStyle
                             variant="outline-secondary"
                             type="button"
-                            onClick={handleNicknameUpdate}
+                            onClick={handlePostUpdate}
                         >
                             작성완료
                         </BtnStyle>
@@ -259,28 +273,28 @@ const SpinnerBox = styled.div`
 `;
 
 const DotAnimation1 = keyframes`
-    0%, 40% {
+    0%, 30% {
         transform: translateY(0);
     }
-    20% {
+    15% {
         transform: translateY(-10px);
     }
 `;
 
 const DotAnimation2 = keyframes`
-    20%, 60% {
+    15%, 45% {
         transform: translateY(0);
     }
-    40% {
+    30% {
         transform: translateY(-10px);
     }
 `;
 
 const DotAnimation3 = keyframes`
-    40%, 80% {
+    30%, 60% {
         transform: translateY(0);
     }
-    60% {
+    45% {
         transform: translateY(-10px);
     }
 `;
@@ -289,7 +303,7 @@ const DotStyle = styled.div<{ animation: any }>`
     width: 10px;
     font-weight: 900;
     margin-left: 5px;
-    animation-duration: 1s;
+    animation-duration: 1.8s;
     animation-iteration-count: infinite;
     animation-name: ${({ animation }) => animation};
 `;

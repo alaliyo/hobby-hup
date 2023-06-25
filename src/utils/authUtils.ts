@@ -3,7 +3,6 @@ import { authService } from "../firebase";
 import { useEffect, useState } from "react";
 
 export const CheckToken = (text: string) => {
-
     onAuthStateChanged(authService, (user) => {
         if (user) {
         user.getIdToken()

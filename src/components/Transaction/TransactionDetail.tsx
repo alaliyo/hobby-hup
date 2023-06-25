@@ -2,11 +2,10 @@ import styled from "styled-components";
 import DetailCarousels from "./DetailCarousels";
 import DetailHeader from "./DetailHeader";
 import DetailBody from "./DetailBody";
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from "react";
 import { dbService } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import CommonSpinner from "../Common/CommonSpinner";
 import { CheckToken } from "../../utils/authUtils";
 import { fadeInAnimation } from "../../pages/PageStyled";
 
@@ -26,11 +25,11 @@ interface transactionDataProps {
 function TransactionDetail() {
     const location = useLocation();
     const [catedory, setCatedory] = useState('');
-    const [postUrl, setPostUrl] = useState('');
+    const [postDocument, setPostDocument] = useState('');
     const [datailData, setDatailData] = useState<transactionDataProps>()
     
     useEffect(() => {
-        CheckToken('상세 게시물들을');
+        CheckToken('상세 게시물들을 볼 수 있습니다.');
     }, [])
 
     useEffect(() => {
@@ -38,7 +37,7 @@ function TransactionDetail() {
         const detailUrl = `${UrlArr[2]}Id${UrlArr[3]}`;
 
         setCatedory(UrlArr[2]);
-        setPostUrl(detailUrl);
+        setPostDocument(detailUrl);
     }, [location]);
     
     useEffect(() => {
@@ -46,7 +45,7 @@ function TransactionDetail() {
             const docRef = doc(
                 dbService,
                 catedory === "buy" ? "transactionBuy" : "transactionSell",
-                postUrl
+                postDocument
             );
             const snapshot = await getDoc(docRef);
             if (snapshot.exists()) {
@@ -55,10 +54,10 @@ function TransactionDetail() {
             }
         };
 
-        if (postUrl) {
+        if (postDocument) {
             fetchData();
         }
-    }, [catedory, postUrl]);
+    }, [catedory, postDocument]);
 
     return(
         <DetailBox>
@@ -78,6 +77,7 @@ function TransactionDetail() {
                 />
                 <DetailBody
                     content = {datailData.content}
+                    postDocument = {postDocument}
                 />
             </>)}
         </DetailBox>
