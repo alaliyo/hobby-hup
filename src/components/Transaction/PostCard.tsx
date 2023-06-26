@@ -1,6 +1,7 @@
-import { Card } from "react-bootstrap";
-import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import { Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../firebase";
 
 interface transactionDataProps {
     id: number;
@@ -17,9 +18,19 @@ interface PostCardprops {
 }
 
 function PostCard({ data }: PostCardprops) {
+    const user = authService.currentUser; // user 정보
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        if (user) {
+            navigate(`${data.id}`);
+        } else {
+            alert("상세페이지는 로그인 후 볼 수 있습니다.");
+        }
+      };
 
     return(
-        <LinkStyle to={`${data.id}`}>
+        <LinkStyle onClick={handleCardClick}>
             <CardStyle style={{ width: '17rem' }}>
                 <CardImg variant="top" src={data.imgs[0]} />
                 <CardBody>
@@ -52,14 +63,17 @@ function PostCard({ data }: PostCardprops) {
 
 export default PostCard;
 
-const LinkStyle = styled(Link)`
+const LinkStyle = styled.a`
     color: black;
     text-decoration: none;
+    margin: 8px;
+    cursor: pointer;
+
     :hover {
         color: #4583e0;
         transition: .3s;
     }
-    margin: 8px;
+    
 `;
 
 const CardImg = styled(Card.Img)`
