@@ -12,7 +12,7 @@ interface transactionDataProps {
     price: number | string;
     imgs: string[];
     createdAt: string;
-    like: number;
+    route: string;
 }
 
 // Buy DB date get
@@ -38,7 +38,7 @@ export function TransactionBuyDatas() {
 // Buy max id
 export function BuyDatasMaxId() {
     const datas = TransactionBuyDatas();
-    const [buyMaxId, setBuyMaxId] = useState<any>();
+    const [buyMaxId, setBuyMaxId] = useState<any>(0);
 
     useEffect(() => {
         if(datas.length > 0) {
@@ -73,7 +73,7 @@ export function TransactionSellDatas() {
 // Sell max id
 export function SellDatasMaxId() {
     const datas = TransactionSellDatas();
-    const [sellMaxId, setSellMaxId] = useState<any>();
+    const [sellMaxId, setSellMaxId] = useState<any>(0);
 
     useEffect(() => {
         if(datas.length > 0) {

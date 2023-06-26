@@ -7,12 +7,14 @@ export const LoginTitle = styled.h3`
 `
 
 export const LogInBox = styled.div`
-    background-color: #bdd3f5;
-    padding: 50px;
+    padding: 30px;
     width: 500px;
     margin: 0 auto;
     margin-top: 100px;
-    border-radius: 20px;
+    margin-bottom: 100px;
+    border: 1px solid #838383;
+    border-radius: 5px;
+
     @media screen and (max-width: 768px) {
         width: 100vw;
         padding: 15px;
@@ -38,6 +40,6 @@ export const ChangeBut = styled.button`
     font-weight: 900;
     border: none;
     :hover {
-        color: rgb(62, 123, 255);
+        color: #4ea9ff;
     }
 `;

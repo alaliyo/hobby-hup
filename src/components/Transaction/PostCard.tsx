@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../../firebase";
+import { authService, dbService } from "../../firebase";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 
 interface transactionDataProps {
     id: number;
@@ -10,7 +12,7 @@ interface transactionDataProps {
     writer: string;
     imgs: string[];
     createdAt: string;
-    like: number;
+    route: string;
 }
 
 interface PostCardprops {
@@ -19,6 +21,7 @@ interface PostCardprops {
 
 function PostCard({ data }: PostCardprops) {
     const user = authService.currentUser; // user 정보
+    const [likeCount, setLikeCount] = useState<number>(0); // 좋아요 개수 상태
     const navigate = useNavigate();
 
     const handleCardClick = () => {
@@ -27,7 +30,20 @@ function PostCard({ data }: PostCardprops) {
         } else {
             alert("상세페이지는 로그인 후 볼 수 있습니다.");
         }
-      };
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const docRef = doc(dbService, "transactionLike", data.route);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const likeArr = docSnap.data().likeArr;
+                setLikeCount(likeArr.length);
+            }
+        };
+    
+        fetchData();
+    }, [data.route]);
 
     return(
         <LinkStyle onClick={handleCardClick}>
@@ -47,8 +63,7 @@ function PostCard({ data }: PostCardprops) {
 
                     <InfoBox>
                         <CardText>
-                            <HeartColor>♥</HeartColor>
-                            {data.like}
+                            <HeartColor>♥{likeCount}</HeartColor>
                         </CardText>
                         <CardText>
                             {data.createdAt}

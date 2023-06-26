@@ -117,7 +117,7 @@ function TransactionWrite() {
                         price: price,
                         selected: selected,
                         imgs: imageUrls,
-                        like: 0,
+                        route: categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`,
                     }
                 );
                 alert('개시물이 업로드 되었습니다.')

@@ -11,7 +11,7 @@ import useCurrentDate from "../../hooks/currentDate";
 
 interface DetailBodyProps {
     content: string;
-    postDocument: string;
+    route: string;
 }
 
 interface CommentProps {
@@ -22,7 +22,7 @@ interface CommentProps {
     contentAt: string;
 }
 
-function DetailBody({ content, postDocument }: DetailBodyProps) {
+function DetailBody({ content, route }: DetailBodyProps) {
     const formattedContent = uselinesToBreaks(content); // 게시물 내용 줄바꿈
     const [comment, setComment] = useState(''); // 뎃글
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
@@ -34,9 +34,9 @@ function DetailBody({ content, postDocument }: DetailBodyProps) {
     const docRef = doc(
         dbService,
         "transactionComment",
-        postDocument
+        route
     ); // firebase DB 경로
-    console.log(postComments);
+    
     // 클라이언트 뎃글 받기
     const commentonChange = (e: ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
@@ -131,11 +131,11 @@ function DetailBody({ content, postDocument }: DetailBodyProps) {
             }
         };
 
-        if (postDocument) {
+        if (route) {
             fetchData();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [comment, postDocument, delCheck]);
+    }, [comment, route, delCheck]);
     
     return(
         <div>
@@ -209,7 +209,6 @@ const CommentBox = styled.div`
 
 const CommentDetail = styled.div`
     display: flex;
-    height: 30px;
     margin-bottom: 7px;
 `;
 

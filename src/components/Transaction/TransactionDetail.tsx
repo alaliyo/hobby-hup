@@ -19,7 +19,7 @@ interface transactionDataProps {
     price: number | string;
     imgs: string[];
     createdAt: string;
-    like: number;
+    route: string;
 }
 
 function TransactionDetail() {
@@ -72,12 +72,12 @@ function TransactionDetail() {
                     selected = {datailData.selected}
                     price = {datailData.price}
                     createdAt = {datailData.createdAt}
-                    like = {datailData.like}
+                    route = {datailData.route}
                     catedory = {catedory}
                 />
                 <DetailBody
                     content = {datailData.content}
-                    postDocument = {postDocument}
+                    route = {datailData.route}
                 />
             </>)}
         </DetailBox>

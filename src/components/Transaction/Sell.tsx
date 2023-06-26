@@ -11,7 +11,7 @@ interface transactionDataProps {
     price: number | string;
     imgs: string[];
     createdAt: string;
-    like: number;
+    route: string;
 }
 
 function Sell() {
