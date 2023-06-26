@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { getAuth, sendPasswordResetEmail} from 'firebase/auth';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
+import { Button, Modal, Form} from 'react-bootstrap';
 
 function FindPassword() {
     const [show, setShow] = useState(false);

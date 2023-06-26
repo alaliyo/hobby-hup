@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { storage, authService, dbService } from '../../firebase';
+import { authService, dbService } from '../../firebase';
 import { updateProfile } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";

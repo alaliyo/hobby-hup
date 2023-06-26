@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useLocation } from 'react-router-dom'
 import DetailCarousels from "./DetailCarousels";
 import DetailHeader from "./DetailHeader";
 import DetailBody from "./DetailBody";
-import { useLocation } from 'react-router-dom'
-import { useEffect, useState } from "react";
 import { dbService } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { CheckToken } from "../../utils/authUtils";
