@@ -24,7 +24,7 @@ function PostCard({ data }: PostCardprops) {
     const likedata = LikeData();
     const [like, serLike] = useState(0);
     const navigate = useNavigate();
-    console.log(likedata);
+    
     const handleCardClick = () => {
         if (user) {
             navigate(`${data.id}`);
@@ -32,6 +32,30 @@ function PostCard({ data }: PostCardprops) {
             alert("상세페이지는 로그인 후 볼 수 있습니다.");
         }
     };
+
+    const formatDate = (dateString: string): string => {
+        const currentDate = new Date();
+        const createdAt = new Date('20' + dateString);
+        const timeDiff = Math.abs(currentDate.getTime() - createdAt.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const diffYears = Math.floor(diffDays / 365);
+        
+        if (diffDays <= 1) {
+            return "당일";
+        } else if (diffDays <= 7) {
+            return `${diffDays-1}일전`;
+        } else if (diffDays <= 30) {
+          const diffWeeks = Math.floor(diffDays / 7);
+            return `${diffWeeks}주전`;
+        } else if (diffDays <= 365) {
+          const diffMonths = Math.floor(diffDays / 30);
+            return `${diffMonths}달전`;
+        } else {
+            return `${diffYears}년전`;
+        }
+    };
+    
+    const formattedDate = formatDate(data.createdAt);
     
     useEffect(() => {
         if (likedata.filter(e => e.id === data.route)[0]) {
@@ -60,7 +84,7 @@ function PostCard({ data }: PostCardprops) {
                             <HeartColor>♥{like}</HeartColor>
                         </CardText>
                         <CardText>
-                            {data.createdAt}
+                            {formattedDate}
                         </CardText>
                     </InfoBox>
                     

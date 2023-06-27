@@ -57,7 +57,7 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                         
                         {pageUrl === 'login' ? null : <>
                             <LinkStyled to={'/transaction/buy'} active={pageUrl === 'transaction' ? 'true' : 'false'}>
-                                취미거래
+                                재능거래
                             </LinkStyled>
                             
                             <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>

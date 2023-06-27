@@ -79,7 +79,7 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
 export default Search;
 
 const InputBox = styled(InputGroup)`
-    width: 350px;
+    width: 60%;
     input {
         height: 35px;
     }

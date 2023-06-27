@@ -12,7 +12,7 @@ export const CheckToken = (text: string) => {
                 alert(`${error} 서버 에러입니다. 다시 시도해주세요.`);
             });
         } else {
-            alert(`로그인 후 ${text} 볼 수 있습니다.`);
+            alert(`로그인 후 ${text}`);
             window.history.go(-1);
         }
     });
