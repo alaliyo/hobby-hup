@@ -5,7 +5,25 @@ import { Link, useLocation } from "react-router-dom";
 import{ ButtonColor } from '../Common/ButtonStyle';
 import { authService } from "../../firebase";
 
-function TransactionHeader() {
+interface transactionDataProps {
+    id: number
+    title: string;
+    content: string;
+    writer: string
+    writerProfile: string;
+    selected: string;
+    price: number | string;
+    imgs: string[];
+    createdAt: string;
+    route: string;
+}
+
+interface TransactionHeaderProps {
+    buyData: transactionDataProps[]
+    sellData: transactionDataProps[]
+}
+
+function TransactionHeader({buyData, sellData}: TransactionHeaderProps) {
     const [menuLocation, setMenuLocation] = useState('판매');
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
