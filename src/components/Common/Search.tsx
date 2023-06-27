@@ -34,12 +34,18 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
     // 검색 버튼 클릭 이벤트 핸들러
     const handleSearchButtonClick = () => {
         // 검색어를 포함하는 데이터 필터링
-        const filteredData = postsData.filter((item: { title: string; writer: string; createdAt: string }) =>
+        const filteredData = postsData.filter((item: {
+            title: string;
+            writer: string;
+            createdAt: string;
+            selected: string;
+        }) =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.writer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.selected.toLowerCase().includes(searchQuery) ||
             item.createdAt.toLowerCase().includes(searchQuery)
         );
-        setSearchResult({ postsData: filteredData }); // 검색 결과를 searchResult 상태값에 저장
+        setSearchResult(filteredData); // 검색 결과를 searchResult 상태값에 저장
     };
 
     // Enter key를 누르면 여기에서 원하는 작업을 수행할 수 있습니다.
@@ -47,11 +53,6 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
         if (event.key === "Enter") {
             handleSearchButtonClick()
         }
-    };
-
-    const searchReset = () => {
-        setSearchResult(undefined);
-        setSearchQuery('');
     };
 
     return(
@@ -67,18 +68,10 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
                 onClick={handleSearchButtonClick}
                 variant="outline-secondary"
                 id="button-addon2"
-                size="sm"
+                
             >
-                ⚲
+                검색{/*⚲*/}
             </Button>
-            {searchResult && 
-                <Button
-                    onClick={searchReset}
-                    variant="outline-secondary"
-                    id="button-addon2"
-                    size="sm"
-                >전체</Button>
-            }
         </InputBox>
     );
 }
@@ -88,13 +81,13 @@ export default Search;
 const InputBox = styled(InputGroup)`
     width: 350px;
     input {
-        height: 30px;
+        height: 35px;
     }
     button {
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 900;
-        height: 30px;
-        padding: 0 15px;
+        height: 35px;
+        padding: 0 10px;
         @media screen and (max-width: 650px) {
             padding: 0 10px;
             font-size: 11px;

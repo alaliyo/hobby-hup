@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TransactionHeader from '../components/Transaction/TransactionHeader';
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { fadeInAnimation } from "./PageStyled";
 import { TransactionBuyDatas, TransactionSellDatas } from "../utils/dbService";
 import { useState } from "react";
@@ -19,21 +19,25 @@ interface TransactionDataProps {
 }
 
 function Transaction() {
+    const location = useLocation();
     const firstBuyDatas: TransactionDataProps[] = TransactionBuyDatas();
     const firstSellData: TransactionDataProps[] = TransactionSellDatas();
     const [buyData, setBuyData] = useState<TransactionDataProps[]>();
     const [sellData, setSellData] = useState<TransactionDataProps[]>();
     
     const handleSearch = (searchResult: TransactionDataProps[]) => {
-        setBuyData(searchResult);
+        location.pathname === "/transaction/buy" ?
+            setBuyData(searchResult) : 
+            setSellData(searchResult)
     };
-
+    
     return(
         <TransactionBox>
             <TransactionHeader
                 buyData={firstBuyDatas}
                 sellData={firstSellData}
                 handleSearch={handleSearch}
+                pathname={location.pathname}
             />
             <Outlet
                 context={{

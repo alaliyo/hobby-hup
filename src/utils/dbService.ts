@@ -15,7 +15,7 @@ interface transactionDataProps {
     route: string;
 }
 
-// Buy DB date get
+// Buy date get
 export function TransactionBuyDatas() {
     const [buyBatas, setBuyBatas] = useState<transactionDataProps[]>([]);
     
@@ -50,7 +50,7 @@ export function BuyDatasMaxId() {
 }
 
 
-// Sell DB date get
+// Sell date get
 export function TransactionSellDatas() {
     const [sellDatas, setSellData] = useState<transactionDataProps[]>([]);
     
@@ -83,3 +83,29 @@ export function SellDatasMaxId() {
     
     return sellMaxId;
 }
+
+interface LikeDataProps {
+    id: string;
+    likeArr: string[];
+}
+
+// Like data get
+export function LikeData() {
+    const [likeArr, setLikeArr] = useState<LikeDataProps[]>([]);
+
+    useEffect(() => {
+        const q = query(
+            collection(dbService, "transactionLike"),
+            orderBy("id", "desc")
+        );
+        onSnapshot(q, (snapshot) => {
+            const postsArr: any = snapshot.docs.map((doc) => ({
+                ...doc.data(),
+            }));
+            setLikeArr(postsArr);
+        });
+    }, []);
+
+    return likeArr;
+}
+

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { authService, dbService } from "../../firebase";
+import { authService,  } from "../../firebase";
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { LikeData } from "../../utils/dbService";
 
 interface transactionDataProps {
     id: number;
@@ -21,9 +21,10 @@ interface PostCardprops {
 
 function PostCard({ data }: PostCardprops) {
     const user = authService.currentUser; // user 정보
-    const [likeCount, setLikeCount] = useState<number>(0); // 좋아요 개수 상태
+    const likedata = LikeData();
+    const [like, serLike] = useState(0);
     const navigate = useNavigate();
-
+    console.log(likedata);
     const handleCardClick = () => {
         if (user) {
             navigate(`${data.id}`);
@@ -31,20 +32,13 @@ function PostCard({ data }: PostCardprops) {
             alert("상세페이지는 로그인 후 볼 수 있습니다.");
         }
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const docRef = doc(dbService, "transactionLike", data.route);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const likeArr = docSnap.data().likeArr;
-                setLikeCount(likeArr.length);
-            }
-        };
     
-        fetchData();
-    }, [data.route]);
-
+    useEffect(() => {
+        if (likedata.filter(e => e.id === data.route)[0]) {
+            serLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
+        }
+    }, [data.route, likedata])
+    
     return(
         <LinkStyle onClick={handleCardClick}>
             <CardStyle style={{ width: '17rem' }}>
@@ -63,7 +57,7 @@ function PostCard({ data }: PostCardprops) {
 
                     <InfoBox>
                         <CardText>
-                            <HeartColor>♥{likeCount}</HeartColor>
+                            <HeartColor>♥{like}</HeartColor>
                         </CardText>
                         <CardText>
                             {data.createdAt}

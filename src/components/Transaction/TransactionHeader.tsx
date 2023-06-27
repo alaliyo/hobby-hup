@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Dropdown, InputGroup, Form } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import{ ButtonColor } from '../Common/ButtonStyle';
 import { authService } from "../../firebase";
@@ -23,25 +23,37 @@ interface TransactionHeaderProps {
     buyData: TransactionDataProps[];
     sellData: TransactionDataProps[];
     handleSearch: (searchResult: TransactionDataProps[]) => void;
+    pathname: string;
 }
 
-function TransactionHeader({buyData, sellData, handleSearch}: TransactionHeaderProps) {
-    const [menuLocation, setMenuLocation] = useState('판매');
+function TransactionHeader({buyData, sellData, handleSearch, pathname}: TransactionHeaderProps) {
+    const [menuLocation, setMenuLocation] = useState(pathname === "/transaction/buy" ? "판매" : "구매");
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
     const user = authService.currentUser;
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResult, setSearchResult] = useState<TransactionDataProps[]>();
+    const [searchResult, setSearchResult] = useState<TransactionDataProps[] | null>(null);
 
     const locationChange = (text: string) => {
         setMenuLocation(text);
     }
-
-    console.log(searchResult);
-
+    
     useEffect(() => {
         setPageUrl(location.pathname.split('/')[2] + location.pathname.split('/')[3])
     }, [location])
+
+    useEffect(() => {
+        setSearchResult(
+            pathname === "/transaction/buy" ? buyData : sellData
+        );
+        setSearchQuery(pathname && '')
+    }, [buyData, pathname, sellData]);
+
+    useEffect(() => {
+        if (searchResult) {
+            handleSearch(searchResult);
+        }
+    }, [handleSearch, searchResult]);
     
     return(
         <Header>
@@ -58,7 +70,7 @@ function TransactionHeader({buyData, sellData, handleSearch}: TransactionHeaderP
             {pageUrl === 'buyundefined' || pageUrl === 'sellundefined' ?
                 (<>
                     <Search
-                        postsData={buyData}
+                        postsData={pathname === '/transaction/buy' ? buyData : sellData}
                         searchQuery={searchQuery}
                         searchResult={searchResult}
                         setSearchQuery={setSearchQuery}
@@ -117,8 +129,4 @@ const LinkBox = styled(Link)`
         text-decoration: underline;
         color: black;
     }
-`;
-
-const InputGroupstyle = styled(InputGroup)`
-    width: 50%;
 `;

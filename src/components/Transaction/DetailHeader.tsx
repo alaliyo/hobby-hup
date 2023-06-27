@@ -48,6 +48,7 @@ function DetailHeader({
                     const updatedArr = [...likeArr, userEmail];
                     setLikeArr(updatedArr);
                     await updateDoc(docRef, {
+                        id: route,
                         likeArr: arrayUnion(userEmail)
                     });
                 } else if (userEmail && likeArr.includes(userEmail)) {
@@ -55,6 +56,7 @@ function DetailHeader({
                     const updatedArr = likeArr.filter((id) => id !== userEmail);
                     setLikeArr(updatedArr);
                     await updateDoc(docRef, {
+                        id: route,
                         likeArr: updatedArr
                     });
                 }
@@ -62,6 +64,7 @@ function DetailHeader({
                 // data가 없을 시 생성
                 if (userEmail) {
                     await setDoc(docRef, {
+                        id: route,
                         likeArr: [userEmail]
                     });
                     setLikeArr([userEmail]);

@@ -1,8 +1,9 @@
-import { TransactionSellDatas } from "../../utils/dbService";
+import { useOutletContext } from 'react-router-dom'
 import PostCard from "./PostCard";
 import { Body } from './styled';
+import styled from 'styled-components';
 
-interface transactionDataProps {
+interface TransactionDataProps {
     id: number
     title: string;
     content: string;
@@ -14,16 +15,24 @@ interface transactionDataProps {
     route: string;
 }
 
+interface SellData {
+    sellData: Array<TransactionDataProps>;
+}
+
 function Sell() {
-    const datas: transactionDataProps[] | undefined = TransactionSellDatas();
+    const { sellData } = useOutletContext<SellData>();
     
     return(
         <Body>
-            {datas && datas.map((data) => 
+            {sellData.length > 0 ? sellData.map((data) => 
                 <PostCard
                     key={`${data.id}`}
                     data={data}
                 />
+            ) : (
+                <PostNotDataBox>
+                    <PostNotData>게시물이 없습니다.</PostNotData>
+                </PostNotDataBox>
             )}
         </Body>
     );
@@ -31,3 +40,15 @@ function Sell() {
 
 export default Sell;
 
+const PostNotDataBox = styled.div`
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const PostNotData = styled.p`
+    font-size: 30px;
+    font-weight: 900;
+`;

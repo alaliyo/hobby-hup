@@ -1,8 +1,7 @@
 import { useOutletContext } from 'react-router-dom'
-import { TransactionBuyDatas } from "../../utils/dbService";
 import PostCard from "./PostCard";
 import { Body } from './styled';
-import CommonSpinner from '../Common/CommonSpinner';
+import styled from 'styled-components';
 
 interface TransactionDataProps {
     id: number
@@ -30,9 +29,26 @@ function Buy() {
                     key={`${data.id}`}
                     data={data}
                 />
-            ) : <CommonSpinner />}
+            ) : (
+                <PostNotDataBox>
+                    <PostNotData>게시물이 없습니다.</PostNotData>
+                </PostNotDataBox>
+            )}
         </Body>
     );
 }
 
 export default Buy;
+
+const PostNotDataBox = styled.div`
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const PostNotData = styled.p`
+    font-size: 30px;
+    font-weight: 900;
+`;
