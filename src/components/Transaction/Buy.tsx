@@ -1,8 +1,10 @@
+import { useOutletContext } from 'react-router-dom'
 import { TransactionBuyDatas } from "../../utils/dbService";
 import PostCard from "./PostCard";
 import { Body } from './styled';
+import CommonSpinner from '../Common/CommonSpinner';
 
-interface transactionDataProps {
+interface TransactionDataProps {
     id: number
     title: string;
     content: string;
@@ -14,17 +16,21 @@ interface transactionDataProps {
     route: string;
 }
 
+interface BuyData {
+    buyData: Array<TransactionDataProps>;
+}
+
 function Buy() {
-    const datas: transactionDataProps[] = TransactionBuyDatas();
+    const { buyData } = useOutletContext<BuyData>();
     
     return(
         <Body>
-            {datas && datas.map((data) => 
+            {buyData.length > 0 ? buyData.map((data) => 
                 <PostCard
                     key={`${data.id}`}
                     data={data}
                 />
-            )}
+            ) : <CommonSpinner />}
         </Body>
     );
 }

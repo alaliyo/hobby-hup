@@ -4,8 +4,9 @@ import { Dropdown, InputGroup, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import{ ButtonColor } from '../Common/ButtonStyle';
 import { authService } from "../../firebase";
+import Search from "../Common/Search";
 
-interface transactionDataProps {
+interface TransactionDataProps {
     id: number
     title: string;
     content: string;
@@ -19,19 +20,24 @@ interface transactionDataProps {
 }
 
 interface TransactionHeaderProps {
-    buyData: transactionDataProps[]
-    sellData: transactionDataProps[]
+    buyData: TransactionDataProps[];
+    sellData: TransactionDataProps[];
+    handleSearch: (searchResult: TransactionDataProps[]) => void;
 }
 
-function TransactionHeader({buyData, sellData}: TransactionHeaderProps) {
+function TransactionHeader({buyData, sellData, handleSearch}: TransactionHeaderProps) {
     const [menuLocation, setMenuLocation] = useState('판매');
     const location = useLocation();
     const [pageUrl, setPageUrl] = useState('');
     const user = authService.currentUser;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResult, setSearchResult] = useState<TransactionDataProps[]>();
 
     const locationChange = (text: string) => {
         setMenuLocation(text);
     }
+
+    console.log(searchResult);
 
     useEffect(() => {
         setPageUrl(location.pathname.split('/')[2] + location.pathname.split('/')[3])
@@ -51,14 +57,13 @@ function TransactionHeader({buyData, sellData}: TransactionHeaderProps) {
             </Dropdown>
             {pageUrl === 'buyundefined' || pageUrl === 'sellundefined' ?
                 (<>
-                    <InputGroupstyle>
-                        <Form.Control
-                            placeholder="내용을 입력해주세요"
-                        />
-                        <ButtonColor variant="outline-secondary" id="button-addon2">
-                            검색
-                        </ButtonColor>
-                    </InputGroupstyle>
+                    <Search
+                        postsData={buyData}
+                        searchQuery={searchQuery}
+                        searchResult={searchResult}
+                        setSearchQuery={setSearchQuery}
+                        setSearchResult={setSearchResult}
+                    />
                     {user ? (
                         <Link to='/transaction/write'>
                             <ButtonColor variant="outline-secondary">작성하기</ButtonColor>

@@ -3,6 +3,7 @@ import TransactionHeader from '../components/Transaction/TransactionHeader';
 import { Outlet } from "react-router-dom";
 import { fadeInAnimation } from "./PageStyled";
 import { TransactionBuyDatas, TransactionSellDatas } from "../utils/dbService";
+import { useState } from "react";
 
 interface TransactionDataProps {
     id: number
@@ -18,16 +19,28 @@ interface TransactionDataProps {
 }
 
 function Transaction() {
-    const buyData: TransactionDataProps[] = TransactionBuyDatas();
-    const sellData: TransactionDataProps[] = TransactionSellDatas();
+    const firstBuyDatas: TransactionDataProps[] = TransactionBuyDatas();
+    const firstSellData: TransactionDataProps[] = TransactionSellDatas();
+    const [buyData, setBuyData] = useState<TransactionDataProps[]>();
+    const [sellData, setSellData] = useState<TransactionDataProps[]>();
     
+    const handleSearch = (searchResult: TransactionDataProps[]) => {
+        setBuyData(searchResult);
+    };
+
     return(
         <TransactionBox>
             <TransactionHeader
-                buyData={buyData}
-                sellData={sellData}
+                buyData={firstBuyDatas}
+                sellData={firstSellData}
+                handleSearch={handleSearch}
             />
-            <Outlet />
+            <Outlet
+                context={{
+                    buyData: buyData ? buyData : firstBuyDatas,
+                    sellData: sellData ? sellData : firstSellData,
+                }}
+            />
         </TransactionBox>
     );
 }

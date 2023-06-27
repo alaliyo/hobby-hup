@@ -1,16 +1,21 @@
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import styled from 'styled-components';
 
-interface postsData { //객체 타입
-    postId: number;
+interface TransactionDataProps {
+    id: number
     title: string;
-    url?: string;
-    date: string;
-    bibleVerse?: string;
+    content: string;
+    writer: string
+    writerProfile: string;
+    selected: string;
+    price: number | string;
+    imgs: string[];
+    createdAt: string;
+    route: string;
 }
 
 interface SearchProps {
-    postsData: Array<postsData>;
+    postsData: Array<TransactionDataProps>;
     searchQuery: string;
     searchResult: any;
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -29,9 +34,10 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
     // 검색 버튼 클릭 이벤트 핸들러
     const handleSearchButtonClick = () => {
         // 검색어를 포함하는 데이터 필터링
-        const filteredData = postsData.filter((item: { title: string; date: string; }) =>
+        const filteredData = postsData.filter((item: { title: string; writer: string; createdAt: string }) =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.date.toLowerCase().includes(searchQuery)
+            item.writer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.createdAt.toLowerCase().includes(searchQuery)
         );
         setSearchResult({ postsData: filteredData }); // 검색 결과를 searchResult 상태값에 저장
     };
