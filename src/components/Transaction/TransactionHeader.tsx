@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Dropdown } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import{ ButtonColor } from '../Common/ButtonStyle';
 import { authService } from "../../firebase";
 import Search from "../Common/Search";
 
@@ -97,6 +96,10 @@ const Header = styled.header`
     border-bottom: 2px solid gray;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 450px) {
+        padding-left:2%;
+        padding-right: 2%;
+    }
 `;
 
 const DropdownToggl = styled(Dropdown.Toggle)`
@@ -106,9 +109,23 @@ const DropdownToggl = styled(Dropdown.Toggle)`
     --bs-btn-border-color: gray;
     --bs-btn-active-bg: #6f9fe7;
     --bs-btn-active-border-color: #6f9fe7;
+
     :hover {
         background-color: #6f9fe7;
         border-color: #6f9fe7;
+    }
+
+    @media screen and (max-width: 650px) {
+        padding: 5px;
+        width: 56px;
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 450px) {
+        padding: 3px;
+        width: 50px;
+        height: 30px;
+        font-size: 12px;
     }
 `;
 
@@ -117,6 +134,12 @@ const DropdownMenu = styled(Dropdown.Menu)`
     padding: 5px;
     position: absolute;
     z-index: 1;
+
+    @media screen and (max-width: 650px) {
+        --bs-dropdown-min-width: 56px;
+        padding: 2px;
+        font-size: 14px;
+    }
 `;
 
 const LinkBox = styled(Link)`
@@ -125,8 +148,25 @@ const LinkBox = styled(Link)`
     text-decoration: none;
     display: block;
     padding: 10px;
+
     :hover {
         text-decoration: underline;
         color: black;
+    }
+`;
+
+const ButtonColor = styled(Button)`
+    --bs-btn-hover-bg: #6f9fe7;
+    --bs-btn-active-bg: #6f9fe7;
+    --bs-btn-hover-border-color: #6f9fe7;
+
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 12px;
+        padding: 5px;
     }
 `;

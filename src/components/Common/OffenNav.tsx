@@ -38,7 +38,7 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
             <Offcanvas.Body>
                 
                 <LinkStyle to={'/transaction/buy'} onClick={onClick}>
-                    취미거래
+                    재능거래
                 </LinkStyle>
 
                 <LinkStyle to={'/share'} onClick={onClick}>

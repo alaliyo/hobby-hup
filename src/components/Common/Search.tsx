@@ -82,6 +82,11 @@ const InputBox = styled(InputGroup)`
     width: 60%;
     input {
         height: 35px;
+
+        @media screen and (max-width: 450px) {
+            height: 30px;
+            font-size: 12px;
+        }
     }
     button {
         font-size: 15px;
@@ -90,11 +95,20 @@ const InputBox = styled(InputGroup)`
         padding: 0 10px;
         @media screen and (max-width: 650px) {
             padding: 0 10px;
+            font-size: 12px;
+        }
+        @media screen and (max-width: 450px) {
+            height: 30px;
+            width: 40px;
+            padding: 0 5px;
             font-size: 11px;
         }
     }
+
     @media screen and (max-width: 650px) {
         padding-right: 10px;
-        width: 60%;
+        width: 50%;
     }
+
+    
 `;

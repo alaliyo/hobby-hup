@@ -54,4 +54,12 @@ export default Transaction;
 const TransactionBox = styled.div`
     padding: 15px;
     animation: ${fadeInAnimation} 0.15s ease-in;
+
+    @media screen and (max-width: 650px){
+        padding: 15px 10px;
+    }
+
+    @media screen and (max-width: 450px){
+        padding: 15px 0px;
+    }
 `;
