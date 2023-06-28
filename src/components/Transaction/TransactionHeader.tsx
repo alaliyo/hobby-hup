@@ -96,7 +96,15 @@ const Header = styled.header`
     border-bottom: 2px solid gray;
     display: flex;
     justify-content: space-between;
+    
+    @media screen and (max-width: 650px) {
+        height: 60px;
+        padding-bottom: 20px;
+    }
+
     @media screen and (max-width: 450px) {
+        height: 50px;
+        padding-bottom: 10px;
         padding-left:2%;
         padding-right: 2%;
     }

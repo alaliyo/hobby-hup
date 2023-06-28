@@ -87,7 +87,15 @@ function TransactionDetail() {
 export default TransactionDetail;
 
 const DetailBox = styled.div`
-    margin: 10px 10%;
+    margin: 10px 7%;
     padding: 10px;
     animation: ${fadeInAnimation} 0.5s ease-in;
+
+    @media screen and (max-width: 650px){
+        margin: 10px 0px;
+    }
+
+    @media screen and (max-width: 450px){
+        padding: 5px;
+    }
 `;

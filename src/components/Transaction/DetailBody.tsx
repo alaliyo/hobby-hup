@@ -143,7 +143,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 {formattedContent}
             </ContentsBox>
             <CommentTitle>댓글</CommentTitle>
-            <InputGroup className="mb-1">
+            <InputBox className="mb-1">
                 <Form.Control
                     type="text"
                     placeholder="댓글을 입력해주세요. 200자 이하만 가능"
@@ -158,7 +158,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 >
                     완료
                 </CommentBtn>
-            </InputGroup>
+            </InputBox>
             <CommentBox>
                 {postComments ? postComments.map(data =>
                     <CommentDetail key={data.id}>
@@ -181,9 +181,22 @@ function DetailBody({ content, route }: DetailBodyProps) {
 export default DetailBody;
 
 const ContentsBox = styled.div`
-    padding: 10px;
-    padding-bottom: 20px;
+    font-size: 18px;
+    padding: 8px;
+    padding-bottom: 16px;
     border-bottom: 1px solid #bbbbbb;
+    
+    @media screen and (max-width: 650px){
+        font-size: 16px;
+        padding: 7px;
+        padding-bottom: 14px;
+    }
+
+    @media screen and (max-width: 450px){
+        font-size: 14px;
+        padding: 6px;
+        padding-bottom: 12px;
+    }
 `;
 
 const CommentTitle = styled.p`
@@ -191,6 +204,30 @@ const CommentTitle = styled.p`
     margin-top: 10px;
     margin-bottom: 5px;
     font-weight: 900;
+
+    @media screen and (max-width: 450px){
+        margin-left: 5px;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+`;
+
+const InputBox = styled(InputGroup)`
+    width: 100%;
+
+    @media screen and (max-width: 650px) {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    
+    input {
+        height: 35px;
+
+        @media screen and (max-width: 450px) {
+            height: 30px;
+            font-size: 12px;
+        }
+    }
 `;
 
 const CommentBtn = styled(Button)`
@@ -200,6 +237,21 @@ const CommentBtn = styled(Button)`
     --bs-btn-hover-border-color: #6f9fe7;
     --bs-btn-active-bg: #3e80e4;
     --bs-btn-active-border-color: #3e80e4;
+    font-size: 15px;
+    height: 35px;
+    padding: 0 10px;
+
+    @media screen and (max-width: 650px) {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    @media screen and (max-width: 450px) {
+        height: 30px;
+        width: 40px;
+        padding: 0 5px;
+        font-size: 11px;
+    }
 `;
 
 const CommentBox = styled.div`
@@ -222,7 +274,6 @@ const CommentImg = styled.img`
 const CommentNickname = styled.span`
     font-weight: 900;
     margin-right: 5px;
-
 `
 
 const CommentContents = styled.span`

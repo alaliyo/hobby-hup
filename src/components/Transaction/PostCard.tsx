@@ -32,7 +32,7 @@ function PostCard({ data }: PostCardprops) {
             alert("상세페이지는 로그인 후 볼 수 있습니다.");
         }
     };
-
+    
     const formatDate = (dateString: string): string => {
         const currentDate = new Date();
         const createdAt = new Date('20' + dateString);
@@ -65,10 +65,10 @@ function PostCard({ data }: PostCardprops) {
     
     return(
         <LinkStyle onClick={handleCardClick}>
-            <CardStyle style={{ width: '17rem' }}>
+            <CardStyle style={{  }}>
                 <CardImg variant="top" src={data.imgs[0]} />
                 <CardBody>
-                    <Card.Title>{data.title}</Card.Title>
+                    <CardTitle>{data.title}</CardTitle>
 
                     <InfoBox>
                         <CardText>
@@ -107,7 +107,31 @@ const LinkStyle = styled.a`
         transition: .3s;
     }
     
+    @media screen and (max-width: 710px) {
+        margin: 0px;
+    }
 `;
+
+const CardStyle = styled(Card)`
+    margin: 15px;
+    width: 17rem;
+
+    @media screen and (max-width: 660px) {
+        width: 40vw;
+    }
+
+    @media screen and (max-width: 500px){
+        display: block;
+        width: 94%;
+    }
+
+    @media screen and (max-width: 450px){
+        display: block;
+        width: 94%;
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+`
 
 const CardImg = styled(Card.Img)`
     height: 150px;
@@ -117,14 +141,38 @@ const CardBody = styled(Card.Body)`
     padding: 10px 10px 5px 10px;
 `;
 
-const CardStyle = styled(Card)`
-    margin: 15px;
-`
+const CardTitle = styled(Card.Title)`
+    font-weight: 900;
+
+    @media screen and (max-width: 650px){
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 500px){
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: 350px){
+        font-size: 18px;
+    }
+`;
 
 const CardText = styled(Card.Text)`
     margin-bottom: 3px;
     font-weight: 900;
     color: gray;
+
+    @media screen and (max-width: 650px){
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 500px){
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 350px){
+        font-size: 14px;
+    }
 `;
 
 const InfoBox = styled.div`

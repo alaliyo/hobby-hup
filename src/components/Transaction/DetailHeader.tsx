@@ -124,8 +124,16 @@ function DetailHeader({
 export default DetailHeader;
 
 const DetailHeaderbox = styled.header`
-    height: 160px;
+    height: 166px;
     border-bottom: 2px solid #bbbbbb;
+
+    @media screen and (max-width: 650px){
+        height: 144px;
+    }
+
+    @media screen and (max-width: 450px){
+        height: 122px;
+    }
 `;
 
 const InfoBox = styled.div`
@@ -133,6 +141,14 @@ const InfoBox = styled.div`
     padding: 5px;
     display: flex;
     justify-content: space-between;
+
+    @media screen and (max-width: 650px){
+        height: 47px;
+    }
+
+    @media screen and (max-width: 450px){
+        height: 40px;
+    }
 `;
 
 const PostInfo = styled.div`
@@ -144,6 +160,18 @@ const WriterImg = styled.img`
     width: 50px;
     border-radius: 50%;
     margin-right: 10px;
+
+    @media screen and (max-width: 650px){
+        height: 43px;
+        width: 43px;
+        margin-right: 7px;
+    }
+
+    @media screen and (max-width: 450px){
+        height: 36px;
+        width: 36px;
+        margin-right: 4px;
+    }
 `;
 
 const WriterNickname = styled.p`
@@ -151,6 +179,16 @@ const WriterNickname = styled.p`
     font-weight: 900;
     margin-top: 5px;
     margin-bottom: 0px;
+
+    @media screen and (max-width: 650px){
+        font-size: 20px;
+        margin-top: 7px;
+    }
+
+    @media screen and (max-width: 450px){
+        font-size: 16px;
+        margin-top: 5px;
+    }
 `;
 
 const Info = styled.p`
@@ -159,9 +197,10 @@ const Info = styled.p`
     margin-top: 5px;
     margin-left: 10px;
     margin-bottom: 0px;
-    :hover {
-        transition: .3s;
-        
+
+    @media screen and (max-width: 450px){
+        font-size: 15px;
+        margin-top: 5px;
     }
 `;
 
@@ -179,12 +218,26 @@ const HeartInfo = styled.p`
         font-size: 20px;
         transition: .3s;
     }
+
+    @media screen and (max-width: 450px){
+        font-size: 15px;
+        margin-top: 5px;
+    }
 `;
 
 const PostTitle = styled.p`
     margin-top: 5px;
     font-size: 25px;
     font-weight: 900;
+
+    @media screen and (max-width: 650px){
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: 450px){
+        margin-top: 4px;
+        font-size: 16px;
+    }
 `;
 
 const Category = styled.p`
@@ -192,6 +245,15 @@ const Category = styled.p`
     font-weight: 900;
     margin-top: 7px;
     color: gray;
+
+    @media screen and (max-width: 650px){
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 450px){
+        margin-top: 4px;
+        font-size: 14px;
+    }
 `;
 
 const ChattingBtn = styled(Button)`
@@ -200,9 +262,33 @@ const ChattingBtn = styled(Button)`
     --bs-btn-hover-border-color: #6f9fe7;
     --bs-btn-active-bg: #3e80e4;
     --bs-btn-active-border-color: #3e80e4;
+
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+        padding: 6px;
+        margin-left: 7px;
+    }
+
+    @media screen and (max-width: 450px) {
+        height: 30px;
+        font-size: 12px;
+        padding: 5px;
+        margin-left: 4px;
+    }
 `;
 
 const Price = styled.p`
     font-size: 20px;
     font-weight: 900;
+    margin-top: 3px;
+    margin-bottom: 0;
+    
+    @media screen and (max-width: 650px){
+        font-size: 18px;
+    }
+
+    @media screen and (max-width: 450px){
+        margin-top: 4px;
+        font-size: 15px;
+    }
 `;

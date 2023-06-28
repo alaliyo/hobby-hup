@@ -80,6 +80,12 @@ export default Search;
 
 const InputBox = styled(InputGroup)`
     width: 60%;
+
+    @media screen and (max-width: 650px) {
+        padding-right: 10px;
+        width: 50%;
+    }
+    
     input {
         height: 35px;
 
@@ -93,10 +99,12 @@ const InputBox = styled(InputGroup)`
         font-weight: 900;
         height: 35px;
         padding: 0 10px;
+
         @media screen and (max-width: 650px) {
             padding: 0 10px;
             font-size: 12px;
         }
+
         @media screen and (max-width: 450px) {
             height: 30px;
             width: 40px;
@@ -104,11 +112,4 @@ const InputBox = styled(InputGroup)`
             font-size: 11px;
         }
     }
-
-    @media screen and (max-width: 650px) {
-        padding-right: 10px;
-        width: 50%;
-    }
-
-    
 `;

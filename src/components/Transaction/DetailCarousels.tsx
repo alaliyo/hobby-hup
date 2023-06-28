@@ -47,6 +47,7 @@ export default DetailCarousels;
 
 const CarouselStyld = styled(Carousel)`
     margin-bottom: 10px;
+
     .carousel-indicators {
         button {
             height: 20px;
@@ -54,16 +55,43 @@ const CarouselStyld = styled(Carousel)`
             border-radius: 50%;
             margin-left: 5px;
             margin-right: 5px;
+
+            @media screen and (max-width: 650px){
+                height: 16px;
+                width: 16px;
+            }
+
+            @media screen and (max-width: 450px){
+                height: 14px;
+                width: 14px;
+            }
         }
     }
 `;
 
 const CarouselItem = styled(Carousel.Item)`
     height: 400px;
+
     img {
         height: 100%;
         object-fit: cover;
         object-position: center;
+    }
+
+    @media screen and (max-width: 650px){
+        height: 325px;
+    }
+
+    @media screen and (max-width: 550px){
+        height: 265px;
+    }
+
+    @media screen and (max-width: 450px){
+        height: 215px;
+    }
+
+    @media screen and (max-width: 350px){
+        height: 175px;
     }
 `;
 

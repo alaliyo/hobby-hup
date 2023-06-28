@@ -37,12 +37,8 @@ function TransactionWrite() {
         } = e;
         if (name === 'title') {
             setTitle(value);
-            checkKFilter(value);
-            setTitleKFilter(kFilter);
         } else if (name === 'content') {
             setContent(value);
-            checkKFilter(value);
-            setContentKFilter(kFilter);
         } else if (name === 'price') {
             setPrice(parseInt(value, 10));
         } else if (name === 'img') {
@@ -52,7 +48,7 @@ function TransactionWrite() {
             setCategory(value);
         }
     };
-
+    
     // 시/도 받는 이벤트
     const handleCityChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedCity(event.target.value);
@@ -70,6 +66,10 @@ function TransactionWrite() {
         
         try {
             const user = authService.currentUser;
+            checkKFilter(title);
+            setTitleKFilter(kFilter);
+            checkKFilter(content);
+            setContentKFilter(kFilter);
             
             // 업로드 전 게시물 조건 필터
             if (title.length > 40) {
@@ -307,4 +307,3 @@ const DotStyle = styled.div<{ animation: any }>`
     animation-iteration-count: infinite;
     animation-name: ${({ animation }) => animation};
 `;
-
