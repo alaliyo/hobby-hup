@@ -93,7 +93,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 });
             }
             
-            alert("뎃글 작성되었습니다.");
+            alert("댓글 작성되었습니다.");
             setComment("");
         }
         catch (error) {
@@ -182,20 +182,35 @@ export default DetailBody;
 
 const ContentsBox = styled.div`
     font-size: 18px;
-    padding: 8px;
-    padding-bottom: 16px;
+    padding: 6px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #bbbbbb;
     
     @media screen and (max-width: 650px){
         font-size: 16px;
-        padding: 7px;
-        padding-bottom: 14px;
+        padding: 5px;
+        padding-bottom: 8px;
     }
 
     @media screen and (max-width: 450px){
         font-size: 14px;
-        padding: 6px;
-        padding-bottom: 12px;
+        padding: 4px;
+        padding-bottom: 6px;
+    }
+`;
+
+const CommentDetail = styled.div`
+    display: flex;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    @media screen and (max-width: 650px){
+        margin-bottom: 7px;
+        margin-top: 7px;
+    }
+
+    @media screen and (max-width: 450px){
+        margin-bottom: 6px;
+        margin-top: 6px;
     }
 `;
 
@@ -257,31 +272,97 @@ const CommentBtn = styled(Button)`
 const CommentBox = styled.div`
     padding: 10px;
     margin-bottom: 20px;
-`;
 
-const CommentDetail = styled.div`
-    display: flex;
-    margin-bottom: 7px;
+    @media screen and (max-width: 650px) {
+        padding: 7px;
+        margin-bottom: 15px;
+    }
+
+    @media screen and (max-width: 450px) {
+        padding: 4px;
+        margin-bottom: 10px;
+    }
 `;
 
 const CommentImg = styled.img`
     width: 30px;
     height: 30px;
-    border-radius: 15px;
     margin-right: 5px;
+    border-radius: 50%;
+
+    @media screen and (max-width: 650px) {
+        width: 26px;
+        height: 26px;
+        margin-right: 4px;
+    }
+
+    @media screen and (max-width: 450px) {
+        width: 22px;
+        height: 22px;
+        margin-right: 3px;
+    }
 `
 
 const CommentNickname = styled.span`
     font-weight: 900;
     margin-right: 5px;
+    
+    @media screen and (max-width: 650px) {
+        font-size: 15px;
+        margin-right: 4px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 13px;
+        margin-right: 3px;
+    }
 `
 
 const CommentContents = styled.span`
-    width: 70%;
+    width: 67%;
+    overflow-wrap: break-word;
+    
+    @media screen and (max-width: 650px) {
+        font-size: 15px;
+        width: 70%;
+    }
+
+    @media screen and (max-width: 550px) {
+        font-size: 15px;
+        width: 62%;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 13px;
+        width: 65%;
+    }
+
+    @media screen and (max-width: 400px) {
+        font-size: 13px;
+        width: 61%;
+    }
+
+    @media screen and (max-width: 350px) {
+        font-size: 13px;
+        width: 54%;
+    }
+
+    @media screen and (max-width: 300px) {
+        font-size: 13px;
+        width: 46%;
+    }
 `;
 
 const CommentDate = styled.span`
     margin-left: auto;
+    
+    @media screen and (max-width: 650px) {
+        font-size: 15px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 13px;
+    }
 `;
 
 const DelBtm = styled.button`
@@ -295,5 +376,17 @@ const DelBtm = styled.button`
 
     &:hover {
         color: red;
+    }
+    
+    @media screen and (max-width: 650px) {
+        height: 22px;
+        width: 22px;
+        font-size: 15px;
+    }
+
+    @media screen and (max-width: 450px) {
+        height: 20px;
+        width: 20px;
+        font-size: 13px;
     }
 `;
