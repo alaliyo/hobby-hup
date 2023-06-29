@@ -112,6 +112,7 @@ const MyPageBox = styled.div`
   background-color: #ffffff;
   border: 2px solid #e7e7e7;
   border-radius: 20px;
+  margin-bottom: 50px;
   box-shadow: 2px 2px 6px gray;
   animation: ${fadeInAnimation} 0.15s ease-in;
 `;

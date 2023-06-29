@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
-function Share() {
+function Notice() {
     return(
-        <ShareBox>
-            <h2>취미 공유 페이지입니다.</h2>
+        <NoticeBox>
+            <h2>공지 페이지입니다.</h2>
             <h4>추후 업데이트됩니다.</h4>
-        </ShareBox>
+        </NoticeBox>
     );
 }
 
-export default Share;
+export default Notice;
 
-const ShareBox = styled.div`
+const NoticeBox = styled.div`
     text-align : center;
     margin-top: 100px;
     margin-bottom: 100px;

@@ -25,7 +25,9 @@ function MyPageNav() {
                 </DropdownMenu>
 
                 <ButtonColor variant="outline-secondary">작성한 글</ButtonColor>
-                <ButtonColor variant="outline-secondary">좋아요</ButtonColor>
+                <ButtonColor variant="outline-secondary">
+                    {location === "거래" ? "좋아요" : "스크랩"}
+                </ButtonColor>
                 <ButtonColor variant="outline-secondary">채팅창</ButtonColor>
             </Dropdown>
         </div>

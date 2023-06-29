@@ -44,6 +44,10 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
                 <LinkStyle to={'/share'} onClick={onClick}>
                     취미공유
                 </LinkStyle>
+
+                <LinkStyle to={'/notice'} onClick={onClick}>
+                    공지
+                </LinkStyle>
                 
                 {loggedIn ? (<>
                     <LinkStyle to={'/my-page/transaction'} onClick={onClick}>
