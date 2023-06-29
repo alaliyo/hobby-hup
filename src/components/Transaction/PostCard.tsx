@@ -116,20 +116,26 @@ const CardStyle = styled(Card)`
     margin: 15px;
     width: 17rem;
 
-    @media screen and (max-width: 660px) {
-        width: 40vw;
+    @media screen and (max-width: 650px) {
+        width: 42.7vw;
+        margin: 10px;
     }
 
-    @media screen and (max-width: 500px){
-        display: block;
-        width: 94%;
+    @media screen and (max-width: 550px){
+        width: 44vw;
+        margin: 7px;
     }
 
     @media screen and (max-width: 450px){
-        display: block;
-        width: 94%;
-        margin-left: 3%;
-        margin-right: 3%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    @media screen and (max-width: 350px){
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
     }
 `
 

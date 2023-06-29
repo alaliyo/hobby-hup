@@ -143,7 +143,7 @@ function TransactionWrite() {
             <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <FormLabel>제목</FormLabel>
-                    <Form.Control
+                    <FormControl
                         type="text"
                         placeholder="제목을 입력해주세요."
                         name='title'
@@ -157,7 +157,10 @@ function TransactionWrite() {
                         as="textarea"
                         rows={10}
                         placeholder="내용을 입력해주세요."
-                        style={{resize: 'none'}}
+                        style={{
+                            resize: 'none',
+                            fontSize: '15px'
+                        }}
                         name='content'
                         onChange={textChange}
                     />
@@ -166,7 +169,7 @@ function TransactionWrite() {
                 <FormFlex>
                     <Form.Group controlId="formFile" className="mb-3">
                         <FormLabel>이미지</FormLabel>
-                        <Form.Control
+                        <FormControl
                             type="file"
                             multiple
                             name="img"
@@ -177,7 +180,7 @@ function TransactionWrite() {
 
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <FormLabel>가격</FormLabel>
-                        <Form.Control
+                        <FormControl
                             type="number"
                             placeholder="가격을 입력해주세요."
                             name="price"
@@ -196,7 +199,7 @@ function TransactionWrite() {
                             handleDistrictChange={handleDistrictChange}
                         />
                     </div>
-
+                    <br />
                     <div>
                         <FormLabel>판매 & 구매</FormLabel>
                         <br />
@@ -208,16 +211,16 @@ function TransactionWrite() {
                     </div>
                 </FormFlex>
                 
-                
-                    <div>
-                        <BtnStyle
-                            variant="outline-secondary"
-                            type="button"
-                            onClick={handlePostUpdate}
-                        >
-                            작성완료
-                        </BtnStyle>
-                    </div>
+                <div>
+                    <BtnStyle
+                        variant="outline-secondary"
+                        type="button"
+                        onClick={handlePostUpdate}
+                    >
+                        작성완료
+                    </BtnStyle>
+                </div>
+
                 {loading &&
                     <SpinnerBox>
                         <h3>업로드 중입니다</h3>
@@ -236,23 +239,70 @@ export default TransactionWrite;
 const WriteBox = styled.div`
     padding: 30px;
     animation: ${fadeInAnimation} 0.15s ease-in;
+    margin-bottom: 40px;
+
+    @media screen and (max-width: 650px) {
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    @media screen and (max-width: 450px){
+        padding: 10px;
+    }
 `;
 
 const FormLabel = styled(Form.Label)`
     font-size: 18px;
     font-weight: 900;
+
+    @media screen and (max-width: 650px) {
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 450px){
+        font-size: 14px;
+    }
+`;
+
+const FormControl = styled(Form.Control)`
+    @media screen and (max-width: 450px){
+        font-size: 15px;
+    }
 `;
 
 const FormFlex = styled.div`
     display: flex;
     justify-content: space-between;
+
+    @media screen and (max-width: 650px) {
+        display: block
+    }
+
+    @media screen and (max-width: 450px){
+        font-size: 14px;
+    }
+
     div {
         width: 48%;
+
+        @media screen and (max-width: 650px) {
+            width: 100%;
+        }
     }
 `;
 
 const BtnStyle = styled(Button)`
     float: right;
+
+    @media screen and (max-width: 650px) {
+        padding: 5px 8px;
+        font-size: 15px;
+    }
+
+    @media screen and (max-width: 450px){
+        padding: 5px;
+        font-size: 13px;
+    }
 `;
 
 const DropStyle = styled.select`

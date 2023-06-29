@@ -11,11 +11,12 @@ export const Body = styled.div`
         padding: 15px 10px;
     }
 
-    @media screen and (max-width: 500px){
-        display: block;
+    @media screen and (max-width: 550px){
+        padding: 15px 0px;
     }
 
     @media screen and (max-width: 450px){
+        display: block;
         padding: 15px 0px;
     }
 `;
