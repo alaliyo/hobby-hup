@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import styled, { keyframes  } from "styled-components";
 import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { authService, dbService } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Filter from 'bad-words';
@@ -22,13 +23,14 @@ function TransactionWrite() {
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
     const [selectedDistrict, setSelectedDistrict] = useState(""); // 선택된 구/군/시
     const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
-    const [titleKFilter, setTitleKFilter] = useState(true); //제목 비속어 확인
-    const [contentKFilter, setContentKFilter] = useState(true); // 내용 비속어 확인;
+    const [titleKFilter, setTitleKFilter] = useState(false); //제목 비속어 확인
+    const [contentKFilter, setContentKFilter] = useState(false); // 내용 비속어 확인;
     const currentDate = useCurrentDate(); // 현재 날짜
     const filter = new Filter(); // 영어 비속어 필터
     const buyMaxId = BuyDatasMaxId(); // 판메 postId 값
     const sellMaxId = SellDatasMaxId(); // 구매 postId 값
     const [loading, setLoading] = useState(false); //업로드 대기
+    const navigate = useNavigate(); // 이동
 
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
@@ -122,7 +124,7 @@ function TransactionWrite() {
                 );
                 alert('개시물이 업로드 되었습니다.')
                 setLoading(false); // 로딩 상태 비활성화
-                window.location.href="/transaction/buy"
+                navigate("/transaction/buy");
             }
         } catch (error) {
             alert(error);
