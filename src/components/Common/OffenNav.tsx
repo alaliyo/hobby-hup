@@ -35,8 +35,8 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
                     HobbyHub
                 </LinkStyle>
             </Offcanvas.Header>
+
             <Offcanvas.Body>
-                
                 <LinkStyle to={'/transaction/buy'} onClick={onClick}>
                     재능거래
                 </LinkStyle>
@@ -44,21 +44,20 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
                 <LinkStyle to={'/share'} onClick={onClick}>
                     취미공유
                 </LinkStyle>
-
-                <LinkStyle to={'/my-page/transaction'} onClick={onClick}>
-                    마이페이지
-                </LinkStyle>
                 
-                {loggedIn ? (
+                {loggedIn ? (<>
+                    <LinkStyle to={'/my-page/transaction'} onClick={onClick}>
+                        마이페이지
+                    </LinkStyle>
+
                     <LinkStyle to={'/'} onClick={onLogOutClick}>
                         로그아웃
                     </LinkStyle>
-                ) : (
+                </>) : (
                     <LinkStyle to={'/login'} onClick={onClick}>
                         로그인
                     </LinkStyle>
                 )}
-
             </Offcanvas.Body>
         </OffcanvaBox>
       </>
