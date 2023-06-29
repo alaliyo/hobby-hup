@@ -21,10 +21,10 @@ interface EditUserInfoProps {
 function EditUserInfo({ userObj }: EditUserInfoProps) {
     const [nickname, setNickname] = useState(userObj.displayName);
     const [image, setImage] = useState<File[]>([]);
-    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
     const [nicknames, setNicknames] = useState<any[]>([]);
     const filter = new Filter();
-    console.log(image);
+    
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNickname(e.target.value);
     };
@@ -68,11 +68,10 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
         try {
             const user = authService.currentUser;
             const nicknameRegExp = /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[0-9a-zA-Zㄱ-ㅎ가-힣]{2,12}$/;
-            checkKFilter(nickname);
             
             if (!(nicknameRegExp.test(nickname))) {
                 return alert("닉네임 규칙을 확인해 주세요.");
-            } else if (kFilter) {
+            } else if (nicknameKFilter) {
                 return alert(`닉네임(${nickname})에 비속어가 있습니다.`);
             } else if (filter.isProfane(nickname)) {
                 return alert(`닉네임(${nickname})에 비속어가 있습니다.`);

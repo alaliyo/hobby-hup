@@ -25,7 +25,7 @@ function LogIn() {
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const navigate = useNavigate();
-    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
 
     const filter = new Filter();
 
@@ -67,7 +67,7 @@ function LogIn() {
         const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$/;
         try {
             const auth = authService;
-            checkKFilter(nickname);
+            
             if (account) {
                 if (!(emailRegExp.test(email))) {
                     return setErrors("아이디 규칙을 확인해 주세요");
@@ -79,9 +79,10 @@ function LogIn() {
                     return setErrors("비밀번호 규칙을 확인해 주세요");
                 } else if (password !== password2) {
                     return setErrors("비밀번호와 비밀번호 확인이 다릅니다.");   
-                } else if (kFilter) {
+                } else if (nicknameKFilter) {
                     return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
-                } else if (filter.isProfane(nickname)) {
+                }
+                else if (filter.isProfane(nickname)) {
                     return setErrors(`닉네임(${nickname})에 비속어가 있습니다.`);
                 }
                 await createUserWithEmailAndPassword(auth, email, password);

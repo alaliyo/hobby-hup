@@ -22,16 +22,15 @@ function TransactionWrite() {
     const [category, setCategory] = useState('') // 판매 & 구매
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
     const [selectedDistrict, setSelectedDistrict] = useState(""); // 선택된 구/군/시
-    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
-    const [titleKFilter, setTitleKFilter] = useState(false); //제목 비속어 확인
-    const [contentKFilter, setContentKFilter] = useState(false); // 내용 비속어 확인;
     const currentDate = useCurrentDate(); // 현재 날짜
     const filter = new Filter(); // 영어 비속어 필터
     const buyMaxId = BuyDatasMaxId(); // 판메 postId 값
     const sellMaxId = SellDatasMaxId(); // 구매 postId 값
     const [loading, setLoading] = useState(false); //업로드 대기
     const navigate = useNavigate(); // 이동
-
+    const titleKFilter = useKFilter(title);
+    const contentKFilter = useKFilter(content);
+    console.log(titleKFilter, contentKFilter)
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
@@ -65,15 +64,17 @@ function TransactionWrite() {
     // firebase post
     const handlePostUpdate = async (e: any) => {
         e.preventDefault();
-        
+        // checkKFilter(title);
+        // setTitleKFilter(kFilter);
+        // checkKFilter(content);
+        // setContentKFilter(kFilter);
+        // alert(titleKFilter);
+        // alert(contentKFilter);
         try {
             const user = authService.currentUser;
-            checkKFilter(title);
-            setTitleKFilter(kFilter);
-            checkKFilter(content);
-            setContentKFilter(kFilter);
             
             // 업로드 전 게시물 조건 필터
+            
             if (title.length > 40) {
                 return alert("제목은 40자 이하만 가능합니다.");
             } else if (titleKFilter) {
@@ -88,6 +89,8 @@ function TransactionWrite() {
                 return alert("이미지를 넣어주세요.");
             } else if (selected.length < 1) {
                 return alert("주소를 선택해주세요.");
+            } else if (selectedCity !== '온라인' && selectedCity !== '전국' && selectedDistrict.length < 1) {
+                return alert("구/군/시를 선택해주세요.");
             } else if (category === '') {
                 return alert("판매 & 구매 중 선택해주세요.");
             }

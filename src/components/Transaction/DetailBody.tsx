@@ -25,7 +25,7 @@ interface CommentProps {
 function DetailBody({ content, route }: DetailBodyProps) {
     const formattedContent = uselinesToBreaks(content); // 게시물 내용 줄바꿈
     const [comment, setComment] = useState(''); // 뎃글
-    const { kFilter, checkKFilter } = useKFilter(); // 한글 비속어 hook
+    const commentKFilter = useKFilter(comment); // 한글 비속어 hook
     const filter = new Filter(); // 영어 비속어 필터
     const currentDate = useCurrentDate(); // 현재 날짜
     const [postComments, setPostComments] = useState<CommentProps[]>();
@@ -52,7 +52,6 @@ function DetailBody({ content, route }: DetailBodyProps) {
     // 댓글 date post
     const handleCommentUpdate = async (e: any) => {
         e.preventDefault();
-        checkKFilter(comment);
 
         try {
             const docSnap = await getDoc(docRef);
@@ -61,7 +60,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 return alert("뎃글은 200자 이하만 가능합니다.");
             } else if (comment.length <= 2) {
                 return alert("3글자 이상 작성해야합니다.");
-            } else if (kFilter) {
+            } else if (commentKFilter) {
                 return alert("제목에 비속어가 포함되어 있습니다.");
             } else if (filter.isProfane(comment)) {
                 return alert("제목에 비속어가 포함되어 있습니다.");
