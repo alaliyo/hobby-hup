@@ -28,9 +28,9 @@ function TransactionWrite() {
     const sellMaxId = SellDatasMaxId(); // 구매 postId 값
     const [loading, setLoading] = useState(false); //업로드 대기
     const navigate = useNavigate(); // 이동
-    const titleKFilter = useKFilter(title);
-    const contentKFilter = useKFilter(content);
-    console.log(titleKFilter, contentKFilter)
+    const titleKFilter = useKFilter(title); // 한글 제목 필터
+    const contentKFilter = useKFilter(content); // 한글 내용 필터
+    
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {

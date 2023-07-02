@@ -24,7 +24,7 @@ function MyPageNav() {
                     {/* <LinkBox to="gathering" onClick={() => locationChamg('모임')}>모임</LinkBox> */}
                 </DropdownMenu>
 
-                <ButtonColor variant="outline-secondary">작성한 글</ButtonColor>
+                <ButtonColor variant="outline-secondary">내 글</ButtonColor>
                 <ButtonColor variant="outline-secondary">
                     {location === "거래" ? "좋아요" : "스크랩"}
                 </ButtonColor>
