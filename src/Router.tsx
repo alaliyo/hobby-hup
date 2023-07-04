@@ -8,6 +8,7 @@ import MyPage from "./pages/MyPage";
 import MyTransaction from "./components/MyPage/MyTransaction";
 import MyShare from "./components/MyPage/MyShare";
 import MyGathering from "./components/MyPage/MyGathering";
+import MyChattings from './components/MyPage/Chattings';
 
 import Gathering from "./pages/Gathering";
 
@@ -19,6 +20,7 @@ import Sell from "./components/Transaction/Sell";
 import TransactionDetail from "./components/Transaction/TransactionDetail";
 import TransactionWrite from "./components/Transaction/TransactionWrite";
 import Notice from "./pages/Notice";
+
 
 
 const router = createBrowserRouter([
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
                     {
                         path: 'share',
                         element: <MyShare />,
+                    },
+                    {
+                        path: 'chattings',
+                        element: <MyChattings />,
                     },
                     {
                         path: 'gathering',

@@ -1,6 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { authService } from "../firebase";
-import { useEffect, useState } from "react";
 
 export const CheckToken = (text: string) => {
     onAuthStateChanged(authService, (user) => {
@@ -17,18 +16,3 @@ export const CheckToken = (text: string) => {
         }
     });
 };
-
-export function UserDataObj() {
-    const [data, setData] = useState<any>();
-
-    // 유저 정보 가져오기
-    useEffect(() => {
-        authService.onAuthStateChanged((user) => {
-            if (user) {
-                setData(user);
-            }
-        })
-    }, [])
-
-    return data;
-}

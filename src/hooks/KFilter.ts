@@ -10,6 +10,7 @@ export default useKFilter
 
 // 한국 비속어 목록
 const kFilterList = [
+      "씨 발",
       "D쥐고",
       "D지고",
       "jonna",

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
@@ -11,19 +11,8 @@ import PasswordModal from "../components/MyPage/PasswordModal";
 import MyPageNav from "../components/MyPage/MyPageNav";
 import { fadeInAnimation } from "./PageStyled";
 
-
-interface userObj {
-  photoURL: any;
-  displayName: string;
-  email: string;
-}
-
-interface myPageProps {
-  userObj: userObj;
-}
-
 function MyPage() {
-  const { userObj } = useOutletContext<myPageProps>();
+  const [userObj ,setUserObj] = useState<any>();
   const [change, setChange] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -43,7 +32,7 @@ function MyPage() {
       openPasswordModal();
     }
   };
-
+  
   const handlePasswordSubmit = async () => {
     closePasswordModal();
     // Firebase 비밀번호 인증을 수행합니다.
@@ -61,45 +50,58 @@ function MyPage() {
     setPassword("");
   };
 
+  // 유저 정보 가져오기
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+        if (user) {
+            setUserObj(user);
+        }
+    })
+  }, []);
+
   useEffect(() => {
     CheckToken('마이 페이지를');
   }, [userObj])
 
   return (
     <MyPageBox>
-      <HeaderStyle>
-        <UserInfoBox>
-          <InfoBox>
-            {change ? (
-              <EditUserInfo userObj={userObj} />
-            ) : (
-              <UserInfo userObj={userObj} />
-            )}
-          </InfoBox>
-          <BtnBox>
-            <ButtonStyle
-              className="ms-auto"
-              variant="light"
-              onClick={onChange}
-            >
-              {change ? '취소' : '프로필 수정'}
-            </ButtonStyle>
-          </BtnBox>
-        </UserInfoBox>
-        <MyPageNav />
-      </HeaderStyle>
-      
-      <OutletBox>
-        <Outlet />
-      </OutletBox>
+      {userObj && <>
+        <HeaderStyle>
+          <UserInfoBox>
+            <InfoBox>
+              {change ? (
+                <EditUserInfo userObj={userObj} />
+              ) : (
+                <UserInfo userObj={userObj} />
+              )}
+            </InfoBox>
+            <BtnBox>
+              <ButtonStyle
+                className="ms-auto"
+                variant="light"
+                onClick={onChange}
+              >
+                {change ? '취소' : '프로필 수정'}
+              </ButtonStyle>
+            </BtnBox>
+          </UserInfoBox>
+          <MyPageNav />
+        </HeaderStyle>
+        
+        <OutletBox>
+          <Outlet context={{
+            userObj: userObj
+          }}/>
+        </OutletBox>
 
-      <PasswordModal
-        show={passwordModalOpen}
-        onClose={closePasswordModal}
-        onSubmit={handlePasswordSubmit}
-        password={password}
-        setPassword={setPassword}
-      />
+        <PasswordModal
+          show={passwordModalOpen}
+          onClose={closePasswordModal}
+          onSubmit={handlePasswordSubmit}
+          password={password}
+          setPassword={setPassword}
+        />
+      </>}
     </MyPageBox>
   );
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { dbService } from "../firebase";
 
 interface transactionDataProps {
+    email: string;
     id: number
     title: string;
     content: string;
@@ -48,7 +49,6 @@ export function BuyDatasMaxId() {
     
     return buyMaxId;
 }
-
 
 // Sell date get
 export function TransactionSellDatas() {
