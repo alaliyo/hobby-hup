@@ -77,32 +77,34 @@ function MyTransaction() {
                         >
                             <FirstImg src={mydata.imgs[0]} alt="" />
                         </LinkStyle>
-                        <LinkStyle
-                        to={mydata.route.slice(0, 3) === 'buy' ?
-                            '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
-                        >
-                            <InfoData>
-                                <Title>제목: {mydata.title}</Title>
-                                <br />
-                                <Content>내용: {
-                                    mydata.content.length <= 13 ?
-                                    mydata.content : 
-                                    mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
-                                }</Content>
-                                
-                                <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
-                                <Data>{mydata.createdAt}</Data>
-                            </InfoData>
-                        </LinkStyle>
-                        <BtnBox>
-                            <BtnStyle variant="outline-secondary">수정</BtnStyle>
-                            <BtnStyle
-                                variant="outline-danger"
-                                
+                        <div>
+                            <LinkStyle
+                            to={mydata.route.slice(0, 3) === 'buy' ?
+                                '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                             >
-                                삭제
-                            </BtnStyle>
-                        </BtnBox>
+                                <InfoData>
+                                    <Title>제목: {mydata.title}</Title>
+                                    <br />
+                                    <Content>내용: {
+                                        mydata.content.length <= 13 ?
+                                        mydata.content : 
+                                        mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
+                                    }</Content>
+                                    
+                                    <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
+                                    <Data>{mydata.createdAt}</Data>
+                                </InfoData>
+                            </LinkStyle>
+                            <BtnBox>
+                                <BtnStyle variant="outline-secondary">수정</BtnStyle>
+                                <BtnStyle
+                                    variant="outline-danger"
+                                    
+                                >
+                                    삭제
+                                </BtnStyle>
+                            </BtnBox>
+                        </div>
                     </MyPost>
                 ))
             )}
@@ -151,7 +153,7 @@ const FirstImg = styled.img`
 `;
 
 const InfoData = styled.div`
-    width: 61%;
+    width: 100%;
 `;
 
 const Title = styled.span`
@@ -172,12 +174,12 @@ const Data = styled.span`
 `;
 
 const BtnBox = styled.div`
-    float: right;
     margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const BtnStyle = styled(Button)`
     margin-left: 7px;
-    position: fixed;
-    z-index: 1;
+    margin-right: 7px;
 `;
