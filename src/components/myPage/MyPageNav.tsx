@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import{ ButtonColor } from '../Common/ButtonStyle';
 
 function MyPageNav() {  
     const [location, setLocation] = useState('거래');
+    const [switching, setSwitching] = useState(false);
 
-    const locationChamg = (text: string) => {
+    const locationChang = (text: string) => {
         setLocation(text);
     }
 
@@ -19,10 +19,10 @@ function MyPageNav() {
                 </DropdownToggl>
 
                 <DropdownMenu>
-                    <LinkBox to="transaction" onClick={() => locationChamg('거래')}>거래</LinkBox>
-                    <LinkBox to="share" onClick={() => locationChamg('공유')}>공유</LinkBox>
-                    <LinkBox to="chattings" onClick={() => locationChamg('채팅')}>채팅</LinkBox>
-                    {/* <LinkBox to="gathering" onClick={() => locationChamg('모임')}>모임</LinkBox> */}
+                    <LinkBox to="transaction" onClick={() => locationChang('거래')}>거래</LinkBox>
+                    <LinkBox to="share" onClick={() => locationChang('공유')}>공유</LinkBox>
+                    <LinkBox to="chattings" onClick={() => locationChang('채팅')}>채팅</LinkBox>
+                    {/* <LinkBox to="gathering" onClick={() => locationChang('모임')}>모임</LinkBox> */}
                 </DropdownMenu>
 
                 <ButtonColor variant="outline-secondary">내 글</ButtonColor>
@@ -66,3 +66,8 @@ const LinkBox = styled(Link)`
     }
 `;
 
+const ButtonColor = styled(Button)`
+    --bs-btn-hover-bg: #6f9fe7;
+    --bs-btn-active-bg: #6f9fe7;
+    --bs-btn-hover-border-color: #6f9fe7;
+`;

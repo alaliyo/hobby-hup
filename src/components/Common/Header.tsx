@@ -69,7 +69,7 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                     
                     <LogInBox>
                         {loggedIn ? (<>
-                            <ProufailImgBox to={'/my-page/transaction'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
+                            <ProufailImgBox to={'/my-page/transaction/my-post'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
                                 <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg } />
                             </ProufailImgBox>
                             <LinkStyled to={'/'} onClick={onLogOutClick}>

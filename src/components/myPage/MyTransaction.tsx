@@ -35,6 +35,7 @@ function MyTransaction() {
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
     const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
+    const [switching, setSwitching] = useState(false);
 
     // 게시물 delete
     const onDeleteClick = async(route: string) => {
@@ -55,6 +56,7 @@ function MyTransaction() {
                 'transactionLike',
                 route
             ));
+            alert('삭제되었습니다.')
         }
     };
 

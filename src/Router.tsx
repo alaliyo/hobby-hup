@@ -37,11 +37,11 @@ const router = createBrowserRouter([
                 element: <MyPage />,
                 children: [
                     {
-                        path: 'transaction',
+                        path: 'transaction/:category',
                         element: <MyTransaction />,
                     },
                     {
-                        path: 'share',
+                        path: 'share/:category',
                         element: <MyShare />,
                     },
                     {
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
                         element: <TransactionDetail />
                     },
                     {
-                        path: 'write',
+                        path: 'write/:category',
                         element: <TransactionWrite />
                     },
                 ],

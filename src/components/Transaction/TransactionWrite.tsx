@@ -64,16 +64,9 @@ function TransactionWrite() {
     // firebase post
     const handlePostUpdate = async (e: any) => {
         e.preventDefault();
-        // checkKFilter(title);
-        // setTitleKFilter(kFilter);
-        // checkKFilter(content);
-        // setContentKFilter(kFilter);
-        // alert(titleKFilter);
-        // alert(contentKFilter);
+
         try {
             const user = authService.currentUser;
-            
-            // 업로드 전 게시물 조건 필터
             
             if (title.length > 40) {
                 return alert("제목은 40자 이하만 가능합니다.");

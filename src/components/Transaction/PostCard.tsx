@@ -65,7 +65,7 @@ function PostCard({ data }: PostCardprops) {
     
     return(
         <LinkStyle onClick={handleCardClick}>
-            <CardStyle style={{  }}>
+            <CardStyle>
                 <CardImg variant="top" src={data.imgs[0]} />
                 <CardBody>
                     <CardTitle>{data.title}</CardTitle>

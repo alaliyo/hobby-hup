@@ -4,6 +4,7 @@ import { Button, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { authService } from "../../firebase";
 import Search from "../Common/Search";
+import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
 
 interface TransactionDataProps {
     id: number
@@ -32,6 +33,8 @@ function TransactionHeader({buyData, sellData, handleSearch, pathname}: Transact
     const user = authService.currentUser;
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResult, setSearchResult] = useState<TransactionDataProps[] | null>(null);
+    const buyMaxId = BuyDatasMaxId(); // 판메 postId 값
+    const sellMaxId = SellDatasMaxId(); // 구매 postId 값
 
     const locationChange = (text: string) => {
         setMenuLocation(text);
@@ -76,7 +79,7 @@ function TransactionHeader({buyData, sellData, handleSearch, pathname}: Transact
                         setSearchResult={setSearchResult}
                     />
                     {user ? (
-                        <Link to='/transaction/write'>
+                        <Link to={`/transaction/write/${buyMaxId}${sellMaxId}`}>
                             <ButtonColor variant="outline-secondary">작성하기</ButtonColor>
                         </Link>
                     ) : (

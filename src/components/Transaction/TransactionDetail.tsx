@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom'
+import { dbService } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import DetailCarousels from "./DetailCarousels";
 import DetailHeader from "./DetailHeader";
 import DetailBody from "./DetailBody";
-import { dbService } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { CheckToken } from "../../utils/authUtils";
 import { fadeInAnimation } from "../../pages/PageStyled";
 
