@@ -70,12 +70,17 @@ function MyTransaction() {
         <MyTransactionBox>
             {myPost && (
                 myPost.map((mydata, i) => (
-                    <LinkStyle
+                    <MyPost key={i}>
+                        <LinkStyle
                         to={mydata.route.slice(0, 3) === 'buy' ?
                             '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
-                        key={i}>
-                        <MyPost>
+                        >
                             <FirstImg src={mydata.imgs[0]} alt="" />
+                        </LinkStyle>
+                        <LinkStyle
+                        to={mydata.route.slice(0, 3) === 'buy' ?
+                            '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
+                        >
                             <InfoData>
                                 <Title>제목: {mydata.title}</Title>
                                 <br />
@@ -87,16 +92,18 @@ function MyTransaction() {
                                 
                                 <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
                                 <Data>{mydata.createdAt}</Data>
-                                <BtnBox>
-                                    <BtnStyle variant="outline-secondary">수정</BtnStyle>
-                                    <BtnStyle
-                                        variant="outline-danger"
-                                        onClick={onDeleteClick(mydata.route)}
-                                    >삭제</BtnStyle>
-                                </BtnBox>
                             </InfoData>
-                        </MyPost>
-                    </LinkStyle>
+                        </LinkStyle>
+                        <BtnBox>
+                            <BtnStyle variant="outline-secondary">수정</BtnStyle>
+                            <BtnStyle
+                                variant="outline-danger"
+                                
+                            >
+                                삭제
+                            </BtnStyle>
+                        </BtnBox>
+                    </MyPost>
                 ))
             )}
         </MyTransactionBox>
@@ -113,34 +120,34 @@ const MyTransactionBox = styled.div`
     overflow: auto;
 `;
 
-const LinkStyle = styled(Link)`
-    display: block;
-    text-decoration: none;
-    color: black;
-    font-size: 15px;
+const MyPost = styled.div`
     height: 140px;
     width: 46%;
+    display: flex;
     padding: 1%;
     margin: 2%;
     box-shadow: 1px 1px 5px gray, -1px -1px 5px gray;
     border-radius: 10px;
-
     &:hover {
-        color: black;
         transition: 0.2s;
         transform: scale(1.05); /* 확대 효과 */
     }
 `;
 
-const MyPost = styled.div`
-    display: flex;
-    justify-content: space-between;
+const LinkStyle = styled(Link)`
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    &:hover {
+        color: black;
+    }
 `;
 
 const FirstImg = styled.img`
-    height: 123px;
-    width: 35%;
+    height: 125px;
+    width: 125px;
     border-radius: 10px;
+    margin-right: 10px;
 `;
 
 const InfoData = styled.div`
