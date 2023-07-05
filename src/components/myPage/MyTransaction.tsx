@@ -52,7 +52,7 @@ function MyTransaction() {
             ));
             await deleteDoc(doc(
                 dbService,
-                'transactionLick',
+                'transactionLike',
                 route
             ));
         }
@@ -71,40 +71,37 @@ function MyTransaction() {
             {myPost && (
                 myPost.map((mydata, i) => (
                     <MyPost key={i}>
-                        <LinkStyle
+                        <ImgLink
                         to={mydata.route.slice(0, 3) === 'buy' ?
                             '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                         >
                             <FirstImg src={mydata.imgs[0]} alt="" />
-                        </LinkStyle>
-                        <div>
-                            <LinkStyle
+                        </ImgLink>
+                        <InfoData>
+                            <InfoLink
                             to={mydata.route.slice(0, 3) === 'buy' ?
                                 '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                             >
-                                <InfoData>
-                                    <Title>제목: {mydata.title}</Title>
-                                    <br />
-                                    <Content>내용: {
-                                        mydata.content.length <= 13 ?
-                                        mydata.content : 
-                                        mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
-                                    }</Content>
-                                    
-                                    <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
-                                    <Data>{mydata.createdAt}</Data>
-                                </InfoData>
-                            </LinkStyle>
+                                <Title>제목: {mydata.title}</Title>
+                                <br />
+                                <Content>내용: {
+                                    mydata.content.length <= 13 ?
+                                    mydata.content : 
+                                    mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
+                                }</Content>
+                                <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
+                                <Data>{mydata.createdAt}</Data>
+                            </InfoLink>
                             <BtnBox>
                                 <BtnStyle variant="outline-secondary">수정</BtnStyle>
                                 <BtnStyle
                                     variant="outline-danger"
-                                    
+                                    onClick={() => onDeleteClick(mydata.route)}
                                 >
                                     삭제
                                 </BtnStyle>
                             </BtnBox>
-                        </div>
+                        </InfoData>
                     </MyPost>
                 ))
             )}
@@ -136,10 +133,12 @@ const MyPost = styled.div`
     }
 `;
 
-const LinkStyle = styled(Link)`
-    text-decoration: none;
+const ImgLink = styled(Link)`
+    width:40%;
     color: black;
     font-size: 15px;
+    margin-right: 3%;
+    text-decoration: none;
     &:hover {
         color: black;
     }
@@ -147,13 +146,23 @@ const LinkStyle = styled(Link)`
 
 const FirstImg = styled.img`
     height: 125px;
-    width: 125px;
+    width: 100%;
     border-radius: 10px;
     margin-right: 10px;
 `;
 
 const InfoData = styled.div`
-    width: 100%;
+    width: 57%;
+`;
+
+const InfoLink = styled(Link)`
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    &:hover {
+        color: black;
+    }
 `;
 
 const Title = styled.span`
@@ -174,12 +183,11 @@ const Data = styled.span`
 `;
 
 const BtnBox = styled.div`
-    margin-top: 7px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
 `;
 
 const BtnStyle = styled(Button)`
-    margin-left: 7px;
-    margin-right: 7px;
+    margin-right: 5px;
 `;
