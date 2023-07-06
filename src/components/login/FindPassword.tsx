@@ -4,12 +4,13 @@ import { getAuth, sendPasswordResetEmail} from 'firebase/auth';
 import { Button, Modal, Form} from 'react-bootstrap';
 
 function FindPassword() {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false); // 모달 boolen
     const [findPassword, setFindPassword] = useState("")
     
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // 클라이언트 비밀번호 받기
     const onFindPassord = (e: { target: { value: string; }; }) => {
         const {
             target: { value },

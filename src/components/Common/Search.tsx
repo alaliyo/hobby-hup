@@ -45,7 +45,8 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
             item.selected.toLowerCase().includes(searchQuery) ||
             item.createdAt.toLowerCase().includes(searchQuery)
         );
-        setSearchResult(filteredData); // 검색 결과를 searchResult 상태값에 저장
+        // 검색 결과를 searchResult 상태값에 저장
+        setSearchResult(filteredData); 
     };
 
     // Enter key를 누르면 여기에서 원하는 작업을 수행할 수 있습니다.

@@ -15,7 +15,6 @@ function PasswordModal({
   password,
   setPassword,
 }: PasswordModalProps) {
-
   const handleKeyPress = (e: { key: string; }) => {
     if (e.key === 'Enter') {
       onSubmit()

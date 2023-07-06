@@ -11,7 +11,7 @@ import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
 import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
 import { fadeInAnimation } from "../../pages/PageStyled";
-import { CheckToken } from "../../utils/authUtils";
+import { CheckAuth } from "../../utils/authUtils";
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -61,7 +61,7 @@ function TransactionWrite() {
         setSelectedDistrict(event.target.value);
     };
     
-    // firebase post
+    // firebase data post
     const handlePostUpdate = async (e: any) => {
         e.preventDefault();
 
@@ -133,7 +133,7 @@ function TransactionWrite() {
     }, [selectedCity, selectedDistrict]);
 
     useEffect(() => {
-        CheckToken("게시물 작성 페이지는 사용할 수 있습니다.")
+        CheckAuth("게시물 작성 페이지는 사용할 수 있습니다.")
     }, [])
     
     return(

@@ -17,7 +17,7 @@ function DetailCarousels({ imgs }: any) {
     };
     
     const closeModal = () => {
-    setShowModal(false);
+        setShowModal(false);
     };
 
     return (
@@ -39,7 +39,6 @@ function DetailCarousels({ imgs }: any) {
                 <img src={selectedImage} alt="이미지 오류 새로고침하세요." />
             </ModalStyle>
         </>
-        
     );
 }
 

@@ -28,9 +28,9 @@ function DetailBody({ content, route }: DetailBodyProps) {
     const commentKFilter = useKFilter(comment); // 한글 비속어 hook
     const filter = new Filter(); // 영어 비속어 필터
     const currentDate = useCurrentDate(); // 현재 날짜
-    const [postComments, setPostComments] = useState<CommentProps[]>();
+    const [postComments, setPostComments] = useState<CommentProps[]>(); // 댓글
     const user = authService.currentUser; // user 정보
-    const [delCheck, setDelCheck] = useState('');
+    const [delCheck, setDelCheck] = useState(''); // 삭제 버튼
     const docRef = doc(
         dbService,
         "transactionComment",
@@ -103,7 +103,6 @@ function DetailBody({ content, route }: DetailBodyProps) {
     // comment Del
     const handleCommentDel = async (commentId: number) => {
         try {
-            
             // eslint-disable-next-line no-restricted-globals
             const check = confirm("댓글을 삭제하시겠습니까?")
             

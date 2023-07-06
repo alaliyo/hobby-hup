@@ -2,6 +2,7 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbService } from "../firebase";
 
+// transaction props
 interface transactionDataProps {
     email: string;
     id: number
@@ -15,6 +16,7 @@ interface transactionDataProps {
     createdAt: string;
     route: string;
 }
+
 
 // Buy date get
 export function TransactionBuyDatas() {
@@ -36,6 +38,7 @@ export function TransactionBuyDatas() {
     return buyBatas;
 }
 
+
 // Buy max id
 export function BuyDatasMaxId() {
     const datas = TransactionBuyDatas();
@@ -49,6 +52,7 @@ export function BuyDatasMaxId() {
     
     return buyMaxId;
 }
+
 
 // Sell date get
 export function TransactionSellDatas() {
@@ -70,6 +74,7 @@ export function TransactionSellDatas() {
     return sellDatas;
 }
 
+
 // Sell max id
 export function SellDatasMaxId() {
     const datas = TransactionSellDatas();
@@ -84,12 +89,13 @@ export function SellDatasMaxId() {
     return sellMaxId;
 }
 
+
+// Like data get
 interface LikeDataProps {
     id: string;
     likeArr: string[];
 }
 
-// Like data get
 export function LikeData() {
     const [likeArr, setLikeArr] = useState<LikeDataProps[]>([]);
 

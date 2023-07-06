@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { authService } from "../firebase";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from "react-bootstrap";
-import { CheckToken } from "../utils/authUtils";
+import { CheckAuth } from "../utils/authUtils";
 import UserInfo from "../components/MyPage/UserInfo";
 import EditUserInfo from "../components/MyPage/EditUserInfo";
 import PasswordModal from "../components/MyPage/PasswordModal";
@@ -60,7 +60,7 @@ function MyPage() {
   }, []);
 
   useEffect(() => {
-    CheckToken('마이 페이지를');
+    CheckAuth('마이 페이지를 사용할 수 있습니다.');
   }, [userObj])
 
   return (

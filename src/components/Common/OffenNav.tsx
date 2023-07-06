@@ -50,7 +50,7 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
                 </LinkStyle>
                 
                 {loggedIn ? (<>
-                    <LinkStyle to={'/my-page/transaction'} onClick={onClick}>
+                    <LinkStyle to={'/my-page/transaction/my-post'} onClick={onClick}>
                         마이페이지
                     </LinkStyle>
 

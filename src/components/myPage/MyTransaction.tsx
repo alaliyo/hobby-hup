@@ -35,7 +35,6 @@ function MyTransaction() {
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
     const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
-    const [switching, setSwitching] = useState(false);
 
     // 게시물 delete
     const onDeleteClick = async(route: string) => {
@@ -87,9 +86,9 @@ function MyTransaction() {
                                 <Title>제목: {mydata.title}</Title>
                                 <br />
                                 <Content>내용: {
-                                    mydata.content.length <= 13 ?
+                                    mydata.content.length <= 11 ?
                                     mydata.content : 
-                                    mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
+                                    mydata.content.replace(/\\n/g, '').slice(0, 11) + "..."
                                 }</Content>
                                 <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
                                 <Data>{mydata.createdAt}</Data>

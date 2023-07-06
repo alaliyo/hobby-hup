@@ -28,16 +28,12 @@ function DetailHeader({
 }: transactionDataProps) {
     const [likeArr, setLikeArr] = useState<string[]>([]); //like user Arr
     const user = authService.currentUser; // user 정보
-    const userEmail = user?.email;
+    const userEmail = user?.email; // 유저 아이디 
 
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
-        
-        const docRef = doc(
-            dbService,
-            "transactionLike",
-            route
-        ); // firebase DB 경로
+        // firebase DB 경로
+        const docRef = doc(dbService,  "transactionLike", route); 
       
         try {
             const docSnap = await getDoc(docRef);

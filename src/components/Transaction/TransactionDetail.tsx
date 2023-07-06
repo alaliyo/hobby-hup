@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import DetailCarousels from "./DetailCarousels";
 import DetailHeader from "./DetailHeader";
 import DetailBody from "./DetailBody";
-import { CheckToken } from "../../utils/authUtils";
+import { CheckAuth } from "../../utils/authUtils";
 import { fadeInAnimation } from "../../pages/PageStyled";
 
 interface transactionDataProps {
@@ -29,7 +29,7 @@ function TransactionDetail() {
     const [datailData, setDatailData] = useState<transactionDataProps>()
     
     useEffect(() => {
-        CheckToken('상세 게시물들을 볼 수 있습니다.');
+        CheckAuth('상세 게시물들을 볼 수 있습니다.');
     }, [])
 
     useEffect(() => {

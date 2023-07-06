@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { authService, dbService } from '../../firebase';
+import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
+import { authService, dbService } from '../../firebase';
 import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";
-import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { uploadImages } from "../../utils/storageService";
 
 interface userObj {
@@ -19,18 +19,20 @@ interface EditUserInfoProps {
 }
 
 function EditUserInfo({ userObj }: EditUserInfoProps) {
-    const [nickname, setNickname] = useState(userObj.displayName);
-    const [image, setImage] = useState<File[]>([]);
+    const [nickname, setNickname] = useState(userObj.displayName); // 유저 닉네임
+    const [image, setImage] = useState<File[]>([]); // 이미지 받기
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
-    const [nicknames, setNicknames] = useState<any[]>([]);
-    const filter = new Filter();
+    const [nicknames, setNicknames] = useState<any[]>([]); // firebase에서 유저 닉네임 배열
+    const filter = new Filter(); // 영어 욕 필터
     
-    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNickname(e.target.value);
-    };
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
+    // 유저에게 닉네임, 이미지 받기
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {
+            target: {name, value},
+        } = e;
+        if (name === 'nickname') {
+            setNickname(value);
+        } else if (name === 'img') {
             const selectedImages = Array.from(e.target.files || []);
             setImage(selectedImages);
         }
@@ -92,7 +94,6 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 });
                 alert('닉네임이 변경되었습니다.');
             }
-            
         } catch (error) {
             alert('닉네임 업데이트에 실패했습니다.');
         }
@@ -116,10 +117,11 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 </LabelStyle>
                 <InputStyle
                     type="text"
+                    name="nickname"
                     value={nickname}
                     maxLength={12}
                     placeholder='한글, 영어, 숫자 2~12자만 가능'
-                    onChange={handleNicknameChange}
+                    onChange={handleChange}
                 />
                 <Button 
                     variant="light"
@@ -136,8 +138,9 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                 </LabelStyle>
                 <InputStyle
                     type="file"
+                    name="img"
                     placeholder="800KB, 가로, 세로 1024 이하, 확장자 jpg, png만 가능"
-                    onChange={handleImageChange}
+                    onChange={handleChange}
                 />
                 <Button
                     variant="light"
