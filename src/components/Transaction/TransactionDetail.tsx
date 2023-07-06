@@ -24,14 +24,16 @@ interface transactionDataProps {
 
 function TransactionDetail() {
     const location = useLocation();
-    const [catedory, setCatedory] = useState('');
-    const [postDocument, setPostDocument] = useState('');
-    const [datailData, setDatailData] = useState<transactionDataProps>()
+    const [catedory, setCatedory] = useState(''); // buy, sell 구분
+    const [postDocument, setPostDocument] = useState(''); // firebase 문서 조회 값
+    const [datailData, setDatailData] = useState<transactionDataProps>() // firebase 상세 조회 date
     
+    // 로그인 확인
     useEffect(() => {
         CheckAuth('상세 게시물들을 볼 수 있습니다.');
     }, [])
 
+    // url에서 catedory 값 가져오기
     useEffect(() => {
         const UrlArr = location.pathname.split('/');
         const detailUrl = `${UrlArr[2]}Id${UrlArr[3]}`;
@@ -40,6 +42,7 @@ function TransactionDetail() {
         setPostDocument(detailUrl);
     }, [location]);
     
+    // firebass에서 상세 조회 date get
     useEffect(() => {
         const fetchData = async () => {
             const docRef = doc(

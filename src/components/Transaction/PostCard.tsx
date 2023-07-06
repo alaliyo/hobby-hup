@@ -21,10 +21,11 @@ interface PostCardprops {
 
 function PostCard({ data }: PostCardprops) {
     const user = authService.currentUser; // user 정보
-    const likedata = LikeData();
-    const [like, serLike] = useState(0);
+    const likedata = LikeData(); // firebase Like date get
+    const [like, serLike] = useState(0); // Like 수
     const navigate = useNavigate();
     
+    // 로그인 후 디테일 페이지 접근
     const handleCardClick = () => {
         if (user) {
             navigate(`${data.id}`);
@@ -33,6 +34,7 @@ function PostCard({ data }: PostCardprops) {
         }
     };
     
+    // date 한글 표시 함수
     const formatDate = (dateString: string): string => {
         const currentDate = new Date();
         const createdAt = new Date('20' + dateString);
@@ -45,7 +47,7 @@ function PostCard({ data }: PostCardprops) {
         } else if (diffDays <= 7) {
             return `${diffDays-1}일전`;
         } else if (diffDays <= 30) {
-          const diffWeeks = Math.floor(diffDays / 7);
+            const diffWeeks = Math.floor(diffDays / 7);
             return `${diffWeeks}주전`;
         } else if (diffDays <= 365) {
           const diffMonths = Math.floor(diffDays / 30);
@@ -55,8 +57,10 @@ function PostCard({ data }: PostCardprops) {
         }
     };
     
+    // date 한글 표시 호출
     const formattedDate = formatDate(data.createdAt);
     
+    // Like 숫자료 변환
     useEffect(() => {
         if (likedata.filter(e => e.id === data.route)[0]) {
             serLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)

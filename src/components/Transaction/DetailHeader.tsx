@@ -32,6 +32,7 @@ function DetailHeader({
 
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
+
         // firebase DB 경로
         const docRef = doc(dbService,  "transactionLike", route); 
       
@@ -71,6 +72,7 @@ function DetailHeader({
         }
     }
 
+    // firebase database Like 가져오기
     useEffect(() => {
         const fetchData = async () => {
             const docRef = doc(dbService, "transactionLike", route);
@@ -80,7 +82,7 @@ function DetailHeader({
                 setLikeArr(likeArr);
             }
         };
-    
+        
         fetchData();
     }, [route]);
 

@@ -27,23 +27,28 @@ interface TransactionHeaderProps {
 }
 
 function TransactionHeader({buyData, sellData, handleSearch, pathname}: TransactionHeaderProps) {
-    const [menuLocation, setMenuLocation] = useState(pathname === "/transaction/buy" ? "판매" : "구매");
+    const [menuLocation, setMenuLocation] = useState(
+        pathname === "/transaction/buy" ? "판매" : "구매"
+    ); // 메뉴 구분 값
     const location = useLocation();
-    const [pageUrl, setPageUrl] = useState('');
-    const user = authService.currentUser;
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResult, setSearchResult] = useState<TransactionDataProps[] | null>(null);
+    const [pageUrl, setPageUrl] = useState(''); // 상세 페이지 url
+    const user = authService.currentUser; // 클라이언트 정보 SDK
+    const [searchQuery, setSearchQuery] = useState(''); // 검색 글
+    const [searchResult, setSearchResult] = useState<TransactionDataProps[] | null>(null); // 검색 결과 data
     const buyMaxId = BuyDatasMaxId(); // 판메 postId 값
     const sellMaxId = SellDatasMaxId(); // 구매 postId 값
 
+    // 로그인 확인
     const locationChange = (text: string) => {
         setMenuLocation(text);
     }
     
+    // buy, sell 구분
     useEffect(() => {
         setPageUrl(location.pathname.split('/')[2] + location.pathname.split('/')[3])
     }, [location])
 
+    // 검색 data 넘기기
     useEffect(() => {
         setSearchResult(
             pathname === "/transaction/buy" ? buyData : sellData
@@ -51,6 +56,7 @@ function TransactionHeader({buyData, sellData, handleSearch, pathname}: Transact
         setSearchQuery(pathname && '')
     }, [buyData, pathname, sellData]);
 
+    // 검색 단어 넘기기
     useEffect(() => {
         if (searchResult) {
             handleSearch(searchResult);
