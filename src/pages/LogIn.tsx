@@ -24,9 +24,8 @@ function LogIn() {
     const [nicknames, setNicknames] = useState<any[]>([]);
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
-    const navigate = useNavigate();
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
-
+    const navigate = useNavigate();
     const filter = new Filter();
 
     // 토큰 확인 로직

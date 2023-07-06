@@ -1,4 +1,4 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
@@ -35,7 +35,8 @@ function MyTransaction() {
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
     const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
-
+    const location = useLocation();
+    const [changUrl, setChangUrl] = useState('');
     // 게시물 delete
     const onDeleteClick = async(route: string) => {
         const ok = window.confirm("삭제하시겠습니까?");
@@ -66,46 +67,52 @@ function MyTransaction() {
         const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => b.id - a.id);
         setMyPost(myPostArrPlus)
     }, [buyPost, sellPost, userObj])
+
+    useEffect(() => {
+        setChangUrl(location.pathname.split("/")[3]);
+    }, [location.pathname])
     
     return(
         <MyTransactionBox>
-            {myPost && (
-                myPost.map((mydata, i) => (
-                    <MyPost key={i}>
-                        <ImgLink
-                        to={mydata.route.slice(0, 3) === 'buy' ?
-                            '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
-                        >
-                            <FirstImg src={mydata.imgs[0]} alt="" />
-                        </ImgLink>
-                        <InfoData>
-                            <InfoLink
+            {changUrl === 'my-post' ? (
+                myPost && (
+                    myPost.map((mydata, i) => (
+                        <MyPost key={i}>
+                            <ImgLink
                             to={mydata.route.slice(0, 3) === 'buy' ?
                                 '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                             >
-                                <Title>제목: {mydata.title}</Title>
-                                <br />
-                                <Content>내용: {
-                                    mydata.content.length <= 11 ?
-                                    mydata.content : 
-                                    mydata.content.replace(/\\n/g, '').slice(0, 11) + "..."
-                                }</Content>
-                                <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
-                                <Data>{mydata.createdAt}</Data>
-                            </InfoLink>
-                            <BtnBox>
-                                <BtnStyle variant="outline-secondary">수정</BtnStyle>
-                                <BtnStyle
-                                    variant="outline-danger"
-                                    onClick={() => onDeleteClick(mydata.route)}
+                                <FirstImg src={mydata.imgs[0]} alt="" />
+                            </ImgLink>
+                            <InfoData>
+                                <InfoLink
+                                to={mydata.route.slice(0, 3) === 'buy' ?
+                                    '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                                 >
-                                    삭제
-                                </BtnStyle>
-                            </BtnBox>
-                        </InfoData>
-                    </MyPost>
-                ))
-            )}
+                                    <Title>제목: {mydata.title}</Title>
+                                    <br />
+                                    <Content>내용: {
+                                        mydata.content.length <= 13 ?
+                                        mydata.content : 
+                                        mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
+                                    }</Content>
+                                    <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
+                                    <Data>{mydata.createdAt}</Data>
+                                </InfoLink>
+                                <BtnBox>
+                                    <BtnStyle variant="outline-secondary">수정</BtnStyle>
+                                    <BtnStyle
+                                        variant="outline-danger"
+                                        onClick={() => onDeleteClick(mydata.route)}
+                                    >
+                                        삭제
+                                    </BtnStyle>
+                                </BtnBox>
+                            </InfoData>
+                        </MyPost>
+                    ))
+                )
+            ) : null}
         </MyTransactionBox>
     );
 }
