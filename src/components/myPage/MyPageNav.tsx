@@ -14,7 +14,9 @@ function MyPageNav() {
     }
 
     const handlePostSwitching = (text: string) => {
-        navigate(`/my-page/transaction/${text}`);
+        navigate(
+            category === "거래" ? `/my-page/transaction/${text}` : `/my-page/share/${text}`
+        );
     }
 
     useEffect(() => {
@@ -29,26 +31,28 @@ function MyPageNav() {
                 </DropdownToggl>
 
                 <DropdownMenu>
-                    <LinkBox to="transaction" onClick={() => categoryChang('거래')}>거래</LinkBox>
-                    <LinkBox to="share" onClick={() => categoryChang('공유')}>공유</LinkBox>
+                    <LinkBox to="transaction/my-post" onClick={() => categoryChang('거래')}>거래</LinkBox>
+                    <LinkBox to="share/my-post" onClick={() => categoryChang('공유')}>공유</LinkBox>
                     <LinkBox to="chattings" onClick={() => categoryChang('채팅')}>채팅</LinkBox>
                     {/* <LinkBox to="gathering" onClick={() => locationChang('모임')}>모임</LinkBox> */}
                 </DropdownMenu>
 
-                <ButtonColor
-                    variant="outline-secondary"
-                    active={categoryUrl === 'my-post'}
-                    onClick={() => handlePostSwitching('my-post')}
-                >
-                    내 글
-                </ButtonColor>
-                <ButtonColor
-                    variant="outline-secondary"
-                    active={categoryUrl === 'like'}
-                    onClick={() => handlePostSwitching('like')}
-                >
-                    {category === "거래" ? "좋아요" : "스크랩"}
-                </ButtonColor>
+                {!(category === '채팅') && <>
+                    <ButtonColor
+                        variant="outline-secondary"
+                        active={categoryUrl === 'my-post'}
+                        onClick={() => handlePostSwitching('my-post')}
+                    >
+                        내 글
+                    </ButtonColor>
+                    <ButtonColor
+                        variant="outline-secondary"
+                        active={categoryUrl === 'like'}
+                        onClick={() => handlePostSwitching('like')}
+                    >
+                        {category === "거래" ? "좋아요" : "스크랩"}
+                    </ButtonColor>
+                </>}
             </Dropdown>
         </div>
     );
@@ -87,7 +91,12 @@ const LinkBox = styled(Link)`
 `;
 
 const ButtonColor = styled(Button)`
-    --bs-btn-hover-bg: #6f9fe7;
-    --bs-btn-active-bg: #6f9fe7;
-    --bs-btn-hover-border-color: #6f9fe7;
+    --bs-btn-hover-bg: #7ea9e9;
+    --bs-btn-active-bg: #7ea9e9;
+    --bs-btn-hover-border-color: #7ea9e9;
+    --bs-btn-active-border-color: #7ea9e9;
+    border: 2px solid #bdbdbd;
+    border-bottom: 0;
+    border-radius: 7px 7px 0px 0px;
+    
 `;
