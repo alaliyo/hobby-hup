@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { 
-    MyPost, ImgLink, FirstImg, InfoData, InfoLink,
-    Title, Content, Data, BtnBox, BtnStyle
+    MyPost, ImgLink, FirstImg, InfoData, 
+    InfoLink, Title, Content, Data
 } from './TransactionCordStyle';
 import { LikeData, TransactionBuyDatas, TransactionSellDatas } from '../../utils/dbService';
+import styled from 'styled-components';
 
 
 interface transactionDataProps {
@@ -37,16 +38,56 @@ function TransactionLike() {
     const sellPost = TransactionSellDatas(); // 구매 post
     const likeData = LikeData()
     const [myLikePost, setMyLikePost] = useState<transactionDataProps[]>(); // 전체 my post
-    console.log(likeData);
+    
     useEffect(() => {
-        const a = likeData.map(obj=> obj.likeArr.filter(e => e === userObj.email))
-        console.log(a)
-    }, [])
-    return(
-        <div>
+        const filteredData = likeData.filter(obj =>
+            obj.likeArr.some(e => e === userObj.email)
+        );
+        const allPost = [...buyPost, ...sellPost].sort((a, b) => 
+            Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`)
+        );
 
-        </div>
+        const LikePosts = allPost.filter(obj => filteredData.some(e => obj.route === e.id))
+        setMyLikePost(LikePosts);
+    }, [buyPost, likeData, sellPost, userObj.email]);
+
+    return(
+        <>
+            {myLikePost && (
+                myLikePost.map((data, i) => (
+                    <MyPost key={i}>
+                        <ImgLink
+                        to={data.route.slice(0, 3) === 'buy' ?
+                            '/transaction/buy/' + data.id : '/transaction/sell/' + data.id} 
+                        >
+                            <FirstImg src={data.imgs[0]} alt="" />
+                        </ImgLink>
+                        <InfoData>
+                            <InfoLink
+                            to={data.route.slice(0, 3) === 'buy' ?
+                                '/transaction/buy/' + data.id : '/transaction/sell/' + data.id} 
+                            >
+                                <Title>제목: {data.title}</Title>
+                                <br />
+                                <Contentstyle>내용: {
+                                    data.content.length <= 45 ?
+                                    data.content : 
+                                    data.content.replace(/\\n/g, '').slice(0, 45) + "..."
+                                }</Contentstyle>
+                                <span>구분: {data.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
+                                <Data>{data.createdAt}</Data>
+
+                            </InfoLink>
+                        </InfoData>
+                    </MyPost>
+                ))
+            )}
+        </>
     );
 }
 
 export default TransactionLike;
+
+const Contentstyle = styled(Content)`
+    height: 70px;
+` ;

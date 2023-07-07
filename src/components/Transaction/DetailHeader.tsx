@@ -95,7 +95,10 @@ function DetailHeader({
                 </PostInfo>
 
                 <PostInfo>
-                    <HeartInfo onClick={handleLikeCount}>♥{likeArr.length}</HeartInfo>
+                    <HeartInfo onClick={handleLikeCount}>
+                        {userEmail && likeArr.includes(userEmail) ? '♥' : '♡'}
+                        {likeArr.length}
+                    </HeartInfo>
                     
                     <Info>{createdAt}</Info>
                 </PostInfo>

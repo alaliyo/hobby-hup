@@ -65,7 +65,7 @@ function TransactionMyPost() {
     useEffect(() => {
         let myBuydata = buyPost.filter((data: transactionDataProps) => data.email === userObj.email);
         let mySelldata = sellPost.filter((data: transactionDataProps) => data.email === userObj.email);
-        const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => b.id - a.id);
+        const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`));
         setMyPost(myPostArrPlus)
     }, [buyPost, sellPost, userObj])
 
