@@ -53,9 +53,9 @@ function MyPage() {
   // 유저 정보 가져오기
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
-        if (user) {
-            setUserObj(user);
-        }
+      if (user) {
+        setUserObj(user);
+      }
     })
   }, []);
 
@@ -110,7 +110,7 @@ export default MyPage;
 
 const MyPageBox = styled.div`
   margin: 100px 5% 0 5%;
-  padding: 30px 3% 30px 3%;
+  padding: 20px;
   background-color: #ffffff;
   border: 2px solid #e7e7e7;
   border-radius: 20px;

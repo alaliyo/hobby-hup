@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import MyTransactionPost from "./MyTransactionPost";
+import TransactionMyPost from "./TransactionMyPost";
+import TransactionLike from "./TransactionLike";
 
 // interface transactionDataProps {
 //     id: number
@@ -38,8 +39,8 @@ function MyTransaction() {
     return(
         <MyTransactionBox>
             {changUrl === 'my-post' ? (
-                <MyTransactionPost />
-            ) : null}
+                <TransactionMyPost />
+            ) : <TransactionLike />}
         </MyTransactionBox>
     );
 }

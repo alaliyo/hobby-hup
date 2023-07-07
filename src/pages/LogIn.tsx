@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -25,26 +24,20 @@ function LogIn() {
     const [account, setAccount] = useState(false); // 로그인 및 회원가입 컴퍼넌트 변환 값
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
-    const navigate = useNavigate();
     const filter = new Filter();
 
-    // 토큰 확인 로직
-    const checkToken = () => {
+    // 로그인 확인 함수
+    const CheckAuth = () => {
         onAuthStateChanged(authService, (user) => {
-        if (user) {
-            user.getIdToken()
-            .then((token) => {
-                token && navigate("/");
-            })
-            .catch((error) => {
-                alert(error);
-            });
-        }
+            if (user) {
+                alert("로그인되어 있습니다. 로그아웃 후 사용해주세요.");
+                window.history.go(-1);
+            }
         });
     };
 
     // 토큰 확인 호출
-    checkToken();
+    CheckAuth();
 
     useEffect(() => {
         const q = query(collection(dbService, "usersNickname"));

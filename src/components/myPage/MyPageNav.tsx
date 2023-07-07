@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 function MyPageNav() {  
     const [category, setCategory] = useState('거래');
-    const location = useLocation();
+    const location = useLocation().pathname;
     const navigate = useNavigate();
     const [categoryUrl, setCategoryUrl] = useState('')
     
@@ -20,7 +20,7 @@ function MyPageNav() {
     }
 
     useEffect(() => {
-        setCategoryUrl(location.pathname.split('/')[3]);
+        setCategoryUrl(location.split('/')[3]);
     }, [location])
 
     return(
@@ -98,5 +98,4 @@ const ButtonColor = styled(Button)`
     border: 2px solid #bdbdbd;
     border-bottom: 0;
     border-radius: 7px 7px 0px 0px;
-    
 `;
