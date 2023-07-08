@@ -52,5 +52,22 @@ const MyTransactionBox = styled.div`
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    align-content: flex-start
+    align-content: flex-start;
+    overflow: auto;
+
+    @media screen and (max-width: 900px) {
+        padding: 10px 5px;
+    }
+
+    @media screen and (max-width: 650px) {
+        padding: 7px 0px;
+    }
+
+    @media screen and (max-width: 450px) {
+        display: block;
+    }
+
+    @media screen and (max-width: 350px) {
+        padding: 0px;
+    }
 `;

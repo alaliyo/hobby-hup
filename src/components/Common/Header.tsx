@@ -115,6 +115,7 @@ const HeaderBox = styled.header`
     }
     &.header-scroll {
         height: 50px;
+        box-shadow: 1px 1px 5px #d4d4d4;
         transition: height 0.3s ease-in-out;
     }
 `;
@@ -149,7 +150,7 @@ const LinkStyled = styled(Link)<CustomLinkProps>`
     }
 
     @media screen and (max-width: 650px){
-        font-size: 16px;
+        font-size: 18px;
     }
 `;
 

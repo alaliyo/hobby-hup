@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { 
-    MyPost, ImgLink, FirstImg, InfoData, 
+    Post, ImgLink, FirstImg, InfoData, 
     InfoLink, Title, Content, Data
 } from './TransactionCordStyle';
 import { LikeData, TransactionBuyDatas, TransactionSellDatas } from '../../utils/dbService';
 import styled from 'styled-components';
+import { useWindowWidth } from '../../hooks/WindowWidthTracker';
 
 
 interface transactionDataProps {
@@ -38,7 +39,8 @@ function TransactionLike() {
     const sellPost = TransactionSellDatas(); // 구매 post
     const likeData = LikeData()
     const [myLikePost, setMyLikePost] = useState<transactionDataProps[]>(); // 전체 my post
-    
+    const windowWidth = useWindowWidth();
+
     useEffect(() => {
         const filteredData = likeData.filter(obj =>
             obj.likeArr.some(e => e === userObj.email)
@@ -55,7 +57,7 @@ function TransactionLike() {
         <>
             {myLikePost && (
                 myLikePost.map((data, i) => (
-                    <MyPost key={i}>
+                    <Post key={i}>
                         <ImgLink
                         to={data.route.slice(0, 3) === 'buy' ?
                             '/transaction/buy/' + data.id : '/transaction/sell/' + data.id} 
@@ -67,19 +69,35 @@ function TransactionLike() {
                             to={data.route.slice(0, 3) === 'buy' ?
                                 '/transaction/buy/' + data.id : '/transaction/sell/' + data.id} 
                             >
-                                <Title>제목: {data.title}</Title>
+                                <Title>제목: {
+                                    650 >= windowWidth && windowWidth >= 450 ? (
+                                        data.title.length <= 10 ? 
+                                        data.title : 
+                                        data.title.replace(/\\n/g, '').slice(0, 10) + ".."
+                                    ) : (
+                                        data.title.length <= 10 ? 
+                                        data.title : 
+                                        data.title.replace(/\\n/g, '').slice(0, 10) + ".."
+                                    )
+                                }</Title>
                                 <br />
                                 <Contentstyle>내용: {
-                                    data.content.length <= 45 ?
-                                    data.content : 
-                                    data.content.replace(/\\n/g, '').slice(0, 45) + "..."
+                                    650 >= windowWidth && windowWidth >= 450 ? (
+                                        data.content.length <= 28 ? 
+                                        data.content : 
+                                        data.content.replace(/\\n/g, '').slice(0, 28) + ".."
+                                    ) : (
+                                        data.content.length <= 35 ?
+                                        data.content : 
+                                        data.content.replace(/\\n/g, '').slice(0, 35) + ".."
+                                    )
                                 }</Contentstyle>
                                 <span>구분: {data.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
                                 <Data>{data.createdAt}</Data>
 
                             </InfoLink>
                         </InfoData>
-                    </MyPost>
+                    </Post>
                 ))
             )}
         </>
@@ -90,4 +108,13 @@ export default TransactionLike;
 
 const Contentstyle = styled(Content)`
     height: 70px;
+    @media screen and (max-width: 900px) {
+        height: 65px;
+    }
+    @media screen and (max-width: 800px) {
+        height: 70px;
+    }
+    @media screen and (max-width: 650px) {
+        height: 55px;
+    }
 ` ;

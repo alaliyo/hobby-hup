@@ -14,6 +14,7 @@ import LogInForm from '../components/login/LogInForm';
 import SignUpForm from '../components/login/SignUpForm';
 import { PageBody } from './PageStyled';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 function LogIn() {
     const [email, setEmail] = useState("");
@@ -25,19 +26,24 @@ function LogIn() {
     const [errors, setErrors] = useState("") // 에러 Alert 값
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
     const filter = new Filter();
+    const navigate = useNavigate();
 
-    // 로그인 확인 함수
-    const CheckAuth = () => {
+    // 토큰 확인 로직
+    const checkToken = () => {
         onAuthStateChanged(authService, (user) => {
-            if (user) {
-                alert("로그인되어 있습니다. 로그아웃 후 사용해주세요.");
-                window.history.go(-1);
-            }
+        if (user) {
+            user.getIdToken()
+            .then((token) => {
+                token && navigate("/");
+            })
+            .catch((error) => {
+                alert(error);
+            });
+        }
         });
     };
-
     // 토큰 확인 호출
-    CheckAuth();
+    checkToken();
 
     useEffect(() => {
         const q = query(collection(dbService, "usersNickname"));
@@ -161,10 +167,12 @@ export const LogInBox = styled.div`
     border-radius: 5px;
     box-shadow: 2px 2px 2px #d6d6d6;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 750px) {
         width: 100vw;
         padding: 15px;
         margin: 0px;
+        border: none;
+        border-radius: none;
         input {
             width:90vw;
         }

@@ -71,11 +71,24 @@ const DropdownToggl = styled(Dropdown.Toggle)`
         background-color: #6f9fe7;
         border-color: #6f9fe7;
     }
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+        padding: 7px;
+    }
 `;
 
 const DropdownMenu = styled(Dropdown.Menu)`
-    --bs-dropdown-min-width: 70px;
+    --bs-dropdown-min-width: 50px;
     padding: 5px;
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+    }
+    
+    a {
+        @media screen and (max-width: 650px) {
+        padding: 8px;
+    }
+    }
 `;
 
 const LinkBox = styled(Link)`
@@ -98,4 +111,9 @@ const ButtonColor = styled(Button)`
     border: 2px solid #bdbdbd;
     border-bottom: 0;
     border-radius: 7px 7px 0px 0px;
+    @media screen and (max-width: 650px) {
+        font-weight: 900;
+        font-size: 14px;
+        padding: 7px;
+    }
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const LoginTitle = styled.h3`
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 750px) {
         font-size: 0;
     }
 `

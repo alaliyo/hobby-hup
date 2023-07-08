@@ -81,7 +81,7 @@ function MyPage() {
                 variant="light"
                 onClick={onChange}
               >
-                {change ? '취소' : '프로필 수정'}
+                {change ? '취소' : '수정'}
               </ButtonStyle>
             </BtnBox>
           </UserInfoBox>
@@ -109,14 +109,29 @@ function MyPage() {
 export default MyPage;
 
 const MyPageBox = styled.div`
-  margin: 100px 5% 0 5%;
+  margin: 100px 5% 50px 5%;
   padding: 20px;
   background-color: #ffffff;
   border: 2px solid #e7e7e7;
   border-radius: 20px;
-  margin-bottom: 50px;
   box-shadow: 2px 2px 6px gray;
   animation: ${fadeInAnimation} 0.15s ease-in;
+
+  @media screen and (max-width: 900px) {
+    padding: 15px;
+  }
+
+  @media screen and (max-width: 800px) {
+    padding: 15px 10px;
+  }
+
+  @media screen and (max-width: 610px) {
+    margin: 75px 15px 15px 15px;
+    padding: 0px;
+    border: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+  }
 `;
 
 const HeaderStyle = styled.header`
@@ -127,20 +142,55 @@ const UserInfoBox = styled.div`
   padding-bottom: 15px;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 450px) {
+    padding-bottom: 10px;
+  }
 `;
 
 const InfoBox = styled.div`
-  width: 70%;
+  width: 85%;
+
+  @media screen and (max-width: 450px) {
+    width: 80%;
+  }
 `;
 
 const BtnBox = styled.div`
-    
+  width: 15%;
+
+  @media screen and (max-width: 450px) {
+    width: 20%;
+  }
 `
 
 const ButtonStyle = styled(Button)`
   height: 40px;
+  float: right;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 13px;
+    height: 30px;
+    padding: 0px 10px;
+  }
 `;
 
 const OutletBox = styled.div`
-  height: 500px;
+  height: 550px;
+
+  @media screen and (max-width: 900px) {
+    height: 500px;
+  }
+
+  @media screen and (max-width: 800px) {
+    height: 470px;
+  }
+  
+  @media screen and (max-width: 650px) {
+    height: 410px;
+  }
 `;

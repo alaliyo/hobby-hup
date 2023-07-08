@@ -4,9 +4,10 @@ import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService
 import { deleteDoc, doc } from "firebase/firestore";
 import { dbService } from "../../firebase";
 import { 
-    MyPost, ImgLink, FirstImg, InfoData, InfoLink,
+    Post, ImgLink, FirstImg, InfoData, InfoLink,
     Title, Content, Data, BtnBox, BtnStyle
 } from './TransactionCordStyle';
+import { useWindowWidth } from "../../hooks/WindowWidthTracker";
 
 interface transactionDataProps {
     id: number
@@ -37,6 +38,7 @@ function TransactionMyPost() {
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
     const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
+    const windowWidth = useWindowWidth();
 
     // 게시물 delete
     const onDeleteClick = async(route: string) => {
@@ -73,7 +75,7 @@ function TransactionMyPost() {
         <>
         {myPost && (
             myPost.map((mydata, i) => (
-                <MyPost key={i}>
+                <Post key={i}>
                     <ImgLink
                     to={mydata.route.slice(0, 3) === 'buy' ?
                         '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
@@ -85,12 +87,28 @@ function TransactionMyPost() {
                         to={mydata.route.slice(0, 3) === 'buy' ?
                             '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                         >
-                            <Title>제목: {mydata.title}</Title>
+                            <Title>제목: {
+                                650 >= windowWidth && windowWidth >= 450 ? (
+                                    mydata.title.length <= 7 ? 
+                                    mydata.title : 
+                                    mydata.title.replace(/\\n/g, '').slice(0, 7) + ".."
+                                ) : (
+                                    mydata.title.length <= 10 ? 
+                                    mydata.title : 
+                                    mydata.title.replace(/\\n/g, '').slice(0, 10) + ".."
+                                )
+                            }</Title>
                             <br />
                             <Content>내용: {
-                                mydata.content.length <= 13 ?
-                                mydata.content : 
-                                mydata.content.replace(/\\n/g, '').slice(0, 13) + "..."
+                                650 >= windowWidth && windowWidth >= 450 ? (
+                                    mydata.content.length <= 7 ? 
+                                    mydata.content : 
+                                    mydata.content.replace(/\\n/g, '').slice(0, 7) + ".."
+                                ) : (
+                                    mydata.content.length <= 10 ? 
+                                    mydata.content : 
+                                    mydata.content.replace(/\\n/g, '').slice(0, 10) + ".."
+                                )
                             }</Content>
                             <span>구분: {mydata.route.slice(0, 3) === 'buy' ? "판매" : "구매"}</span>
                             <Data>{mydata.createdAt}</Data>
@@ -105,7 +123,7 @@ function TransactionMyPost() {
                             </BtnStyle>
                         </BtnBox>
                     </InfoData>
-                </MyPost>
+                </Post>
             ))
         )}
         </>

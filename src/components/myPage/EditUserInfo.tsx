@@ -160,12 +160,36 @@ const GroupStyle = styled(Form.Group)`
     width: 100%;
     display: flex;
     margin-bottom: 10px;
+    @media screen and (max-width: 650px) {
+        margin-bottom: 5px;
+    }
+
+    button {
+        @media screen and (max-width: 450px) {
+            font-size: 12px;
+            padding: 2px;
+        }
+    }
 `;
 
 const LabelStyle = styled(Form.Label)`
-    width: 100px;
+    width: 70px;
+    @media screen and (max-width: 650px) {
+        width: 50px;
+        font-size: 14px;
+    }
+    @media screen and (max-width: 450px) {
+        width: 44px;
+        font-size: 13px;
+    }
 `;
 
 const InputStyle = styled(Form.Control)`
-    width: 65%;
+    width: 70%;
+    font-size: 14px;
+    @media screen and (max-width: 450px) {
+        height: 32px;
+        width: 65%;
+        font-size: 12px;
+    }
 `;
