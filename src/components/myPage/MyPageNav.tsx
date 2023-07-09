@@ -86,8 +86,8 @@ const DropdownMenu = styled(Dropdown.Menu)`
     
     a {
         @media screen and (max-width: 650px) {
-        padding: 8px;
-    }
+            padding: 8px;
+        }
     }
 `;
 

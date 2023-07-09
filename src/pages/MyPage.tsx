@@ -162,7 +162,7 @@ const BtnBox = styled.div`
   @media screen and (max-width: 450px) {
     width: 20%;
   }
-`
+`;
 
 const ButtonStyle = styled(Button)`
   height: 40px;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 import EmptyImg from '../../imgs/EmptyImg.png';
 import { useEffect, useState } from "react";
 import { authService, dbService } from "../../firebase";
@@ -14,6 +15,7 @@ interface transactionDataProps {
     route: string;
     catedory: string;
     writerProfile: string;
+    email: string;
 }
 
 function DetailHeader({
@@ -24,11 +26,13 @@ function DetailHeader({
     createdAt,
     catedory,
     writerProfile,
-    route
+    route,
+    email,
 }: transactionDataProps) {
     const [likeArr, setLikeArr] = useState<string[]>([]); //like user Arr
     const user = authService.currentUser; // user 정보
     const userEmail = user?.email; // 유저 아이디 
+    const navigate = useNavigate();
 
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
@@ -85,6 +89,31 @@ function DetailHeader({
         
         fetchData();
     }, [route]);
+    
+    // 1:1 채팅 생성
+    const handleMakeChatting = async (e: any) => {
+        e.preventDefault();
+        try {
+            if (!user) {
+                return alert('로그인 후 사용 가능합니다.');
+            }
+
+            if (user) {
+                await setDoc(doc(dbService, 'chattings', `chattingId0`), {
+                    id: 0,
+                    participations: [
+                        {email: userEmail, displayName: user.displayName, photoURL: user.photoURL},
+                        {email: email, displayName: writer, photoURL: writerProfile}
+                    ],
+                    createdAt: new Date(),
+                    content: [],
+                })
+                navigate('/chatting/0')
+            }
+        } catch (error) {
+            alert('서버 에러입니다. 새로고침 후 다시 시도해주세요.' + error);
+        }
+    };
 
     return(
         <DetailHeaderbox>
@@ -109,7 +138,14 @@ function DetailHeader({
 
                 <PostInfo>
                     <Category>{catedory === 'buy' ? '판매' : '구매'}</Category>
-                    <ChattingBtn variant="outline-secondary">1:1 채팅</ChattingBtn>
+                    {email !== userEmail && (
+                        <ChattingBtn
+                            variant="outline-secondary"
+                            onClick={handleMakeChatting}
+                        >
+                            1:1 채팅
+                        </ChattingBtn>
+                    )}
                 </PostInfo>
             </InfoBox>
 

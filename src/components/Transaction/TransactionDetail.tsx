@@ -20,6 +20,7 @@ interface transactionDataProps {
     imgs: string[];
     createdAt: string;
     route: string;
+    email: string;
 }
 
 function TransactionDetail() {
@@ -77,6 +78,7 @@ function TransactionDetail() {
                     createdAt = {datailData.createdAt}
                     route = {datailData.route}
                     catedory = {catedory}
+                    email = {datailData.email}
                 />
                 <DetailBody
                     content = {datailData.content}

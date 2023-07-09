@@ -19,8 +19,8 @@ import Buy from "./components/Transaction/Buy";
 import Sell from "./components/Transaction/Sell";
 import TransactionDetail from "./components/Transaction/TransactionDetail";
 import TransactionWrite from "./components/Transaction/TransactionWrite";
+import Chatting from "./pages/Chatting";
 import Notice from "./pages/Notice";
-
 
 
 const router = createBrowserRouter([
@@ -86,12 +86,16 @@ const router = createBrowserRouter([
                 ],
             },
             {
+                path: 'chatting/:postId',
+                element: <Chatting />,
+            },
+            {
                 path: 'notice',
                 element: <Notice />,
             },
             {
                 path: 'login',
-                element: <LogIn />
+                element: <LogIn />,
             },
         ],
         errorElement: <NotFound />

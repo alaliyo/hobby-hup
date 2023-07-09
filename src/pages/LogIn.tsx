@@ -177,7 +177,7 @@ export const LogInBox = styled.div`
             width:90vw;
         }
     }
-`
+`;
 
 export const ChangeBut = styled.button`
     width: 100%;
