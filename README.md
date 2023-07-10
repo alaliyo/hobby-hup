@@ -11,6 +11,7 @@
 
 
 <br/>
+<br/>
 
 
 <h2>💻개방 언어 및 활용 기술</h2>
@@ -54,6 +55,25 @@
     아키텍처 링크
   </a>
 </li>
+
+<br/>
+<br/>
+
+<h2>💾커밋메시지 규칙</h2>
+
+<details>
+  <ul>
+    <li>기능 추가: feat</li>
+    <li>버그 수정: fix</li>
+    <li>리팩토링: ref</li>
+    <li>문서 업데이트: doce</li>
+    <li>성능 개선: perf</li>
+    <li>테스트: test</li>
+    <li>설정 변경: chore</li>
+    <li>임시: wip</li>
+  </ul>
+</details>
+
 
 <br/>
 <br/>
