@@ -33,6 +33,7 @@ function DetailHeader({
     const user = authService.currentUser; // user 정보
     const userEmail = user?.email; // 유저 아이디 
     const navigate = useNavigate();
+    const [nowDate, setNowDate] = useState<Date>();
 
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
@@ -105,7 +106,7 @@ function DetailHeader({
                         {email: userEmail, displayName: user.displayName, photoURL: user.photoURL},
                         {email: email, displayName: writer, photoURL: writerProfile}
                     ],
-                    createdAt: new Date(),
+                    createdAt: nowDate,
                     content: [],
                 })
                 navigate('/chatting/0')
@@ -115,6 +116,11 @@ function DetailHeader({
         }
     };
 
+    useEffect(() => {
+        const date = new Date();
+        setNowDate(date);
+    }, []);
+    
     return(
         <DetailHeaderbox>
             <InfoBox>
