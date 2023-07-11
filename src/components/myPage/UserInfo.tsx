@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import EmptyImg from '../../imgs/EmptyImg.png';
 
 interface userObj {
-    photoURL: any | undefined;
+    photoURL: any | null | undefined;
     displayName: string;
     email: string;
 }
@@ -14,7 +14,7 @@ interface UserInfoProps {
 function UserInfo({ userObj }: UserInfoProps) {
     return(
         <UserInfoBox>
-            <UserImg src={ userObj.photoURL !== undefined ? userObj.photoURL : EmptyImg }/>
+            <UserImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg }/>
             <Nickname>{ userObj.displayName }</Nickname>
         </UserInfoBox>
     );

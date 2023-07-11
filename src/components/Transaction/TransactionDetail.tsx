@@ -13,14 +13,12 @@ interface transactionDataProps {
     id: number
     title: string;
     content: string;
-    writer: string;
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];
     createdAt: string;
     route: string;
-    email: string;
+    writer: string;
 }
 
 function TransactionDetail() {
@@ -71,14 +69,12 @@ function TransactionDetail() {
                 />
                 <DetailHeader
                     title = {datailData.title}
-                    writer = {datailData.writer}
-                    writerProfile = {datailData.writerProfile}
                     selected = {datailData.selected}
                     price = {datailData.price}
                     createdAt = {datailData.createdAt}
                     route = {datailData.route}
                     catedory = {catedory}
-                    email = {datailData.email}
+                    writer = {datailData.writer}
                 />
                 <DetailBody
                     content = {datailData.content}

@@ -4,13 +4,13 @@ import { Outlet, useLocation } from "react-router-dom";
 import { fadeInAnimation } from "./PageStyled";
 import { TransactionBuyDatas, TransactionSellDatas } from "../utils/dbService";
 import { useState } from "react";
+import { UserNicknameData } from "../utils/authUtils";
 
 interface TransactionDataProps {
     id: number
     title: string;
     content: string;
     writer: string
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];
@@ -20,11 +20,12 @@ interface TransactionDataProps {
 
 function Transaction() {
     const location = useLocation();
-    const firstBuyDatas: TransactionDataProps[] = TransactionBuyDatas();
-    const firstSellData: TransactionDataProps[] = TransactionSellDatas();
-    const [buyData, setBuyData] = useState<TransactionDataProps[]>();
-    const [sellData, setSellData] = useState<TransactionDataProps[]>();
-    
+    const firstBuyDatas: TransactionDataProps[] = TransactionBuyDatas(); // data 첫 호출
+    const firstSellData: TransactionDataProps[] = TransactionSellDatas(); // date 첫 호출
+    const [buyData, setBuyData] = useState<TransactionDataProps[]>(); // 검색 후
+    const [sellData, setSellData] = useState<TransactionDataProps[]>(); // 검색 후
+    const userNicknameData = UserNicknameData(); // 유저 닉네임 data
+
     const handleSearch = (searchResult: TransactionDataProps[]) => {
         location.pathname === "/transaction/buy" ?
             setBuyData(searchResult) : 
@@ -39,10 +40,12 @@ function Transaction() {
                 handleSearch={handleSearch}
                 pathname={location.pathname}
             />
+
             <Outlet
                 context={{
                     buyData: buyData ? buyData : firstBuyDatas,
                     sellData: sellData ? sellData : firstSellData,
+                    userNicknameData: userNicknameData,
                 }}
             />
         </TransactionBox>

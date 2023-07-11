@@ -13,9 +13,7 @@ interface transactionDataProps {
     id: number
     title: string;
     content: string;
-    email: string;
     writer: string
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];
@@ -37,9 +35,9 @@ function TransactionLike() {
     const { userObj } = useOutletContext<UserInfoProps>(); //user 정보
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
-    const likeData = LikeData()
+    const likeData = LikeData(); // Like data
     const [myLikePost, setMyLikePost] = useState<transactionDataProps[]>(); // 전체 my post
-    const windowWidth = useWindowWidth();
+    const windowWidth = useWindowWidth(); // 웹 크기 값
 
     useEffect(() => {
         const filteredData = likeData.filter(obj =>

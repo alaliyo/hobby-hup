@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import { authService, dbService } from '../firebase';
-import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, setDoc } from 'firebase/firestore';
 import { Alert } from 'react-bootstrap';
 import Filter from 'bad-words';
 import useKFilter from '../hooks/KFilter';
@@ -108,9 +108,10 @@ function LogIn() {
 
         if (account) {
             try {
-                await addDoc(collection(dbService, 'usersNickname'), {
+                await setDoc(doc(dbService, 'usersNickname', email), {
                     email: email,
                     nickname: nickname,
+                    photoURL: null,
                 });
             } catch (error) {
                 alert('서버 에러입니다. 새로고침 후 다시 해주세요~')

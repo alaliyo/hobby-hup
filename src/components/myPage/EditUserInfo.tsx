@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { authService, dbService } from '../../firebase';
 import { Button, Form } from "react-bootstrap";
@@ -42,13 +42,20 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
         try {
             const user = authService.currentUser;
 
-            if (image && user) {
+            if (image && user && user.email) {
                 const storageRef = await uploadImages(
                     image, userObj.email, 1, "profileImg"
                 );
 
                 await updateProfile(user, {
                     photoURL: storageRef[0],
+                });
+
+                const nicknameDocRef = doc(dbService, "usersNickname", user.email);
+                await setDoc(nicknameDocRef, {
+                    photoURL: storageRef[0],
+                    email: user.email,
+                    displayName: user.displayName,
                 });
                 alert('프로필 이미지가 변경되었습니다.');
             }
@@ -80,17 +87,16 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
             } else if (nicknames.includes(nickname)) {
                 return alert("사용중인 닉네임 입니다."); // 중복 없음
             }
-            if (user) {
+            if (user && user.email && nickname) {
                 await updateProfile(user, {
                     displayName: nickname,
                 });
-                const queryRef = query(collection(dbService, "usersNickname"), where("email", "==", userObj.email));
-                const querySnapshot = await getDocs(queryRef);
-                querySnapshot.forEach((doc) => {
-                    const docRef = doc.ref;
-                    updateDoc(docRef, {
-                    nickname: nickname,
-                    });
+
+                const nicknameDocRef = doc(dbService, "usersNickname", user.email);
+                await setDoc(nicknameDocRef, {
+                    photoURL: user.photoURL,
+                    email: user.email,
+                    displayName: nickname,
                 });
                 alert('닉네임이 변경되었습니다.');
             }

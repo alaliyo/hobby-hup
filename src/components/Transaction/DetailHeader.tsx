@@ -5,36 +5,35 @@ import EmptyImg from '../../imgs/EmptyImg.png';
 import { useEffect, useState } from "react";
 import { authService, dbService } from "../../firebase";
 import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import PostNickname from "../../hooks/PostNickname";
 
 interface transactionDataProps {
     title: string;
-    writer: string
     selected: string;
     price: number | string;
     createdAt: string;
     route: string;
     catedory: string;
-    writerProfile: string;
-    email: string;
+    writer: string;
 }
 
 function DetailHeader({
     title,
-    writer,
     selected,
     price,
     createdAt,
     catedory,
-    writerProfile,
     route,
-    email,
+    writer,
 }: transactionDataProps) {
     const [likeArr, setLikeArr] = useState<string[]>([]); //like user Arr
     const user = authService.currentUser; // user 정보
     const userEmail = user?.email; // 유저 아이디 
     const navigate = useNavigate();
     const [nowDate, setNowDate] = useState<Date>();
-
+    const writerData = PostNickname(writer);
+    console.log(writer)
+    console.log(writerData);
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
 
@@ -102,10 +101,7 @@ function DetailHeader({
             if (user) {
                 await setDoc(doc(dbService, 'chattings', `chattingId0`), {
                     id: 0,
-                    participations: [
-                        {email: userEmail, displayName: user.displayName, photoURL: user.photoURL},
-                        {email: email, displayName: writer, photoURL: writerProfile}
-                    ],
+                    participations: [userEmail, writer],
                     createdAt: nowDate,
                     content: [],
                 })
@@ -125,8 +121,8 @@ function DetailHeader({
         <DetailHeaderbox>
             <InfoBox>
                 <PostInfo>
-                    <WriterImg src={writerProfile ? writerProfile : EmptyImg} />
-                    <WriterNickname>{writer}</WriterNickname>
+                    <WriterImg src={writerData?.photoURL ? writerData.photoURL : EmptyImg} />
+                    <WriterNickname>{writerData?.displayName}</WriterNickname>
                 </PostInfo>
 
                 <PostInfo>
@@ -144,7 +140,7 @@ function DetailHeader({
 
                 <PostInfo>
                     <Category>{catedory === 'buy' ? '판매' : '구매'}</Category>
-                    {email !== userEmail && (
+                    {writer !== userEmail && (
                         <ChattingBtn
                             variant="outline-secondary"
                             onClick={handleMakeChatting}

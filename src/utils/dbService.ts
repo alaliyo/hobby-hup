@@ -4,12 +4,10 @@ import { dbService } from "../firebase";
 
 // transaction props
 interface transactionDataProps {
-    email: string;
     id: number
     title: string;
     content: string;
     writer: string
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];

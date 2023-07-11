@@ -11,7 +11,6 @@ interface TransactionDataProps {
     title: string;
     content: string;
     writer: string
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];

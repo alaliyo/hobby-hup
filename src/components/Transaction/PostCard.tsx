@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { authService,  } from "../../firebase";
 import { useEffect, useState } from "react";
 import { LikeData } from "../../utils/dbService";
+import PostNickname from "../../hooks/PostNickname";
 
 interface transactionDataProps {
     id: number;
@@ -24,6 +25,7 @@ function PostCard({ data }: PostCardprops) {
     const likedata = LikeData(); // firebase Like date get
     const [like, serLike] = useState(0); // Like 수
     const navigate = useNavigate();
+    const writerData = PostNickname(data.writer);
     
     // 로그인 후 디테일 페이지 접근
     const handleCardClick = () => {
@@ -65,7 +67,7 @@ function PostCard({ data }: PostCardprops) {
         if (likedata.filter(e => e.id === data.route)[0]) {
             serLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
         }
-    }, [data.route, likedata])
+    }, [data.route, likedata]);
     
     return(
         <LinkStyle onClick={handleCardClick}>
@@ -79,7 +81,7 @@ function PostCard({ data }: PostCardprops) {
                             {data.selected}
                         </CardText>
                         <CardText>
-                            {data.writer}
+                            {writerData && writerData.displayName}
                         </CardText>
                     </InfoBox>
 

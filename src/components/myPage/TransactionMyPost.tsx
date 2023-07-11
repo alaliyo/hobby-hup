@@ -13,9 +13,7 @@ interface transactionDataProps {
     id: number
     title: string;
     content: string;
-    email: string;
     writer: string
-    writerProfile: string;
     selected: string;
     price: number | string;
     imgs: string[];
@@ -65,8 +63,8 @@ function TransactionMyPost() {
 
     // my post 모으기
     useEffect(() => {
-        let myBuydata = buyPost.filter((data: transactionDataProps) => data.email === userObj.email);
-        let mySelldata = sellPost.filter((data: transactionDataProps) => data.email === userObj.email);
+        let myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
+        let mySelldata = sellPost.filter((data: transactionDataProps) => data.writer === userObj.email);
         const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`));
         setMyPost(myPostArrPlus)
     }, [buyPost, sellPost, userObj])
