@@ -1,4 +1,7 @@
+
 import styled from "styled-components";
+import PostNickname from "../../hooks/PostNickname";
+import EmptyImg from '../../imgs/EmptyImg.png';
 
 interface CommentProps {
     id: number;
@@ -8,36 +11,21 @@ interface CommentProps {
 }
 
 interface CommentDetailProps {
-    data: CommentProps
+    data: CommentProps;
+    user: any;
+    handleCommentDel: any;
 }
 
-function CommentDetail({data}: CommentDetailProps) {
-
-    // comment Del
-    const handleCommentDel = async (commentId: number) => {
-        try {
-            // eslint-disable-next-line no-restricted-globals
-            const check = confirm("댓글을 삭제하시겠습니까?")
-            
-            if(check) {
-                await updateDoc(docRef, {
-                    comments: postComments?.filter((comment) => comment.id !== commentId),
-                });
-                alert("댓글이 삭제되었습니다.");
-                setDelCheck('1');
-            }
-        } catch (error) {
-            alert("댓글 삭제에 실패했습니다." + error);
-        }
-    };
+function CommentDetail({data, user, handleCommentDel}: CommentDetailProps) {
+    const writerData = PostNickname(data.writer);
 
     return(
         <CommentBox key={data.id}>
-            <CommentImg src={data.writerProfile ? data.writerProfile : EmptyImg} />
-            <CommentNickname>{data.writer}</CommentNickname>
+            <CommentImg src={writerData?.photoURL ? writerData.photoURL : EmptyImg} />
+            <CommentNickname>{writerData?.displayName}</CommentNickname>
             <CommentContents>{data.content}</CommentContents>
             <CommentDate>{data.contentAt}</CommentDate>
-            {user?.displayName === data.writer && 
+            {user?.email === data.writer && 
                 <DelBtm
                     onClick={() => handleCommentDel(data.id)}
                 >⨉</DelBtm>

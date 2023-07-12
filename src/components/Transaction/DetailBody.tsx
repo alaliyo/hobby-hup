@@ -29,12 +29,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
     const currentDate = useCurrentDate(); // 현재 날짜
     const [postComments, setPostComments] = useState<CommentProps[]>(); // 댓글
     const user = authService.currentUser; // user 정보
-    const [delCheck, setDelCheck] = useState(''); // 삭제 버튼
-    const docRef = doc(
-        dbService,
-        "transactionComment",
-        route
-    ); // firebase DB 경로
+    const docRef = doc(dbService, "transactionComment", route); // firebase DB 경로
     
     // 클라이언트 뎃글 받기
     const commentonChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +67,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 await updateDoc(docRef, {
                     comments: arrayUnion({
                         id: postComments.length > 0 ? postComments[0].id + 1 : 0,
-                        writer: user.displayName,
-                        writerProfile: user.photoURL,
+                        writer: user.email,
                         content: comment,
                         contentAt: currentDate,
                     })
@@ -83,8 +77,7 @@ function DetailBody({ content, route }: DetailBodyProps) {
                 await setDoc(docRef, {
                     comments: [{
                         id: 0, 
-                        writer: user.displayName,
-                        writerProfile: user.photoURL,
+                        writer: user.email,
                         content: comment,
                         contentAt: currentDate,
                     }],
@@ -104,9 +97,11 @@ function DetailBody({ content, route }: DetailBodyProps) {
             const snapshot = await getDoc(docRef);
             if (snapshot.exists()) {
                 const postData = snapshot.data();
-                const sortedComments = postData.comments.sort(
-                    (a: {id: number}, b:{id: number}) => b.id - a.id);
-                setPostComments(sortedComments);
+                if(postData.comments.length > 0) {
+                    const sortedComments = postData.comments.sort(
+                        (a: {id: number}, b:{id: number}) => b.id - a.id);
+                    setPostComments(sortedComments);
+                }
             }
         };
 
@@ -115,7 +110,29 @@ function DetailBody({ content, route }: DetailBodyProps) {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [comment, route]);
-    
+
+    // comment Del
+    const handleCommentDel = async (commentId: number) => {
+        try {
+            // eslint-disable-next-line no-restricted-globals
+            const check = confirm("댓글을 삭제하시겠습니까?")
+            
+            if(check) {
+                await updateDoc(docRef, {
+                    comments: postComments?.filter((comment) => comment.id !== commentId),
+                });
+                alert("댓글이 삭제되었습니다.");
+
+                // 댓글 삭제 후 postComments 업데이트
+                    setPostComments((prevComments) =>
+                    prevComments?.filter((comment) => comment.id !== commentId)
+                );
+            }
+        } catch (error) {
+            alert("댓글 삭제에 실패했습니다." + error);
+        }
+    };
+
     return(
         <div>
             <ContentsBox>
@@ -140,7 +157,12 @@ function DetailBody({ content, route }: DetailBodyProps) {
             </InputBox>
             <CommentBox>
                 {postComments ? postComments.map((data, i) =>
-                    <CommentDetail key={i} data={data}/>
+                    <CommentDetail
+                        key={i}
+                        data={data}
+                        user={user}
+                        handleCommentDel={handleCommentDel}
+                    />
                 ) : null}
             </CommentBox>
         </div>

@@ -25,7 +25,7 @@ function PostCard({ data }: PostCardprops) {
     const likedata = LikeData(); // firebase Like date get
     const [like, serLike] = useState(0); // Like 수
     const navigate = useNavigate();
-    const writerData = PostNickname(data.writer);
+    const writerData = PostNickname(data.writer); // 모든 유저 닉네임, 프로필 이미지
     
     // 로그인 후 디테일 페이지 접근
     const handleCardClick = () => {
