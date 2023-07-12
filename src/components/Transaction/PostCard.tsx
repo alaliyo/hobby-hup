@@ -27,7 +27,7 @@ function PostCard({ data }: PostCardprops) {
     const navigate = useNavigate();
     const location = useLocation().pathname;
     const writerData = PostNickname(data.route.includes(location.split('/')[2]) ? data.writer : null); // 작성자 닉네임, 프로필 이미지
-    console.log()
+    
     // 로그인 후 디테일 페이지 접근
     const handleCardClick = () => {
         if (user) {

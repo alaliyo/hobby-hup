@@ -25,7 +25,7 @@ export const uploadImages = async (images: any, title: string, imgCount: number,
             const imageUrlPromise = getDownloadURL(storageRef);
             imageUrlPromises.push(imageUrlPromise);
         } catch (error) {
-            console.error('에러가 발생했습니다. 새로고침 후 다시 시도해주세요.' + error);
+            alert('에러가 발생했습니다. 새로고침 후 다시 시도해주세요.' + error);
             throw new Error('이미지 업로드 중 오류가 발생했습니다.');
         }
     }
