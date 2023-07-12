@@ -70,6 +70,7 @@
     <li>성능 개선: perf</li>
     <li>테스트: test</li>
     <li>설정 변경: chore</li>
+    <li>배포: hosting</li>
     <li>임시: wip</li>
   </ul>
 </details>
