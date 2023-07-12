@@ -12,16 +12,19 @@ const PostNickname = (writer: string) => {
     const [writerData, setWriterData] = useState<UserNicknameProps>();
 
     useEffect(() => {
-        const fetchData = async () => {
-            const docRef = doc(dbService, "usersNickname", writer);
-            const snapshot = await getDoc(docRef);
-            if (snapshot.exists()) {
-                const postData = snapshot.data() as UserNicknameProps;
-                setWriterData(postData);
-            }
-        };
-
-        fetchData();
+        if (writer.length > 0) {
+            const fetchData = async () => {
+                const docRef = doc(dbService, "usersNickname", writer);
+                const snapshot = await getDoc(docRef);
+                if (snapshot.exists()) {
+                    const postData = snapshot.data() as UserNicknameProps;
+                    setWriterData(postData);
+                }
+            };
+    
+            fetchData();
+        }
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

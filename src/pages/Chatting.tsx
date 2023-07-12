@@ -6,12 +6,7 @@ import { authService, dbService } from "../firebase";
 import styled from "styled-components";
 import EmptyImg from '../imgs/EmptyImg.png';
 import { Button, InputGroup, Form } from "react-bootstrap";
-
-interface participationsProp {
-    email: string;
-    displayName: string;
-    photoURL: string;
-}
+import PostNickname from "../hooks/PostNickname";
 
 interface contentsProp {
     contentsId: number;
@@ -24,7 +19,7 @@ interface contentsProp {
 
 interface ChattingDataProp {
     id: number;
-    participations: participationsProp[];
+    participations: string[];
     createdAt: Date;
     contents: contentsProp[];
 }
@@ -33,9 +28,9 @@ function Chatting() {
     const location = useLocation().pathname;
     const [chattiongData, setChattiongData] = useState<ChattingDataProp>();
     const [userObj, setUserObj] = useState<any>();
-    const [chattingName, setChattingName] = useState<string>();
-    const [chattingImg, setChattingImg] = useState<string>();
-    console.log(chattiongData);
+    const [opponentId, setOpponentId] = useState<string>('');
+    const writerData = PostNickname(opponentId); // 작성자 닉네임, 프로필 이미지
+    
     // 로그인 확인
     useEffect(() => {
         CheckAuth('1:1 채팅은 로그인 후 사용 가능합니다.');
@@ -64,37 +59,26 @@ function Chatting() {
         fetchData();
     }, [location]);
     
-    // 채팅 닉네임
+    // 상대방 아이디 추출
     useEffect(() => {
-        if (userObj && chattiongData) {
-            const nickName = userObj.email === chattiongData.participations[0].email ?
-                chattiongData.participations[1].displayName : 
-                chattiongData.participations[0].displayName;
-
-            if (nickName) {
-                setChattingName(nickName);
+        if (userObj) {
+            const userEmail = userObj.email;
+            if (chattiongData) {
+                const opponent: string = userEmail === chattiongData?.participations[0] ?
+                    chattiongData?.participations[1] :
+                    chattiongData?.participations[0];
+                setOpponentId(opponent);
             }
         }
-    }, [chattiongData, userObj])
-
-    // 채팅 이미지
-    useEffect(() => {
-        if (userObj && chattiongData) {
-            const img = userObj.email === chattiongData.participations[0].email ?
-                chattiongData.participations[1].photoURL : 
-                chattiongData.participations[0].photoURL;
-
-            if (img) {
-                setChattingImg(img);
-            }
-        }
-    }, [chattiongData, userObj])
+    }, [chattiongData]);
     
     return(
         <ChattingBox>
             <Header>
+                {/*
                 <OpponentImg src={chattingImg ? chattingImg : EmptyImg}/>
                 <OpponentName>{chattingName}</OpponentName>
+                */}
             </Header>
             <Body>
 
@@ -145,7 +129,7 @@ const OpponentName = styled.p`
     font-weight: 900;
 `;
 
-const Body = styled.body`
+const Body = styled.div`
     height: 510px;
     background-color: #cacaca;
 `
