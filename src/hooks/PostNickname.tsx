@@ -8,11 +8,11 @@ interface UserNicknameProps {
     displayName: string;
 }
 
-const PostNickname = (writer: string) => {
+const PostNickname = (writer: string | null) => {
     const [writerData, setWriterData] = useState<UserNicknameProps>();
 
     useEffect(() => {
-        if (writer.length > 0) {
+        if (writer) {
             const fetchData = async () => {
                 const docRef = doc(dbService, "usersNickname", writer);
                 const snapshot = await getDoc(docRef);
@@ -25,8 +25,8 @@ const PostNickname = (writer: string) => {
             fetchData();
         }
         
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    
+    }, [writer]);
 
     return writerData;
 }

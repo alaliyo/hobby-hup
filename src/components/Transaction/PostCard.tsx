@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { authService,  } from "../../firebase";
+import { useNavigate, useLocation } from "react-router-dom";
+import { authService } from "../../firebase";
 import { useEffect, useState } from "react";
 import { LikeData } from "../../utils/dbService";
 import PostNickname from "../../hooks/PostNickname";
@@ -23,10 +23,11 @@ interface PostCardprops {
 function PostCard({ data }: PostCardprops) {
     const user = authService.currentUser; // user 정보
     const likedata = LikeData(); // firebase Like date get
-    const [like, serLike] = useState(0); // Like 수
+    const [like, setLike] = useState(0); // Like 수
     const navigate = useNavigate();
-    const writerData = PostNickname(data.writer); // 작성자 닉네임, 프로필 이미지
-    
+    const location = useLocation().pathname;
+    const writerData = PostNickname(data.route.includes(location.split('/')[2]) ? data.writer : null); // 작성자 닉네임, 프로필 이미지
+    console.log()
     // 로그인 후 디테일 페이지 접근
     const handleCardClick = () => {
         if (user) {
@@ -65,7 +66,7 @@ function PostCard({ data }: PostCardprops) {
     // Like 숫자료 변환
     useEffect(() => {
         if (likedata.filter(e => e.id === data.route)[0]) {
-            serLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
+            setLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
         }
     }, [data.route, likedata]);
     

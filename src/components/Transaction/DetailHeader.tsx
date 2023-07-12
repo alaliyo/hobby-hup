@@ -32,8 +32,7 @@ function DetailHeader({
     const navigate = useNavigate();
     const [nowDate, setNowDate] = useState<Date>();
     const writerData = PostNickname(writer);
-    console.log(writer)
-    console.log(writerData);
+    
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
 

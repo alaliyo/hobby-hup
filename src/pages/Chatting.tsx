@@ -1,36 +1,20 @@
 import { useEffect, useState } from "react";
 import { CheckAuth } from "../utils/authUtils";
 import { useLocation } from 'react-router-dom';
-import { doc, getDoc } from "firebase/firestore";
-import { authService, dbService } from "../firebase";
+import { authService } from "../firebase";
 import styled from "styled-components";
 import EmptyImg from '../imgs/EmptyImg.png';
 import { Button, InputGroup, Form } from "react-bootstrap";
 import PostNickname from "../hooks/PostNickname";
-
-interface contentsProp {
-    contentsId: number;
-    email: string;
-    displayName: string;
-    photoURL: string;
-    content: string;
-    createdAt: Date;
-}
-
-interface ChattingDataProp {
-    id: number;
-    participations: string[];
-    createdAt: Date;
-    contents: contentsProp[];
-}
+import { ChattingData } from "../utils/dbService";
 
 function Chatting() {
     const location = useLocation().pathname;
-    const [chattiongData, setChattiongData] = useState<ChattingDataProp>();
+    const chattiongData = ChattingData(location.split('/')[2]);
     const [userObj, setUserObj] = useState<any>();
     const [opponentId, setOpponentId] = useState<string>('');
     const writerData = PostNickname(opponentId); // 작성자 닉네임, 프로필 이미지
-    
+
     // 로그인 확인
     useEffect(() => {
         CheckAuth('1:1 채팅은 로그인 후 사용 가능합니다.');
@@ -44,33 +28,19 @@ function Chatting() {
             }
         })
     }, []);
-
-    // 채팅창 data get
-    useEffect(() => {
-        const fetchData = async () => {
-            const docRef = doc(dbService, "chattings", `chattingId${location.split('/')[2]}`);
-            const snapshot = await getDoc(docRef);
-            if (snapshot.exists()) {
-                const postData = snapshot.data() as ChattingDataProp;
-                setChattiongData(postData);
-            }
-        };
-
-        fetchData();
-    }, [location]);
     
     // 상대방 아이디 추출
     useEffect(() => {
         if (userObj) {
-            const userEmail = userObj.email;
-            if (chattiongData) {
-                const opponent: string = userEmail === chattiongData?.participations[0] ?
-                    chattiongData?.participations[1] :
-                    chattiongData?.participations[0];
+            const opponent = userObj.email === chattiongData?.participations[0] ?
+                chattiongData?.participations[1] :
+                chattiongData?.participations[0];
+
+            if (opponent) {
                 setOpponentId(opponent);
             }
         }
-    }, [chattiongData]);
+    }, [chattiongData, userObj]);
     
     return(
         <ChattingBox>
