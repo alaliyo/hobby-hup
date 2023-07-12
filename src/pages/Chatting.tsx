@@ -75,10 +75,10 @@ function Chatting() {
     return(
         <ChattingBox>
             <Header>
-                {/*
-                <OpponentImg src={chattingImg ? chattingImg : EmptyImg}/>
-                <OpponentName>{chattingName}</OpponentName>
-                */}
+                {writerData && <>
+                    <OpponentImg src={writerData.photoURL ? writerData.photoURL : EmptyImg}/>
+                    <OpponentName>{writerData.displayName}</OpponentName>
+                </>}
             </Header>
             <Body>
 
