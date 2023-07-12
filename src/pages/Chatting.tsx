@@ -51,17 +51,31 @@ function Chatting() {
                 </>}
             </Header>
             <Body>
-
+                {['a','a','a','a','a','a','a','a','a','a'].map((e, i) => (
+                    <>
+                    <Profile>
+                        {writerData && <>
+                            <ProfileImg src={writerData.photoURL ? writerData.photoURL : EmptyImg}/>
+                            <ProfileNickname>{writerData.displayName}</ProfileNickname>
+                        </>}
+                    </Profile>
+                    <ChatBox key={i}>
+                        <ChatBubble>
+                            <p>{e}</p>
+                        </ChatBubble>
+                    </ChatBox>
+                    </>
+                ))}
+                
             </Body>
             <Footer>
             <InputGroup className="mb-3">
                 <Form.Control
-                placeholder="Recipient's username"
-                aria-label="Recipient's username"
+                placeholder="내용을 입력해주세요."
                 aria-describedby="basic-addon2"
                 />
                 <Button variant="outline-secondary" id="button-addon2">
-                Button
+                완료
                 </Button>
             </InputGroup>
             </Footer>
@@ -73,7 +87,7 @@ export default Chatting;
 
 const ChattingBox = styled.div`
     height: 650px;
-    background-color: #f1f8ff;
+    background-color: #98b9eb;
     width: 45%;
     margin: 85px auto 30px auto;
     border: 1px solid #999999;
@@ -85,6 +99,7 @@ const ChattingBox = styled.div`
 const Header = styled.header`
     display: flex;
     height: 55px;
+    padding-bottom: 60px;
 `;
 
 const OpponentImg = styled.img`
@@ -98,11 +113,45 @@ const OpponentName = styled.p`
     font-size: 21px;
     font-weight: 900;
 `;
-
 const Body = styled.div`
     height: 510px;
-    background-color: #cacaca;
+    overflow: auto;
 `
+
+const Profile = styled.div`
+    display: flex;
+    height: 30px;
+`;
+
+const ProfileImg = styled.img`
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+`;
+
+const ProfileNickname = styled.p`
+    font-weight: 900;
+`;
+
+const ChatBox = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 30px;
+`
+
+const ChatBubble = styled.div`
+    background-color: #ffffff;
+    border-radius: 10px;
+    color: #000000;
+    padding: 10px;
+    max-width: 200px;
+    word-wrap: break-word;
+
+    p {
+        margin: 0;
+    }
+`;
 
 const Footer = styled.footer`
     height: 60px;
