@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { authService, dbService } from "../../firebase";
 import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import PostNickname from "../../hooks/PostNickname";
+import { ChattingData } from "../../utils/dbService";
 
 interface transactionDataProps {
     title: string;
@@ -30,9 +31,9 @@ function DetailHeader({
     const user = authService.currentUser; // user 정보
     const userEmail = user?.email; // 유저 아이디 
     const navigate = useNavigate();
-    const [nowDate, setNowDate] = useState<Date>();
-    const writerData = PostNickname(writer);
-    
+    const writerData = PostNickname(writer); // 작성자 data get
+    const chattingData = ChattingData(); // 채팅창 data
+    console.log(chattingData);
     const handleLikeCount = async (e: any) => {
         e.preventDefault();
 
@@ -101,7 +102,7 @@ function DetailHeader({
                 await setDoc(doc(dbService, 'chattings', `chattingId0`), {
                     id: 0,
                     participations: [userEmail, writer],
-                    createdAt: nowDate,
+                    createdAt: new Date().toString(),
                     content: [],
                 })
                 navigate('/chatting/0')
@@ -110,11 +111,6 @@ function DetailHeader({
             alert('서버 에러입니다. 새로고침 후 다시 시도해주세요.' + error);
         }
     };
-
-    useEffect(() => {
-        const date = new Date();
-        setNowDate(date);
-    }, []);
     
     return(
         <DetailHeaderbox>

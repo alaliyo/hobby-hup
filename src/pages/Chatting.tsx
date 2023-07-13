@@ -40,6 +40,7 @@ function Chatting() {
         setInputValue(e.target.value);
     };
 
+    // 챙팅 data 로딩
     useEffect(() => {
         const fetchData = async () => {
             const docRef = doc(dbService, "chattings", `chattingId${location.split('/')[2]}`);
@@ -51,7 +52,6 @@ function Chatting() {
         };
 
         fetchData();
-        
     }, [location, inputValue]);
 
     // 댓글 DB로

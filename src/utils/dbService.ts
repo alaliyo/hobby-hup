@@ -112,3 +112,38 @@ export function LikeData() {
 
     return likeArr;
 }
+
+
+// 채팅 data get
+
+interface contentsProp {
+    contentsId: number;
+    email: string;
+    content: string;
+    createdAt: Date;
+}
+
+interface ChattingDataProp {
+    id: number;
+    participations: string[];
+    createdAt: Date;
+    content: contentsProp[];
+}
+
+export function ChattingData() {
+    const [chattingData, setChattingData] = useState<ChattingDataProp[]>([]);
+    
+    useEffect(() => {
+        const q = query(
+            collection(dbService, "chattings"),
+        );
+        onSnapshot(q, (snapshot) => {
+            const postsArr: any = snapshot.docs.map((doc) => ({
+                ...doc.data(),
+            }));
+            setChattingData(postsArr);
+        });
+    }, []);
+    
+    return chattingData;
+}

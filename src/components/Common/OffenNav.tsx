@@ -79,6 +79,7 @@ const OffcanvaBtn = styled(Button)`
     --bs-btn-active-bg: none;
     --bs-btn-active-color: #6f9fe7;
     font-weight: 900;
+    
 `;
 
 const OffcanvaBox = styled(Offcanvas)`
@@ -93,6 +94,7 @@ const LinkStyle = styled(Link)`
     margin-bottom: 10px;
     display: block;
     text-decoration: none;
+    font-family: 'NanumHimNaeRaNeunMarBoDan';
     :hover {
         color: white;
         font-weight: 900;
