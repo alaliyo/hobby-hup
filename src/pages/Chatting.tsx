@@ -51,20 +51,20 @@ function Chatting() {
                 </>}
             </Header>
             <Body>
-                {['a','a','a','a','a','a','a','a','a','a'].map((e, i) => (
-                    <>
+                {['a'].map((e, i) => (
+                    <div key={i}>
                     <Profile>
                         {writerData && <>
                             <ProfileImg src={writerData.photoURL ? writerData.photoURL : EmptyImg}/>
                             <ProfileNickname>{writerData.displayName}</ProfileNickname>
                         </>}
                     </Profile>
-                    <ChatBox key={i}>
+                    <ChatBox>
                         <ChatBubble>
                             <p>{e}</p>
                         </ChatBubble>
                     </ChatBox>
-                    </>
+                    </div>
                 ))}
                 
             </Body>
@@ -74,7 +74,7 @@ function Chatting() {
                 placeholder="내용을 입력해주세요."
                 aria-describedby="basic-addon2"
                 />
-                <Button variant="outline-secondary" id="button-addon2">
+                <Button variant="secondary" id="button-addon2">
                 완료
                 </Button>
             </InputGroup>
@@ -114,8 +114,9 @@ const OpponentName = styled.p`
     font-weight: 900;
 `;
 const Body = styled.div`
-    height: 510px;
+    height: 500px;
     overflow: auto;
+    margin-bottom: 10px;
 `
 
 const Profile = styled.div`
@@ -138,13 +139,14 @@ const ChatBox = styled.div`
     display: flex;
     justify-content: flex-start;
     padding: 0px 30px;
-`
+    margin-bottom: 5px;
+`;
 
 const ChatBubble = styled.div`
     background-color: #ffffff;
     border-radius: 10px;
     color: #000000;
-    padding: 10px;
+    padding: 5px 10px;
     max-width: 200px;
     word-wrap: break-word;
 
@@ -155,4 +157,4 @@ const ChatBubble = styled.div`
 
 const Footer = styled.footer`
     height: 60px;
-`
+`;
