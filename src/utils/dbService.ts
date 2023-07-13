@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbService } from "../firebase";
 
@@ -112,37 +112,3 @@ export function LikeData() {
 
     return likeArr;
 }
-
-// 채팅 data get
-interface contentsProp {
-    contentsId: number;
-    email: string;
-    content: string;
-    createdAt: Date;
-}
-
-interface ChattingDataProp {
-    id: number;
-    participations: string[];
-    createdAt: Date;
-    contents: contentsProp[];
-}
-
-export function ChattingData(id: string) {
-    const [data, setData] = useState<ChattingDataProp| null>(null);
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            const docRef = doc(dbService, "chattings", `chattingId${id}`);
-            const snapshot = await getDoc(docRef);
-            if (snapshot.exists()) {
-                const postData = snapshot.data() as ChattingDataProp;
-                setData(postData);
-            }
-        };
-
-        fetchData();
-    }, [id]);
-
-    return data;
-};

@@ -1,19 +1,90 @@
 import { useEffect, useState } from "react";
 import { CheckAuth } from "../utils/authUtils";
 import { useLocation } from 'react-router-dom';
-import { authService } from "../firebase";
+import { authService, dbService } from "../firebase";
 import styled from "styled-components";
 import EmptyImg from '../imgs/EmptyImg.png';
 import { Button, InputGroup, Form } from "react-bootstrap";
 import PostNickname from "../hooks/PostNickname";
-import { ChattingData } from "../utils/dbService";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import useKFilter from "../hooks/KFilter";
+import Filter from 'bad-words';
+
+// 채팅 data get
+interface contentsProp {
+    contentsId: number;
+    email: string;
+    content: string;
+    createdAt: Date;
+}
+
+interface ChattingDataProp {
+    id: number;
+    participations: string[];
+    createdAt: Date;
+    content: contentsProp[];
+}
 
 function Chatting() {
-    const location = useLocation().pathname;
-    const chattiongData = ChattingData(location.split('/')[2]);
-    const [userObj, setUserObj] = useState<any>();
-    const [opponentId, setOpponentId] = useState<string>('');
+    const location = useLocation().pathname; // 주소 조회
+    const [chattiongData, setChattiongData] = useState<ChattingDataProp| null>(null); // 현재 채팅 data
+    const [userObj, setUserObj] = useState<any>(); // 사용 유저 정보
+    const [opponentId, setOpponentId] = useState<string>(''); // 상대 유저 아이디
     const writerData = PostNickname(opponentId); // 작성자 닉네임, 프로필 이미지
+    const [inputValue, setInputValue] = useState<string>(''); // input 값
+    const KFilter = useKFilter(inputValue); // 한글 비속어 필터
+    const filter = new Filter(); // 영어 비속어 필터
+    
+    // input value 추출
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const docRef = doc(dbService, "chattings", `chattingId${location.split('/')[2]}`);
+            const snapshot = await getDoc(docRef);
+            if (snapshot.exists()) {
+                const postData = snapshot.data() as ChattingDataProp;
+                setChattiongData(postData);
+            }
+        };
+
+        fetchData();
+        
+    }, [location, inputValue]);
+
+    // 댓글 DB로
+    const handleChattingPost = async (e: any) => {
+        e.preventDefault();
+
+        const docRef = doc(dbService, "chattings", `chattingId${location.split('/')[2]}`);
+        try {
+            if (KFilter) {
+                return alert("비속어가 감지되었습니다.");
+            } else if (filter.isProfane(inputValue)) {
+                return alert("비속어가 감지되었습니다.");
+            }
+
+            await updateDoc(docRef, {
+                content: arrayUnion({
+                    contentsId: chattiongData?.content.length,
+                    email: userObj.email,
+                    content: inputValue,
+                    createdAt: new Date().toString(),
+                })
+            });
+            setInputValue('');
+        } catch (error) {
+            alert("새로고침 후 다시 시도해 주세요" + error);
+        }
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleChattingPost(e)
+        }
+    };
 
     // 로그인 확인
     useEffect(() => {
@@ -51,31 +122,29 @@ function Chatting() {
                 </>}
             </Header>
             <Body>
-                {['a'].map((e, i) => (
-                    <div key={i}>
-                    <Profile>
-                        {writerData && <>
-                            <ProfileImg src={writerData.photoURL ? writerData.photoURL : EmptyImg}/>
-                            <ProfileNickname>{writerData.displayName}</ProfileNickname>
-                        </>}
-                    </Profile>
-                    <ChatBox>
-                        <ChatBubble>
-                            <p>{e}</p>
+                {chattiongData && chattiongData.content.map((e, i) => (
+                    <ChatBox key={i} emailChack={e.email === userObj.email}>
+                        <ChatBubble emailChack={e.email === userObj.email}>
+                            <p>{e.content}</p>
                         </ChatBubble>
                     </ChatBox>
-                    </div>
                 ))}
-                
             </Body>
             <Footer>
             <InputGroup className="mb-3">
                 <Form.Control
-                placeholder="내용을 입력해주세요."
-                aria-describedby="basic-addon2"
+                    placeholder="내용을 입력해주세요."
+                    aria-describedby="basic-addon2"
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
                 />
-                <Button variant="secondary" id="button-addon2">
-                완료
+                <Button
+                    variant="secondary"
+                    id="button-addon2"
+                    onClick={handleChattingPost}
+                >
+                    완료
                 </Button>
             </InputGroup>
             </Footer>
@@ -88,12 +157,16 @@ export default Chatting;
 const ChattingBox = styled.div`
     height: 650px;
     background-color: #98b9eb;
-    width: 45%;
+    width: 450px;
     margin: 85px auto 30px auto;
     border: 1px solid #999999;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 1px 1px 2px #d4d4d4, -1px -1px 2px #d6d6d6;
+
+    @media screen and (max-width: 450px) {
+        width: 100%;
+    }
 `;
 
 const Header = styled.header`
@@ -113,42 +186,31 @@ const OpponentName = styled.p`
     font-size: 21px;
     font-weight: 900;
 `;
+
 const Body = styled.div`
-    height: 500px;
+    height: 510px;
     overflow: auto;
-    margin-bottom: 10px;
 `
 
-const Profile = styled.div`
+interface CustomLinkProps {
+    emailChack?: boolean;
+}
+
+const ChatBox = styled.div<CustomLinkProps>`
     display: flex;
-    height: 30px;
-`;
+    justify-content: ${e => e.emailChack ? "flex-end" : "flex-start"};
+    padding: 3px 15px;
+`
 
-const ProfileImg = styled.img`
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    margin-right: 5px;
-`;
-
-const ProfileNickname = styled.p`
-    font-weight: 900;
-`;
-
-const ChatBox = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    padding: 0px 30px;
-    margin-bottom: 5px;
-`;
-
-const ChatBubble = styled.div`
-    background-color: #ffffff;
+const ChatBubble = styled.div<CustomLinkProps>`
+    background-color: ${e => e.emailChack ? "#fff9a9" : "#ffffff"};
     border-radius: 10px;
     color: #000000;
-    padding: 5px 10px;
+    padding: 10px;
     max-width: 200px;
     word-wrap: break-word;
+    border-top-left-radius: ${e => e.emailChack ? "10px" : "0px"};
+    border-top-right-radius: ${e => e.emailChack ? "0px" : "10px"};
 
     p {
         margin: 0;
@@ -157,4 +219,20 @@ const ChatBubble = styled.div`
 
 const Footer = styled.footer`
     height: 60px;
-`;
+`
+
+// const Profile = styled.div`
+//     display: flex;
+//     height: 30px;
+// `;
+
+// const ProfileImg = styled.img`
+//     height: 30px;
+//     width: 30px;
+//     border-radius: 50%;
+//     margin-right: 5px;
+// `;
+
+// const ProfileNickname = styled.p`
+//     font-weight: 900;
+// `;

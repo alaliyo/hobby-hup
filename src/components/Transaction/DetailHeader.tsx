@@ -37,7 +37,7 @@ function DetailHeader({
         e.preventDefault();
 
         // firebase DB 경로
-        const docRef = doc(dbService,  "transactionLike", route); 
+        const docRef = doc(dbService, "transactionLike", route); 
       
         try {
             const docSnap = await getDoc(docRef);
