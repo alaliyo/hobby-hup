@@ -27,12 +27,15 @@ const FooterBox = styled.footer`
     padding: 20px;
     display: grid;
     grid-template-columns: 5fr 5fr;
+
     @media screen and (max-width: 650px) {
         padding: 15px;
     }
+
     @media screen and (max-width: 510px) {
         padding: 10px;
     }
+
     @media screen and (max-width: 410px) {
         padding: 10px 5px;
     }
@@ -42,17 +45,20 @@ const FooterTextBox = styled.div`
     p {
         color: white;
         font-weight: 500;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
+
         @media screen and (max-width: 650px) {
             font-size: 15px;
             margin-bottom: 3px;
         }
+
         @media screen and (max-width: 560px) {
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 2px;
         }
+
         @media screen and (max-width: 440px) {
-            font-size: 10px;
+            font-size: 11px;
         }
     }
 `;

@@ -54,7 +54,7 @@ export default App;
 
 const AppBox = styled.div`
   margin-top: 70px;
-  font-family: 'NanumHimNaeRaNeunMarBoDan';
+  font-family: 'NanumSquareRound';
 `
 
 const OutletBox = styled.div`

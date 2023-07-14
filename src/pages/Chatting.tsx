@@ -74,6 +74,7 @@ function Chatting() {
                     createdAt: new Date().toString(),
                 })
             });
+            
             setInputValue('');
         } catch (error) {
             alert("새로고침 후 다시 시도해 주세요" + error);

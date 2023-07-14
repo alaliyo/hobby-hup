@@ -140,7 +140,7 @@ const HeaderWidth = styled.div`
 
 const LinkStyled = styled(Link)<CustomLinkProps>`
     color: ${p => p.active === 'true' ? '#6f9fe7' : '#6b6b6b' };
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 900;
     text-decoration: none;
 
