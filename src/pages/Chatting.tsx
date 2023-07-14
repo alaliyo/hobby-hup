@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckAuth } from "../utils/authUtils";
 import { useLocation } from 'react-router-dom';
 import { authService, dbService } from "../firebase";
@@ -34,6 +34,7 @@ function Chatting() {
     const [inputValue, setInputValue] = useState<string>(''); // input 값
     const KFilter = useKFilter(inputValue); // 한글 비속어 필터
     const filter = new Filter(); // 영어 비속어 필터
+    const messagesEndRef = useRef<HTMLDivElement>(null);
     
     // input value 추출
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +65,8 @@ function Chatting() {
                 return alert("비속어가 감지되었습니다.");
             } else if (filter.isProfane(inputValue)) {
                 return alert("비속어가 감지되었습니다.");
+            } else if (inputValue.length < 1) {
+                return;
             }
 
             await updateDoc(docRef, {
@@ -113,6 +116,16 @@ function Chatting() {
             }
         }
     }, [chattiongData, userObj]);
+
+    useEffect(() => {
+        const scrollToBottom = () => {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        };
+        // 메시지가 업데이트될 때마다 스크롤을 자동으로 아래로 이동
+        scrollToBottom();
+    }, [chattiongData]);
+
+    
     
     return(
         <ChattingBox>
@@ -125,29 +138,33 @@ function Chatting() {
             <Body>
                 {chattiongData && chattiongData.content.map((e, i) => (
                     <ChatBox key={i} emailChack={e.email === userObj.email}>
-                        <ChatBubble emailChack={e.email === userObj.email}>
-                            <p>{e.content}</p>
-                        </ChatBubble>
+                        <DateBox>{e.createdAt.toString()}</DateBox>
+                        <ContentBox emailChack={e.email === userObj.email}>
+                            <ContentBubble emailChack={e.email === userObj.email}>
+                                <p>{e.content}</p>
+                            </ContentBubble>
+                        </ContentBox>
                     </ChatBox>
                 ))}
+                <div ref={messagesEndRef} />
             </Body>
             <Footer>
-            <InputGroup className="mb-3">
-                <Form.Control
-                    placeholder="내용을 입력해주세요."
-                    aria-describedby="basic-addon2"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                />
-                <Button
-                    variant="secondary"
-                    id="button-addon2"
-                    onClick={handleChattingPost}
-                >
-                    완료
-                </Button>
-            </InputGroup>
+                <InputGroup className="mb-3">
+                    <Form.Control
+                        placeholder="내용을 입력해주세요."
+                        aria-describedby="basic-addon2"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                    />
+                    <Button
+                        variant="secondary"
+                        id="button-addon2"
+                        onClick={handleChattingPost}
+                    >
+                        완료
+                    </Button>
+                </InputGroup>
             </Footer>
         </ChattingBox>
     );
@@ -191,6 +208,10 @@ const OpponentName = styled.p`
 const Body = styled.div`
     height: 510px;
     overflow: auto;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 interface CustomLinkProps {
@@ -200,10 +221,20 @@ interface CustomLinkProps {
 const ChatBox = styled.div<CustomLinkProps>`
     display: flex;
     justify-content: ${e => e.emailChack ? "flex-end" : "flex-start"};
-    padding: 3px 15px;
+`;
+
+const DateBox = styled.div`
+    display: flex;
+    align-items: end;
+`;
+
+const ContentBox = styled.div<CustomLinkProps>`
+    padding: 3px 5px;
+    margin-left: ${e => e.emailChack ? '0' : '15px'};
+    margin-right: ${e => e.emailChack ? '15px' : '0'};
 `
 
-const ChatBubble = styled.div<CustomLinkProps>`
+const ContentBubble = styled.div<CustomLinkProps>`
     background-color: ${e => e.emailChack ? "#fff9a9" : "#ffffff"};
     border-radius: 10px;
     color: #000000;
@@ -220,6 +251,7 @@ const ChatBubble = styled.div<CustomLinkProps>`
 
 const Footer = styled.footer`
     height: 60px;
+    margin-top: 10px;
 `
 
 // const Profile = styled.div`
