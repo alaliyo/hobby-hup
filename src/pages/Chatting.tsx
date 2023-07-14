@@ -15,13 +15,13 @@ interface contentsProp {
     contentsId: number;
     email: string;
     content: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 interface ChattingDataProp {
     id: number;
     participations: string[];
-    createdAt: Date;
+    createdAt: string;
     content: contentsProp[];
 }
 
@@ -124,9 +124,7 @@ function Chatting() {
         // 메시지가 업데이트될 때마다 스크롤을 자동으로 아래로 이동
         scrollToBottom();
     }, [chattiongData]);
-
-    
-    
+    console.log(chattiongData);
     return(
         <ChattingBox>
             <Header>
@@ -138,7 +136,7 @@ function Chatting() {
             <Body>
                 {chattiongData && chattiongData.content.map((e, i) => (
                     <ChatBox key={i} emailChack={e.email === userObj.email}>
-                        <DateBox>{e.createdAt.toString()}</DateBox>
+                        <DateBox>{new Date(e.createdAt).getDate()}</DateBox>
                         <ContentBox emailChack={e.email === userObj.email}>
                             <ContentBubble emailChack={e.email === userObj.email}>
                                 <p>{e.content}</p>
