@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckAuth } from "../utils/authUtils";
 import { useLocation } from 'react-router-dom';
 import { authService, dbService } from "../firebase";
@@ -10,7 +10,6 @@ import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import useKFilter from "../hooks/KFilter";
 import Filter from 'bad-words';
 
-// 채팅 data get
 interface contentsProp {
     contentsId: number;
     email: string;
@@ -21,7 +20,7 @@ interface contentsProp {
 interface ChattingDataProp {
     id: number;
     participations: string[];
-    createdAt: string;
+    createdAt: Date;
     content: contentsProp[];
 }
 
@@ -34,7 +33,6 @@ function Chatting() {
     const [inputValue, setInputValue] = useState<string>(''); // input 값
     const KFilter = useKFilter(inputValue); // 한글 비속어 필터
     const filter = new Filter(); // 영어 비속어 필터
-    const messagesEndRef = useRef<HTMLDivElement>(null);
     
     // input value 추출
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,19 +63,23 @@ function Chatting() {
                 return alert("비속어가 감지되었습니다.");
             } else if (filter.isProfane(inputValue)) {
                 return alert("비속어가 감지되었습니다.");
-            } else if (inputValue.length < 1) {
-                return;
             }
+
+            const newDate = new Date();
+            const year = newDate.getFullYear().toString().slice(2, 4);
+            const month = newDate.getMonth() + 1;
+            const date = newDate.getDate();
+            const hours = newDate.getHours();
+            const minutes = newDate.getMinutes();
 
             await updateDoc(docRef, {
                 content: arrayUnion({
                     contentsId: chattiongData?.content.length,
                     email: userObj.email,
                     content: inputValue,
-                    createdAt: new Date().toString(),
+                    createdAt: `${year}.${month}.${date} ${hours}:${minutes}`,
                 })
             });
-            
             setInputValue('');
         } catch (error) {
             alert("새로고침 후 다시 시도해 주세요" + error);
@@ -116,15 +118,7 @@ function Chatting() {
             }
         }
     }, [chattiongData, userObj]);
-
-    useEffect(() => {
-        const scrollToBottom = () => {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        };
-        // 메시지가 업데이트될 때마다 스크롤을 자동으로 아래로 이동
-        scrollToBottom();
-    }, [chattiongData]);
-    console.log(chattiongData);
+    
     return(
         <ChattingBox>
             <Header>
@@ -133,19 +127,20 @@ function Chatting() {
                     <OpponentName>{writerData.displayName}</OpponentName>
                 </>}
             </Header>
+
             <Body>
                 {chattiongData && chattiongData.content.map((e, i) => (
                     <ChatBox key={i} emailChack={e.email === userObj.email}>
-                        <DateBox>{new Date(e.createdAt).getDate()}</DateBox>
                         <ContentBox emailChack={e.email === userObj.email}>
-                            <ContentBubble emailChack={e.email === userObj.email}>
+                            <ContenBubble emailChack={e.email === userObj.email}>
                                 <p>{e.content}</p>
-                            </ContentBubble>
+                            </ContenBubble>
                         </ContentBox>
+                        <ChatDate>{e.createdAt}</ChatDate>
                     </ChatBox>
                 ))}
-                <div ref={messagesEndRef} />
             </Body>
+
             <Footer>
                 <InputGroup className="mb-3">
                     <Form.Control
@@ -206,11 +201,8 @@ const OpponentName = styled.p`
 const Body = styled.div`
     height: 510px;
     overflow: auto;
-
-    ::-webkit-scrollbar {
-        display: none;
-    }
-`
+    padding: 5px 10px;
+`;
 
 interface CustomLinkProps {
     emailChack?: boolean;
@@ -218,21 +210,19 @@ interface CustomLinkProps {
 
 const ChatBox = styled.div<CustomLinkProps>`
     display: flex;
-    justify-content: ${e => e.emailChack ? "flex-end" : "flex-start"};
+    flex-direction: ${e => e.emailChack ? "row-reverse" : "row"};
 `;
 
-const DateBox = styled.div`
-    display: flex;
-    align-items: end;
+const ChatDate = styled.div`
+    
 `;
 
 const ContentBox = styled.div<CustomLinkProps>`
-    padding: 3px 5px;
-    margin-left: ${e => e.emailChack ? '0' : '15px'};
-    margin-right: ${e => e.emailChack ? '15px' : '0'};
-`
+    display: flex;
+    padding: 5px 10px;
+`;
 
-const ContentBubble = styled.div<CustomLinkProps>`
+const ContenBubble = styled.div<CustomLinkProps>`
     background-color: ${e => e.emailChack ? "#fff9a9" : "#ffffff"};
     border-radius: 10px;
     color: #000000;
@@ -249,7 +239,6 @@ const ContentBubble = styled.div<CustomLinkProps>`
 
 const Footer = styled.footer`
     height: 60px;
-    margin-top: 10px;
 `
 
 // const Profile = styled.div`

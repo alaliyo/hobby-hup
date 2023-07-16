@@ -40,7 +40,11 @@ function PostCard({ data }: PostCardprops) {
     // date 한글 표시 함수
     const formatDate = (dateString: string): string => {
         const currentDate = new Date();
-        const createdAt = new Date('20' + dateString);
+        const dateParts = dateString.split('.'); // 날짜 문자열을 구분자로 분할
+        const year = parseInt(dateParts[0]); // 년도
+        const month = parseInt(dateParts[1]) - 1; // 월 (0부터 시작하므로 1을 빼줌)
+        const day = parseInt(dateParts[2]); // 일
+        const createdAt = new Date(2000 + year, month, day); // Date 객체 생성
         const timeDiff = Math.abs(currentDate.getTime() - createdAt.getTime());
         const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         const diffYears = Math.floor(diffDays / 365);
