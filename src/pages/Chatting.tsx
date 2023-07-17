@@ -77,25 +77,25 @@ function Chatting() {
                     contentsId: chattiongData?.content.length,
                     email: userObj.email,
                     content: inputValue,
-                    createdAt: `${year}.${month}.${date} ${hours}:${minutes}`,
+                    createdAt: `${year}/${month}/${date} ${hours}:${minutes}`,
                 })
             });
             setInputValue('');
         } catch (error) {
             alert("새로고침 후 다시 시도해 주세요" + error);
         }
-    }
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            handleChattingPost(e)
+            handleChattingPost(e);
         }
     };
 
     // 로그인 확인
     useEffect(() => {
         CheckAuth('1:1 채팅은 로그인 후 사용 가능합니다.');
-    }, [])
+    }, []);
 
     // 유저 정보 가져오기
     useEffect(() => {
@@ -150,6 +150,7 @@ function Chatting() {
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                     />
+
                     <Button
                         variant="secondary"
                         id="button-addon2"
@@ -191,7 +192,7 @@ const OpponentImg = styled.img`
     width: 40px;
     border-radius: 50%;
     margin-right: 10px;
-`
+`;
 
 const OpponentName = styled.p`
     font-size: 21px;
@@ -214,7 +215,9 @@ const ChatBox = styled.div<CustomLinkProps>`
 `;
 
 const ChatDate = styled.div`
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 `;
 
 const ContentBox = styled.div<CustomLinkProps>`
@@ -239,7 +242,7 @@ const ContenBubble = styled.div<CustomLinkProps>`
 
 const Footer = styled.footer`
     height: 60px;
-`
+`;
 
 // const Profile = styled.div`
 //     display: flex;
