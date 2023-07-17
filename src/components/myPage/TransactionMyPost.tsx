@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -36,6 +36,7 @@ function TransactionMyPost() {
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
     const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
+    const navigate = useNavigate();
     const windowWidth = useWindowWidth();
 
     // 게시물 delete
@@ -47,11 +48,13 @@ function TransactionMyPost() {
                 route.slice(0, 3) === 'buy' ? 'transactionBuy' : 'transactionSell',
                 route
             ));
+            
             await deleteDoc(doc(
                 dbService,
                 'transactionComment',
                 route
             ));
+
             await deleteDoc(doc(
                 dbService,
                 'transactionLike',
@@ -61,6 +64,10 @@ function TransactionMyPost() {
         }
     };
 
+    const onPutClick = (url: string) => {
+        navigate(`/transaction/write/${url}`);
+    };
+    
     // my post 모으기
     useEffect(() => {
         let myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
@@ -112,12 +119,15 @@ function TransactionMyPost() {
                             <Data>{mydata.createdAt}</Data>
                         </InfoLink>
                         <BtnBox>
-                            <BtnStyle variant="outline-secondary">수정</BtnStyle>
+                            <BtnStyle
+                                variant="outline-secondary"
+                                onClick = {() => onPutClick(mydata.route)}
+                            > 수정
+                            </BtnStyle>
                             <BtnStyle
                                 variant="outline-danger"
                                 onClick={() => onDeleteClick(mydata.route)}
-                            >
-                                삭제
+                            > 삭제
                             </BtnStyle>
                         </BtnBox>
                     </InfoData>

@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import styled, { keyframes  } from "styled-components";
 import { Button, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { authService, dbService } from "../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Filter from 'bad-words';
 import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
@@ -13,11 +13,23 @@ import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
 import { fadeInAnimation } from "../../pages/PageStyled";
 import { CheckAuth } from "../../utils/authUtils";
 
+interface transactionDataProps {
+    id: number
+    title: string;
+    content: string;
+    selected: string;
+    price: number | null;
+    imgs: string[];
+    createdAt: string;
+    route: string;
+    writer: string;
+}
+
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
     const [content, setContent] = useState(""); // 내용
     const [imgs, setImgs] = useState<any>([]); // 이미지
-    const [price, setPrice] = useState<number>(); // 가격
+    const [price, setPrice] = useState<number | null>(null); // 가격
     const [selected, setSelected] = useState('') // 주소
     const [category, setCategory] = useState('') // 판매 & 구매
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
@@ -30,6 +42,10 @@ function TransactionWrite() {
     const navigate = useNavigate(); // 이동
     const titleKFilter = useKFilter(title); // 한글 제목 필터
     const contentKFilter = useKFilter(content); // 한글 내용 필터
+    const user = authService.currentUser; //  유저 정보
+    const location = useLocation(); // 링크 이동
+    const [detailInquiry, setDetailInquiry] = useState(''); // 상세 조회 
+    const [datailData, setDatailData] = useState<transactionDataProps | null>(null);
     
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
@@ -66,8 +82,6 @@ function TransactionWrite() {
         e.preventDefault();
 
         try {
-            const user = authService.currentUser;
-            
             if (title.length > 40) {
                 return alert("제목은 40자 이하만 가능합니다.");
             } else if (titleKFilter) {
@@ -78,8 +92,6 @@ function TransactionWrite() {
                 return alert("내용에 비속어가 포함되어 있습니다.");
             } else if (filter.isProfane(content)) {
                 return alert("내용에 비속어가 포함되어 있습니다.");
-            } else if (imgs.length < 1) {
-                return alert("이미지를 넣어주세요.");
             } else if (selected.length < 1) {
                 return alert("주소를 선택해주세요.");
             } else if (selectedCity !== '온라인' && selectedCity !== '전국' && selectedDistrict.length < 1) {
@@ -90,9 +102,9 @@ function TransactionWrite() {
 
             if (user) {
                 setLoading(true); // 로딩 상태 활성화
-
+                
                 // 사진 업로드 비동기 호출
-                const imageUrls = await uploadImages(
+                const imageUrls = imgs && await uploadImages(
                     imgs, title, 5, 'transaction'
                 );
                 
@@ -125,15 +137,58 @@ function TransactionWrite() {
         }
     };
 
+    // url에서 catedory 값 가져오기
+    useEffect(() => {
+        const url = location.pathname.split('/')[3];
+        setDetailInquiry(url);
+    }, [location]);
+
+    // firebass에서 상세 조회 date get
+    useEffect(() => {
+        if (detailInquiry.includes('buy') || detailInquiry.includes('sell')) {
+            const fetchData = async () => {
+                const docRef = doc(
+                    dbService,
+                    detailInquiry.includes('buy') ? "transactionBuy" : "transactionSell",
+                    detailInquiry
+                );
+                const snapshot = await getDoc(docRef);
+                if (snapshot.exists()) {
+                    const postData = snapshot.data() as transactionDataProps;
+                    setDatailData(postData);
+                }
+            };
+    
+            fetchData();
+        }
+    }, [detailInquiry]);
+
     // 주소 합하기
     useEffect(() => {
         setSelected(`${selectedCity} ${selectedDistrict}`);
     }, [selectedCity, selectedDistrict]);
 
     useEffect(() => {
-        CheckAuth("게시물 작성 페이지는 사용할 수 있습니다.")
-    }, [])
-    
+        CheckAuth("", '/', false);
+        
+        if (user && datailData) {
+            if (user.email !== datailData.writer) {
+                window.location.href = '/';
+            }
+        }
+    }, [datailData, user]);
+
+    useEffect(() => {
+        if (datailData) {
+            setTitle(datailData.title);
+            setContent(datailData.content);
+            setPrice(datailData.price);
+            setCategory(detailInquiry.includes('buy') ? '판매' : '구매');
+            setSelectedCity(datailData.selected.split(' ')[0]);
+            setSelectedDistrict(datailData.selected.split(' ')[1]);
+        }
+    }, [datailData, detailInquiry]);
+
     return(
         <WriteBox>
             <Form>
@@ -144,6 +199,7 @@ function TransactionWrite() {
                         placeholder="제목을 입력해주세요."
                         name='title'
                         onChange={textChange}
+                        value={title}
                     />
                 </Form.Group>
 
@@ -159,6 +215,7 @@ function TransactionWrite() {
                         }}
                         name='content'
                         onChange={textChange}
+                        value={content}
                     />
                 </Form.Group>
 
@@ -177,10 +234,11 @@ function TransactionWrite() {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <FormLabel>가격</FormLabel>
                         <FormControl
-                            type="number"
+                            type="text"
                             placeholder="가격을 입력해주세요."
                             name="price"
                             onChange={textChange}
+                            value={price !== null && price}
                         />
                     </Form.Group>
                 </FormFlex>
@@ -199,7 +257,7 @@ function TransactionWrite() {
                     <div>
                         <FormLabel>판매 & 구매</FormLabel>
                         <br />
-                        <DropStyle name="category" onChange={textChange}>
+                        <DropStyle name="category" onChange={textChange} value={category}>
                             <option value="">선택</option>
                             <option value="판매">판매</option>
                             <option value="구매">구매</option>

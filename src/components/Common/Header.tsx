@@ -30,14 +30,19 @@ function Header({ loggedIn, userObj }: HeaderProps) {
     });
 
     const onLogOutClick = () => {
-        authService.signOut();
-        alert("로그아웃 되었습니다.")
-        window.location.href="/"
-    }
+        const ok = window.confirm("로그아웃 하시겠습니까??");
+
+        if (ok) {
+            authService.signOut().then(() => {
+                window.location.href = "/";
+                alert("로그아웃 되었습니다.")
+            });
+        }
+    };
 
     useEffect(() => {
         setPageUrl(location.pathname.split('/')[1])
-    }, [location])
+    }, [location]);
     
     return(
         <HeaderBox>
@@ -72,9 +77,9 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                             <ProufailImgBox to={'/my-page/transaction/my-post'} active={pageUrl === 'my-page' ? 'true' : 'false'}>
                                 <ProufailImg src={ userObj.photoURL ? userObj.photoURL : EmptyImg } />
                             </ProufailImgBox>
-                            <LinkStyled to={'/'} onClick={onLogOutClick}>
+                            <LogOutStyled onClick={onLogOutClick}>
                                 로그아웃
-                            </LinkStyled>
+                            </LogOutStyled>
                         </>) : (
                             <LinkStyled to={'/login'} active={pageUrl === 'login' ? 'true' : 'false'}>
                                 로그인
@@ -143,6 +148,23 @@ const LinkStyled = styled(Link)<CustomLinkProps>`
     font-size: 20px;
     font-weight: 900;
     text-decoration: none;
+
+    &:hover {
+        color: #6f9fe7;
+        transition: .3s;
+    }
+
+    @media screen and (max-width: 650px){
+        font-size: 18px;
+    }
+`;
+
+const LogOutStyled = styled.div`
+    color:#6b6b6b;
+    font-size: 20px;
+    font-weight: 900;
+    margin-left: 10px;
+    cursor: pointer;
 
     &:hover {
         color: #6f9fe7;

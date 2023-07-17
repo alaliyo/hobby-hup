@@ -5,6 +5,7 @@ import { authService } from "../../firebase";
 import { useEffect, useState } from "react";
 import { LikeData } from "../../utils/dbService";
 import PostNickname from "../../hooks/PostNickname";
+import HobbyHubImg from '../../imgs/HobbyHubImg.png';
 
 interface transactionDataProps {
     id: number;
@@ -73,11 +74,11 @@ function PostCard({ data }: PostCardprops) {
             setLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
         }
     }, [data.route, likedata]);
-    
+    console.log(data)
     return(
         <LinkStyle onClick={handleCardClick}>
             <CardStyle>
-                <CardImg variant="top" src={data.imgs[0]} />
+                <CardImg variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HobbyHubImg} />
                 <CardBody>
                     <CardTitle>{data.title}</CardTitle>
 

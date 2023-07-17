@@ -60,8 +60,8 @@ function MyPage() {
   }, []);
 
   useEffect(() => {
-    CheckAuth('마이 페이지를 사용할 수 있습니다.');
-  }, [userObj])
+    CheckAuth('', '/', false);
+  }, [])
 
   return (
     <MyPageBox>

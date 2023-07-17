@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot, query } from "firebase/firestore";
 
 // 로그인 확인 함수
-export const CheckAuth = (text: string) => {
+export const CheckAuth = (text: string, url: string, check: boolean) => {
     onAuthStateChanged(authService, (user) => {
         if (!user) {
-            alert(`로그인 후 ${text}`);
-            window.history.go(-1);
+            check && alert(`로그인 후 ${text}`);
+            window.location.href = `${url}`;
         }
     });
 };

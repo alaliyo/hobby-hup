@@ -29,8 +29,8 @@ function TransactionDetail() {
     
     // 로그인 확인
     useEffect(() => {
-        CheckAuth('상세 게시물들을 볼 수 있습니다.');
-    }, [])
+        CheckAuth('', '/transaction/buy', false);
+    }, []);
 
     // url에서 catedory 값 가져오기
     useEffect(() => {

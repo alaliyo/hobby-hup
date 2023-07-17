@@ -94,7 +94,7 @@ function Chatting() {
 
     // 로그인 확인
     useEffect(() => {
-        CheckAuth('1:1 채팅은 로그인 후 사용 가능합니다.');
+        CheckAuth('', '/', false);
     }, []);
 
     // 유저 정보 가져오기
