@@ -80,7 +80,7 @@ function PostCard({ data }: PostCardprops) {
             <CardStyle>
                 <CardImg variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HobbyHubImg} />
                 <CardBody>
-                    <CardTitle>{data.title.length < 15 ? data.title : data.title.slice(0, 16)+'...'}</CardTitle>
+                    <CardTitle>{data.title.length < 18 ? data.title : data.title.slice(0, 18)+'...'}</CardTitle>
 
                     <InfoBox>
                         <CardText>
@@ -167,12 +167,20 @@ const CardTitle = styled(Card.Title)`
         font-size: 14px;
     }
 
-    @media screen and (max-width: 500px){
+    @media screen and (max-width: 550px){
+        font-size: 13px;
+    }
+
+    @media screen and (max-width: 450px){
         font-size: 15px;
     }
 
     @media screen and (max-width: 350px){
         font-size: 14px;
+    }
+
+    @media screen and (max-width: 250px){
+        font-size: 13px;
     }
 `;
 
@@ -180,18 +188,26 @@ const CardText = styled(Card.Text)`
     margin-bottom: 3px;
     font-weight: 900;
     color: gray;
-    font-size: 15px;
+    font-size: 14px;
 
     @media screen and (max-width: 650px){
         font-size: 13px;
     }
 
-    @media screen and (max-width: 500px){
-        font-size: 15px;
+    @media screen and (max-width: 550px){
+        font-size: 12px;
+    }
+
+    @media screen and (max-width: 450px){
+        font-size: 14px;
     }
 
     @media screen and (max-width: 350px){
         font-size: 13px;
+    }
+
+    @media screen and (max-width: 250px){
+        font-size: 12px;
     }
 `;
 
