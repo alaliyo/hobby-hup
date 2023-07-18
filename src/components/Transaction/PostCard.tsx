@@ -74,13 +74,13 @@ function PostCard({ data }: PostCardprops) {
             setLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
         }
     }, [data.route, likedata]);
-    console.log(data)
+    
     return(
         <LinkStyle onClick={handleCardClick}>
             <CardStyle>
                 <CardImg variant="top" src={data.imgs.length > 0 ? data.imgs[0] : HobbyHubImg} />
                 <CardBody>
-                    <CardTitle>{data.title}</CardTitle>
+                    <CardTitle>{data.title.length < 15 ? data.title : data.title.slice(0, 16)+'...'}</CardTitle>
 
                     <InfoBox>
                         <CardText>
@@ -161,17 +161,18 @@ const CardBody = styled(Card.Body)`
 
 const CardTitle = styled(Card.Title)`
     font-weight: 900;
+    font-size: 15px;
 
     @media screen and (max-width: 650px){
-        font-size: 16px;
+        font-size: 14px;
     }
 
     @media screen and (max-width: 500px){
-        font-size: 20px;
+        font-size: 15px;
     }
 
     @media screen and (max-width: 350px){
-        font-size: 18px;
+        font-size: 14px;
     }
 `;
 
@@ -179,17 +180,18 @@ const CardText = styled(Card.Text)`
     margin-bottom: 3px;
     font-weight: 900;
     color: gray;
+    font-size: 15px;
 
     @media screen and (max-width: 650px){
-        font-size: 14px;
+        font-size: 13px;
     }
 
     @media screen and (max-width: 500px){
-        font-size: 16px;
+        font-size: 15px;
     }
 
     @media screen and (max-width: 350px){
-        font-size: 14px;
+        font-size: 13px;
     }
 `;
 

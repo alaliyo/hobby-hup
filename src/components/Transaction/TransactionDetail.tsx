@@ -8,6 +8,7 @@ import DetailHeader from "./DetailHeader";
 import DetailBody from "./DetailBody";
 import { CheckAuth } from "../../utils/authUtils";
 import { fadeInAnimation } from "../../pages/PageStyled";
+import HobbyHubImg from '../../imgs/HobbyHubImg.png'
 
 interface transactionDataProps {
     id: number
@@ -65,7 +66,7 @@ function TransactionDetail() {
         <DetailBox>
             {datailData && (<>
                 <DetailCarousels
-                    imgs = {datailData.imgs}
+                    imgs = {datailData.imgs.length > 0 ? datailData.imgs : [HobbyHubImg]}
                 />
                 <DetailHeader
                     title = {datailData.title}

@@ -68,7 +68,7 @@ const CommentImg = styled.img`
         height: 22px;
         margin-right: 3px;
     }
-`
+`;
 
 const CommentNickname = styled.span`
     font-weight: 900;
@@ -83,7 +83,7 @@ const CommentNickname = styled.span`
         font-size: 13px;
         margin-right: 3px;
     }
-`
+`;
 
 const CommentContents = styled.span`
     width: 67%;

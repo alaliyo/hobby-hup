@@ -55,7 +55,7 @@ export default App;
 const AppBox = styled.div`
   margin-top: 70px;
   font-family: 'NanumSquareRound';
-`
+`;
 
 const OutletBox = styled.div`
   width: 1024px;
@@ -63,7 +63,7 @@ const OutletBox = styled.div`
   @media screen and (max-width: 1024px){
     width: 100%;
   }
-`
+`;
 
 const SpinnerStyled = styled(Spinner)`
   margin: 200px 46%;

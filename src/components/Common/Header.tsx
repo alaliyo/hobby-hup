@@ -111,7 +111,7 @@ const HeaderBox = styled.header`
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 3;
     background-color: #ffffff;
 
     &.header-top {

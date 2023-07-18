@@ -46,7 +46,7 @@ const PostNotDataBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`
+`;
 
 const PostNotData = styled.p`
     font-size: 30px;

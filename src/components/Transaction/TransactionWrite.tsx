@@ -18,7 +18,7 @@ interface transactionDataProps {
     title: string;
     content: string;
     selected: string;
-    price: number | null;
+    price: number;
     imgs: string[];
     createdAt: string;
     route: string;
@@ -29,7 +29,7 @@ function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
     const [content, setContent] = useState(""); // 내용
     const [imgs, setImgs] = useState<any>([]); // 이미지
-    const [price, setPrice] = useState<number | null>(null); // 가격
+    const [price, setPrice] = useState<number | null>(0); // 가격
     const [selected, setSelected] = useState('') // 주소
     const [category, setCategory] = useState('') // 판매 & 구매
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
@@ -101,31 +101,34 @@ function TransactionWrite() {
             }
 
             if (user) {
-                setLoading(true); // 로딩 상태 활성화
                 
                 // 사진 업로드 비동기 호출
-                const imageUrls = imgs && await uploadImages(
+                const imageUrls = imgs.length > 0 ? await uploadImages(
                     imgs, title, 5, 'transaction'
-                );
+                ) : null;
                 
+                setLoading(true); // 로딩 상태 활성화
+
                 // post 줄 바꿈 \\으로 변환
                 const LineBreaks = content.replace(/\n/g, '\\n');
                 
                 const categoryBoolen = category === '판매';
+                const detailInquiryBoolen = detailInquiry.includes('sell') || detailInquiry.includes('buy');
+                
                 await setDoc(doc(
                     dbService,
-                    categoryBoolen ? "transactionBuy" : "transactionSell",
-                    categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`
+                    categoryBoolen || detailInquiry.includes('buy') ? "transactionBuy" : "transactionSell",
+                    detailInquiryBoolen ? detailInquiry : categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`
                     ), {
-                        id: categoryBoolen ? buyMaxId+1 : sellMaxId+1,
+                        id: detailInquiryBoolen ? datailData?.id : categoryBoolen ? buyMaxId+1 : sellMaxId+1,
                         writer: user.email,
                         title: title,
                         content: LineBreaks,
-                        createdAt: currentDate,
+                        createdAt: detailInquiryBoolen ? datailData?.createdAt : currentDate,
                         price: price,
                         selected: selected,
-                        imgs: imageUrls,
-                        route: categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`,
+                        imgs: detailInquiryBoolen && imgs.length === 0 ? datailData?.imgs : imageUrls,
+                        route: detailInquiryBoolen ? detailInquiry : categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`,
                     }
                 );
                 alert('개시물이 업로드 되었습니다.')
@@ -168,6 +171,7 @@ function TransactionWrite() {
         setSelected(`${selectedCity} ${selectedDistrict}`);
     }, [selectedCity, selectedDistrict]);
 
+    // 로그인 여부 및 수정 시 다른 유저 게시물 수정 차단
     useEffect(() => {
         CheckAuth("", '/', false);
         
@@ -178,6 +182,7 @@ function TransactionWrite() {
         }
     }, [datailData, user]);
 
+    // 수정 시 작성 input들 값
     useEffect(() => {
         if (datailData) {
             setTitle(datailData.title);
