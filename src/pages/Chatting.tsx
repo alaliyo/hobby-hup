@@ -33,7 +33,7 @@ function Chatting() {
     const [inputValue, setInputValue] = useState<string>(''); // input 값
     const KFilter = useKFilter(inputValue); // 한글 비속어 필터
     const filter = new Filter(); // 영어 비속어 필터
-    
+    console.log(chattiongData);
     // input value 추출
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
@@ -71,10 +71,11 @@ function Chatting() {
             const date = newDate.getDate();
             const hours = newDate.getHours();
             const minutes = newDate.getMinutes();
+            const contentLength = chattiongData?.content?.length ?? 0;
 
             await updateDoc(docRef, {
                 content: arrayUnion({
-                    contentsId: chattiongData?.content.length,
+                    contentsId: contentLength,
                     email: userObj.email,
                     content: inputValue,
                     createdAt: `${year}/${month}/${date} ${hours}:${minutes}`,
@@ -129,16 +130,18 @@ function Chatting() {
             </Header>
 
             <Body>
-                {chattiongData && chattiongData.content.map((e, i) => (
-                    <ChatBox key={i} emailChack={e.email === userObj.email}>
-                        <ContentBox emailChack={e.email === userObj.email}>
-                            <ContenBubble emailChack={e.email === userObj.email}>
-                                <p>{e.content}</p>
-                            </ContenBubble>
-                        </ContentBox>
-                        <ChatDate>{e.createdAt}</ChatDate>
-                    </ChatBox>
-                ))}
+                {chattiongData && chattiongData.content ? (
+                    chattiongData.content.map((e, i) => (
+                        <ChatBox key={i} emailChack={e.email === userObj.email}>
+                            <ContentBox emailChack={e.email === userObj.email}>
+                                <ContenBubble emailChack={e.email === userObj.email}>
+                                    <p>{e.content}</p>
+                                </ContenBubble>
+                            </ContentBox>
+                            <ChatDate>{e.createdAt}</ChatDate>
+                        </ChatBox>
+                    ))
+                ) : null}
             </Body>
 
             <Footer>

@@ -46,7 +46,7 @@ function TransactionWrite() {
     const location = useLocation(); // 링크 이동
     const [detailInquiry, setDetailInquiry] = useState(''); // 상세 조회 
     const [datailData, setDatailData] = useState<transactionDataProps | null>(null);
-    
+
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
         const {
@@ -194,6 +194,11 @@ function TransactionWrite() {
         }
     }, [datailData, detailInquiry]);
 
+    // 취소 시 뒤로가기
+    const handleCancel = () => {
+        navigate(-1)
+    }
+
     return(
         <WriteBox>
             <Form>
@@ -270,7 +275,14 @@ function TransactionWrite() {
                     </div>
                 </FormFlex>
                 
-                <div>
+                <BtnBox>
+                    <BtnStyle
+                        variant="outline-danger"
+                        type="button"
+                        onClick={handleCancel}
+                    >
+                        취소
+                    </BtnStyle>
                     <BtnStyle
                         variant="outline-secondary"
                         type="button"
@@ -278,7 +290,7 @@ function TransactionWrite() {
                     >
                         작성완료
                     </BtnStyle>
-                </div>
+                </BtnBox>
 
                 {loading &&
                     <SpinnerBox>
@@ -350,8 +362,13 @@ const FormFlex = styled.div`
     }
 `;
 
-const BtnStyle = styled(Button)`
+const BtnBox = styled.div`
+    display: flex;
     float: right;
+`;
+
+const BtnStyle = styled(Button)`
+    margin-left: 10px;
 
     @media screen and (max-width: 650px) {
         padding: 5px 8px;

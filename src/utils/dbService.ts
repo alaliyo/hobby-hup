@@ -116,18 +116,18 @@ export function LikeData() {
 
 // 채팅 data get
 
-interface contentsProp {
+interface ContentsProp {
     contentsId: number;
     email: string;
     content: string;
     createdAt: Date;
 }
 
-interface ChattingDataProp {
+export interface ChattingDataProp {
     id: number;
     participations: string[];
     createdAt: Date;
-    content: contentsProp[];
+    content: ContentsProp[];
 }
 
 export function ChattingData() {
