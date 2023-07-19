@@ -101,17 +101,16 @@ function TransactionWrite() {
             }
 
             if (user) {
-                
+                // fheld
+                setLoading(true);
+
                 // 사진 업로드 비동기 호출
                 const imageUrls = imgs.length > 0 ? await uploadImages(
-                    imgs, title, 5, 'transaction'
+                    imgs, title, 5, 'transaction', setLoading
                 ) : null;
-                
-                setLoading(true); // 로딩 상태 활성화
 
                 // post 줄 바꿈 \\으로 변환
                 const LineBreaks = content.replace(/\n/g, '\\n');
-                
                 const categoryBoolen = category === '판매';
                 const detailInquiryBoolen = detailInquiry.includes('sell') || detailInquiry.includes('buy');
                 

@@ -1,7 +1,13 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
 
-export const uploadImages = async (images: any, title: string, imgCount: number, catecory: string): Promise<any> => {
+export const uploadImages = async (
+        images: any,
+        title: string,
+        imgCount: number,
+        catecory: string,
+        setLoading?: any
+    ): Promise<any> => {
     const imageUrlPromises: Promise<string>[] = [];
     const allowedExtensions = ['.jpg', '.png', 'jpeg'];
     const fileExtension = images.map((e: { name: string; }) => e.name.substring(e.name.lastIndexOf('.')).toLowerCase());
@@ -26,6 +32,7 @@ export const uploadImages = async (images: any, title: string, imgCount: number,
             imageUrlPromises.push(imageUrlPromise);
         } catch (error) {
             alert('에러가 발생했습니다. 새로고침 후 다시 시도해주세요.' + error);
+            setLoading && setLoading(false);
             throw new Error('이미지 업로드 중 오류가 발생했습니다.');
         }
     }
