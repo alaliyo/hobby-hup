@@ -18,7 +18,7 @@ interface transactionDataProps {
     title: string;
     content: string;
     selected: string;
-    price: number;
+    price: number | string;
     imgs: string[];
     createdAt: string;
     route: string;
@@ -29,7 +29,7 @@ function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
     const [content, setContent] = useState(""); // 내용
     const [imgs, setImgs] = useState<any>([]); // 이미지
-    const [price, setPrice] = useState<number | null>(0); // 가격
+    const [price, setPrice] = useState<number | string>(); // 가격
     const [selected, setSelected] = useState('') // 주소
     const [category, setCategory] = useState('') // 판매 & 구매
     const [selectedCity, setSelectedCity] = useState(""); // 선택된 시/도
@@ -127,7 +127,7 @@ function TransactionWrite() {
                         createdAt: detailInquiryBoolen ? datailData?.createdAt : currentDate,
                         price: price,
                         selected: selected,
-                        imgs: detailInquiryBoolen && imgs.length === 0 ? datailData?.imgs : imageUrls,
+                        imgs: detailInquiryBoolen && imgs.length === 0 ? datailData?.imgs : imgs.length > 0 ? imageUrls : [],
                         route: detailInquiryBoolen ? detailInquiry : categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`,
                     }
                 );
@@ -244,11 +244,11 @@ function TransactionWrite() {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <FormLabel>가격</FormLabel>
                         <FormControl
-                            type="text"
+                            type="number"
                             placeholder="가격을 입력해주세요."
                             name="price"
                             onChange={textChange}
-                            value={price !== null && price}
+                            value={price}
                         />
                     </Form.Group>
                 </FormFlex>

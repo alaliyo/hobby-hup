@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
 import { deleteDoc, doc } from "firebase/firestore";
 import { dbService } from "../../firebase";
+import HobbyHubImg from '../../imgs/HobbyHubImg.png'
 import { 
     Post, ImgLink, FirstImg, InfoData, InfoLink,
     Title, Content, Data, BtnBox, BtnStyle
@@ -72,9 +73,9 @@ function TransactionMyPost() {
     useEffect(() => {
         let myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
         let mySelldata = sellPost.filter((data: transactionDataProps) => data.writer === userObj.email);
-        const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`));
+        const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(new Date(`20${b.createdAt}`)) - Number(new Date(`20${a.createdAt}`)));
         setMyPost(myPostArrPlus)
-    }, [buyPost, sellPost, userObj])
+    }, [buyPost, sellPost, userObj]);
 
     return(
         <>
@@ -85,7 +86,7 @@ function TransactionMyPost() {
                     to={mydata.route.slice(0, 3) === 'buy' ?
                         '/transaction/buy/' + mydata.id : '/transaction/sell/' + mydata.id} 
                     >
-                        <FirstImg src={mydata.imgs[0]} alt="" />
+                        <FirstImg src={mydata.imgs.length > 0 ? mydata.imgs[0] : HobbyHubImg} alt="" />
                     </ImgLink>
                     <InfoData>
                         <InfoLink
