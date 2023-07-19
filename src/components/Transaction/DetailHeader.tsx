@@ -33,7 +33,7 @@ function DetailHeader({
     const navigate = useNavigate();
     const writerData = PostNickname(writer); // 작성자 data get
     const chattingData = ChattingData(); // 채팅창 data
-    console.log(chattingData);
+    
     // 좋아요 로직
     const handleLikeCount = async (e: any) => {
         e.preventDefault();

@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
 import { deleteDoc, doc } from "firebase/firestore";
 import { dbService } from "../../firebase";
-import HobbyHubImg from '../../imgs/HobbyHubImg.png'
 import { 
     Post, ImgLink, FirstImg, InfoData, InfoLink,
     Title, Content, Data, BtnBox, BtnStyle
 } from './TransactionCordStyle';
 import { useWindowWidth } from "../../hooks/WindowWidthTracker";
+import HobbyHubImg from '../../imgs/HobbyHubImg.png'
 
 interface transactionDataProps {
     id: number

@@ -101,12 +101,12 @@ function TransactionWrite() {
             }
 
             if (user) {
-                // fheld
-                setLoading(true);
+
+                setLoading(true); // 로딩 상태 활성화
 
                 // 사진 업로드 비동기 호출
                 const imageUrls = imgs.length > 0 ? await uploadImages(
-                    imgs, title, 5, 'transaction', setLoading
+                    imgs, title, 5, 'transaction', setLoading,
                 ) : null;
 
                 // post 줄 바꿈 \\으로 변환
@@ -130,7 +130,7 @@ function TransactionWrite() {
                         route: detailInquiryBoolen ? detailInquiry : categoryBoolen ? `buyId${buyMaxId+1}` : `sellId${sellMaxId+1}`,
                     }
                 );
-                alert('개시물이 업로드 되었습니다.')
+                alert('게시물이 업로드 되었습니다.')
                 setLoading(false); // 로딩 상태 비활성화
                 navigate("/transaction/buy");
             }

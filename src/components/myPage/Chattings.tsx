@@ -19,10 +19,15 @@ function MyChattings() {
     const chattingDatas = ChattingData(); // 채팅 data
     const { userObj } = useOutletContext<UserInfoProps>(); // user 정보
     const [myChattingRooms, setMyChattingRooms] = useState<ChattingDataProp[]>([]);
-    console.log(myChattingRooms);
+    
     useEffect(() => {
-        const myChattingDatas = chattingDatas.filter(obj => obj.participations.includes(userObj.email))
-        setMyChattingRooms(myChattingDatas);
+        const myChattingDatas = chattingDatas.filter(obj => obj.participations.includes(userObj.email));
+        const myChattingSort = [...myChattingDatas].sort((a: any, b: any) => 
+            Number(new Date(`20${b.content[b.content.length -1].createdAt}`)) -
+            Number(new Date(`20${a.content[a.content.length -1].createdAt}`))
+        )
+
+        setMyChattingRooms(myChattingSort);
     }, [chattingDatas, userObj.email])
 
     return(
@@ -36,6 +41,7 @@ function MyChattings() {
                         obj.participations[1] : obj.participations[0]
                     }
                     lastContent={obj.content.length > 0 && obj.content[obj.content.length - 1].content}
+                    lastCreatedAt={obj.content.length > 0 && obj.content[obj.content.length - 1].createdAt}
                 />
             )) : <CommonSpinner />}
             

@@ -7,11 +7,12 @@ interface PostProps {
     postId: number;
     otherPartyId: string;
     lastContent: string | false | null;
+    lastCreatedAt: Date | false;
 }
 
-function ChattingPost({postId, otherPartyId, lastContent}: PostProps) {
+function ChattingPost({postId, otherPartyId, lastContent, lastCreatedAt}: PostProps) {
     const writerData = PostNickname(otherPartyId); // 작성자 닉네임, 프로필 이미지
-    console.log(writerData);
+
     return(
         <MyChattingsBox to={`/chatting/${postId}`}>
             <OtherPartyImg src={writerData?.photoURL ? writerData.photoURL :  EmptyImg} />
@@ -20,6 +21,7 @@ function ChattingPost({postId, otherPartyId, lastContent}: PostProps) {
                 <OtherPartyNicknName>{writerData?.displayName}</OtherPartyNicknName>
                 <span>{lastContent}</span>
             </div>
+            <DateBox>{`${lastCreatedAt}`}</DateBox>
         </MyChattingsBox>
     );
 }
@@ -48,4 +50,11 @@ const OtherPartyImg = styled.img`
 const OtherPartyNicknName = styled.p`
     font-weight: 900;
     margin-bottom: 3px;
+`;
+
+const DateBox = styled.div`
+    margin-left: auto;
+    margin-right: 10px;
+    display: flex;
+    align-items: flex-end;
 `;

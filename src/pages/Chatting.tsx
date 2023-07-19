@@ -33,13 +33,13 @@ function Chatting() {
     const [inputValue, setInputValue] = useState<string>(''); // input 값
     const KFilter = useKFilter(inputValue); // 한글 비속어 필터
     const filter = new Filter(); // 영어 비속어 필터
-    console.log(chattiongData);
+    
     // input value 추출
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     };
 
-    // 챙팅 data 로딩
+    // 채팅 data 로딩
     useEffect(() => {
         const fetchData = async () => {
             const docRef = doc(dbService, "chattings", `chattingId${location.split('/')[2]}`);
@@ -246,19 +246,3 @@ const ContenBubble = styled.div<CustomLinkProps>`
 const Footer = styled.footer`
     height: 60px;
 `;
-
-// const Profile = styled.div`
-//     display: flex;
-//     height: 30px;
-// `;
-
-// const ProfileImg = styled.img`
-//     height: 30px;
-//     width: 30px;
-//     border-radius: 50%;
-//     margin-right: 5px;
-// `;
-
-// const ProfileNickname = styled.p`
-//     font-weight: 900;
-// `;
