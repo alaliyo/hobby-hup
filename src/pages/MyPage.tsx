@@ -132,6 +132,10 @@ const MyPageBox = styled.div`
     border-radius: 0px;
     box-shadow: none;
   }
+
+  @media screen and (max-width: 450px) {
+    margin: 75px 10px 10px 10px;
+  }
 `;
 
 const HeaderStyle = styled.header`

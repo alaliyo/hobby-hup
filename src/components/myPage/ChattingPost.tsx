@@ -19,9 +19,17 @@ function ChattingPost({postId, otherPartyId, lastContent, lastCreatedAt}: PostPr
 
             <div>
                 <OtherPartyNicknName>{writerData?.displayName}</OtherPartyNicknName>
-                <span>{lastContent}</span>
+                <LastContent>{
+                    lastContent && lastContent.length > 26 ?
+                        lastContent.slice(0, 25) + '...' :
+                        lastContent
+                }</LastContent>
             </div>
-            <DateBox>{`${lastCreatedAt}`}</DateBox>
+            <DateBox>
+                <span>{`${lastCreatedAt}`.split(' ')[0]}</span>
+                <br />
+                <span>{`${lastCreatedAt}`.split(' ')[1]}</span>
+            </DateBox>
         </MyChattingsBox>
     );
 }
@@ -45,16 +53,39 @@ const OtherPartyImg = styled.img`
     width: 50px;
     height: 50px;
     border-radius: 50px;
+
+    @media screen and (max-width: 450px) {
+        width: 40px;
+        height: 40px;
+    }
 `;
 
 const OtherPartyNicknName = styled.p`
     font-weight: 900;
     margin-bottom: 3px;
+
+    @media screen and (max-width: 450px) {
+        font-size: 16px;
+        margin-bottom: 0;
+    }
 `;
 
 const DateBox = styled.div`
+    color: gray;
+    font-weight: 900;
     margin-left: auto;
     margin-right: 10px;
-    display: flex;
-    align-items: flex-end;
+    text-align: right;
+    bottom: 0;
+
+    @media screen and (max-width: 450px) {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+`;
+
+const LastContent = styled.span`
+    @media screen and (max-width: 450px) {
+        font-size: 14px;
+    }
 `;

@@ -53,4 +53,8 @@ export default MyChattings;
 
 const MyChattingsBody = styled.div`
     padding: 10px;
+
+    @media screen and (max-width: 450px) {
+        padding: 5px;
+    }
 `;
