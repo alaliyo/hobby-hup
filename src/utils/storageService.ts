@@ -1,4 +1,4 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
 
 export const uploadImages = async (
@@ -9,7 +9,7 @@ export const uploadImages = async (
         setLoading?: any
     ): Promise<any> => {
     const imageUrlPromises: Promise<string>[] = [];
-    const allowedExtensions = ['.jpg', '.png', 'jpeg'];
+    const allowedExtensions = ['.jpg', '.png', '.jpeg'];
     const fileExtension = images.map((e: { name: string; }) => e.name.substring(e.name.lastIndexOf('.')).toLowerCase());
 
     if (fileExtension.length > imgCount) {
@@ -25,7 +25,10 @@ export const uploadImages = async (
     const date = new Date()
     for (let i = 0; i < images.length; i++) {
         const image = images[i];
-        const storageRef = ref(storage, `${catecory}/${date.getFullYear()}.${date.getMonth()}/${catecory}_${date.getDate()}_${title}${i}.png`);
+        const storageRef = ref(storage,
+            catecory === 'profileImg' ? `${catecory}/${title}` : 
+            `${catecory}/${date.getFullYear()}.${date.getMonth()+1}/${date.getDate()}_${title}${i}.png`
+        );
         try {
             await uploadBytes(storageRef, image);
             const imageUrlPromise = getDownloadURL(storageRef);
@@ -39,4 +42,13 @@ export const uploadImages = async (
 
     const imageUrls = await Promise.all(imageUrlPromises);
     return imageUrls;
+};
+
+export const DeleteImages = async (imageUrls: string[]) => {
+    if (imageUrls && imageUrls.length > 0) {
+        imageUrls.forEach(async (imageUrls) => {
+            const storageRef = ref(storage, imageUrls);
+            await deleteObject(storageRef);
+        });
+    }
 };

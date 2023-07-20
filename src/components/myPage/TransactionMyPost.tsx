@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
 import { deleteDoc, doc } from "firebase/firestore";
 import { dbService } from "../../firebase";
-import { 
-    Post, ImgLink, FirstImg, InfoData, InfoLink,
-    Title, Content, Data, BtnBox, BtnStyle
-} from './TransactionCordStyle';
+import { Post, ImgLink, FirstImg, InfoData, InfoLink,
+    Title, Content, Data, BtnBox, BtnStyle } from './TransactionCordStyle';
 import { useWindowWidth } from "../../hooks/WindowWidthTracker";
 import HobbyHubImg from '../../imgs/HobbyHubImg.png'
+import { DeleteImages } from "../../utils/storageService";
 
 interface transactionDataProps {
     id: number
@@ -41,8 +40,9 @@ function TransactionMyPost() {
     const windowWidth = useWindowWidth();
 
     // 게시물 delete
-    const onDeleteClick = async(route: string) => {
+    const onDeleteClick = async(route: string, imageUrls: string[]) => {
         const ok = window.confirm("삭제하시겠습니까?");
+
         if (ok) {
             await deleteDoc(doc(
                 dbService,
@@ -61,18 +61,22 @@ function TransactionMyPost() {
                 'transactionLike',
                 route
             ));
-            alert('삭제되었습니다.')
+
+            DeleteImages(imageUrls);
+
+            alert('삭제되었습니다.');
         }
     };
 
+    // 수정 페이지로!
     const onPutClick = (url: string) => {
         navigate(`/transaction/write/${url}`);
     };
     
     // my post 모으기
     useEffect(() => {
-        let myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
-        let mySelldata = sellPost.filter((data: transactionDataProps) => data.writer === userObj.email);
+        const myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
+        const mySelldata = sellPost.filter((data: transactionDataProps) => data.writer === userObj.email);
         const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(new Date(`20${b.createdAt}`)) - Number(new Date(`20${a.createdAt}`)));
         setMyPost(myPostArrPlus)
     }, [buyPost, sellPost, userObj]);
@@ -125,11 +129,13 @@ function TransactionMyPost() {
                                 onClick = {() => onPutClick(mydata.route)}
                             > 수정
                             </BtnStyle>
-                            <BtnStyle
-                                variant="outline-danger"
-                                onClick={() => onDeleteClick(mydata.route)}
-                            > 삭제
-                            </BtnStyle>
+                            {userObj.email === mydata.writer && (
+                                <BtnStyle
+                                    variant="outline-danger"
+                                    onClick={() => onDeleteClick(mydata.route, mydata.imgs)}
+                                > 삭제
+                                </BtnStyle>
+                            )}
                         </BtnBox>
                     </InfoData>
                 </Post>
