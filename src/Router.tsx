@@ -22,7 +22,6 @@ import TransactionWrite from "./components/Transaction/TransactionWrite";
 import Chatting from "./pages/Chatting";
 import Notice from "./pages/Notice";
 
-
 const router = createBrowserRouter([
     {
         path: '/',
