@@ -26,9 +26,11 @@ function ChattingPost({postId, otherPartyId, lastContent, lastCreatedAt}: PostPr
                 }</LastContent>
             </div>
             <DateBox>
-                <span>{`${lastCreatedAt}`.split(' ')[0]}</span>
-                <br />
-                <span>{`${lastCreatedAt}`.split(' ')[1]}</span>
+                {lastCreatedAt && <>
+                    <span>{`${lastCreatedAt}`.split(' ')[0]}</span>
+                    <br />
+                    <span>{`${lastCreatedAt}`.split(' ')[1]}</span>
+                </>}
             </DateBox>
         </MyChattingsBox>
     );

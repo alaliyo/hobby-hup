@@ -99,21 +99,21 @@ function DetailHeader({
                 return alert('로그인 후 사용 가능합니다.');
             }
 
-            if (user) {
-                const checkData = chattingData.filter(obj => 
-                    obj.participations.includes(user.email as string) &&
-                    obj.participations.includes(writer)
-                );
+            const existingChat = chattingData.find((obj) =>
+                user.email && obj.participations.includes(user.email) && obj.participations.includes(writer)
+            );
 
-                navigate(`/chatting/${checkData[0].id}`)
-            } else if (user) {
-                await setDoc(doc(dbService, 'chattings', `chattingId0`), {
-                    id: 0,
-                    participations: [userEmail, writer],
+            if (existingChat) {
+                navigate(`/chatting/${existingChat.id}`);
+            } else {
+                const newChatId = chattingData[chattingData.length - 1].id+1;
+                await setDoc(doc(dbService, 'chattings', `chattingId${newChatId}`), {
+                    id: newChatId,
+                    participations: [user.email, writer],
                     createdAt: new Date().toString(),
                     content: [],
-                })
-                navigate('/chatting/0')
+                });
+                navigate(`/chatting/${newChatId}`);
             }
         } catch (error) {
             alert('서버 에러입니다. 새로고침 후 다시 시도해주세요.' + error);
