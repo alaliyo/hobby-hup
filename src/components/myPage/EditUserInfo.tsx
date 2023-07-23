@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
-import { updateProfile } from "firebase/auth";
+import { deleteUser, updateProfile } from "firebase/auth";
 import { authService, dbService } from '../../firebase';
 import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
@@ -24,7 +25,9 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook
     const [nicknames, setNicknames] = useState<any[]>([]); // firebase에서 유저 닉네임 배열
     const filter = new Filter(); // 영어 욕 필터
-    
+    const user = authService.currentUser; // SDK 유저 정보 get
+    const navigate = useNavigate();
+
     // 유저에게 닉네임, 이미지 받기
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {
@@ -38,10 +41,9 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
         }
     };
     
+    // 프로필 이미지 추가 및 변경
     const handleImageUpload = async () => {
         try {
-            const user = authService.currentUser;
-
             if (image && user && user.email) {
                 const storageRef = await uploadImages(
                     image, userObj.email, 1, "profileImg"
@@ -64,6 +66,7 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
         }
     };
 
+    // 유저 정보 가져오기
     useEffect(() => {
         const q = query(collection(dbService, "usersNickname"));
         return onSnapshot(q, (snapshot) => {
@@ -71,11 +74,11 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
             const arr = data.map((e) => e.nickname);
             setNicknames(arr);
         });
-    }, [nickname]) 
+    }, [nickname]);
     
+    // 닉네임 변경
     const handleNicknameUpdate = async () => {
         try {
-            const user = authService.currentUser;
             const nicknameRegExp = /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[0-9a-zA-Zㄱ-ㅎ가-힣]{2,12}$/;
             
             if (!(nicknameRegExp.test(nickname))) {
@@ -104,7 +107,21 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
             alert('닉네임 업데이트에 실패했습니다.');
         }
     };
-    
+
+    // 회원 탈퇴
+    const secession = async () => {
+        const isSecession = window.confirm("회원 탈퇴를 하시겠습니까?");
+        if (isSecession && user) {
+            try {
+                await deleteUser(user);
+                alert("회원 탈퇴가 완료되었습니다. 사용해주셔서 감사합니다.");
+                navigate("/")
+            }
+            catch (error) {
+                alert('서버 오류입니다. 새로고침 후 다시시도 해주세요' + error);
+            }
+        }
+    };
 
     return(
         <div>
@@ -156,7 +173,7 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
                     변경
                 </Button>
             </GroupStyle>
-            
+            <Button variant="outline-danger" onClick={secession}>회원탈퇴</Button>
         </div>
     );
 }

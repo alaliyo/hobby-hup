@@ -43,7 +43,7 @@ function MyPage() {
         await signInWithEmailAndPassword(authService, currentUser.email, password);
         setChange(true);
       } catch (error) {
-        alert("비밀번호가 일치하지 않습니다")
+        alert("비밀번호가 일치하지 않습니다" + error)
         // 비밀번호가 일치하지 않는 경우에 대한 처리를 수행합니다.
       }
     }
