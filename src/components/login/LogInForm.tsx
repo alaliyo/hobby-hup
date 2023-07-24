@@ -1,6 +1,6 @@
 import { Button, Form, Stack } from 'react-bootstrap';
 import { LoginTitle } from './LogInStyled';
-import GoogleSignUp from './GoogleSignUp';
+//import GoogleSignUp from './GoogleSignUp';
 import FindPassword from './FindPassword';
 
 interface LoginFormProps {
@@ -48,9 +48,9 @@ function LogInForm({
             </Form.Group>
             
             <Stack direction="horizontal">
-                <div>
+                {/*<div>
                     <GoogleSignUp />
-                </div>
+                </div>*/}
                 <Button className='ms-auto' variant="light" type="submit" >
                     로그인
                 </Button>
