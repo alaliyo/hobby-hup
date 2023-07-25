@@ -6,7 +6,7 @@ import styled from "styled-components";
 import EmptyImg from '../imgs/EmptyImg.png';
 import { Button, InputGroup, Form } from "react-bootstrap";
 import PostNickname from "../hooks/PostNickname";
-import { arrayUnion, doc, getDoc, updateDoc, getDocFromCache } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc, getDocFromCache, deleteDoc } from "firebase/firestore";
 import useKFilter from "../hooks/KFilter";
 import Filter from 'bad-words';
 
@@ -134,7 +134,7 @@ function Chatting() {
         }
     }, [chattiongData, userObj]);
 
-    const handleExit = async  () => {
+    const handleExit = async () => {
         try {
             const ok = window.confirm("나가시겠습니까? 둘 다 나가면 내용은 사라집니다.");
 
@@ -146,6 +146,9 @@ function Chatting() {
                     const updatedParticipations = chatSnapshot.data().participations.filter((participation: string) => participation !== userObj.email);
                 
                     await updateDoc(chatRef, { participations: updatedParticipations });
+                    if (chatSnapshot.data().participations.length === 1) {
+                        await deleteDoc(chatRef);
+                    }
                     alert('채팅에서 나갔습니다.');
                     navigate('/')
                 }

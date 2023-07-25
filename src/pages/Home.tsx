@@ -39,7 +39,7 @@ function Home() {
 
     return(
         <PageBody>
-            <Title>HobbyHup을 소개합니다~</Title>
+            <Title>HobbyHub을 소개합니다~</Title>
             <Explanations 
                 className="box1"
                 height={0}

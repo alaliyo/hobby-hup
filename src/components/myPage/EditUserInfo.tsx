@@ -113,6 +113,8 @@ function EditUserInfo({ userObj }: EditUserInfoProps) {
         const isSecession = window.confirm("회원 탈퇴를 하시겠습니까?");
         if (isSecession && user) {
             try {
+                
+
                 await deleteUser(user);
                 alert("회원 탈퇴가 완료되었습니다. 사용해주셔서 감사합니다.");
                 navigate("/")

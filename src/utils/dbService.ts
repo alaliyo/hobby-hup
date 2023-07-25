@@ -115,7 +115,6 @@ export function LikeData() {
 
 
 // 채팅 data get
-
 interface ContentsProp {
     contentsId: number;
     email: string;
