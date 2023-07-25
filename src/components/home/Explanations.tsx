@@ -8,12 +8,13 @@ interface ExplanationsPorps {
   imgUrl: string;
   imgPosition: string;
   imgSize: string;
-  location: boolean;
-  text?: string;
+  location: string;
+  text1?: string;
+  text2?: string;
   backColor?: string;
 }
 
-function Explanations({ className, height, imgUrl, imgPosition, imgSize, location, text, backColor }: ExplanationsPorps) {
+function Explanations({ className, height, imgUrl, imgPosition, imgSize, location, text1, text2, backColor }: ExplanationsPorps) {
   const [visible, setVisible] = useState(false);
   
     useHeaderScroll({
@@ -28,7 +29,11 @@ function Explanations({ className, height, imgUrl, imgPosition, imgSize, locatio
       <Ex className={className} visible={visible} backColor={backColor}>
         <Content position={imgPosition} location={location}>
           <Image src={imgUrl} visible={visible} imgSize={imgSize} location={location} />
-          {text && <Text visible={visible}>{text}</Text>}
+          {text1 && <Text visible={visible}>{text1}</Text>}
+          {text2 && (<>
+            <br />
+            <Text visible={visible}>{text2}</Text>
+          </>)}
         </Content>
       </Ex>
     );
@@ -40,7 +45,7 @@ interface ExProps {
   visible?: boolean;
   position?: string;
   imgSize?: string;
-  location?: boolean;
+  location?: string;
   backColor?: string;
 }
   
@@ -49,6 +54,7 @@ const fadeInUp = keyframes`
     transform: translateY(30px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -61,6 +67,22 @@ const Ex = styled.div<ExProps>`
   transition: opacity 0.5s ease;
   animation: ${(p) => (p.visible ? fadeInUp : "none")} 1s ease;
   background-color: ${(p) => p.visible ? p.backColor : 'none'};
+
+  @media screen and (max-width: 800px){
+    height: 350px;
+  }
+
+  @media screen and (max-width: 650px){
+    height: 300px;
+  }
+
+  @media screen and (max-width: 450px){
+    height: 250px;
+  }
+
+  @media screen and (max-width: 350px){
+    height: 250px;
+  }
 `;
 
 const Content = styled.div<ExProps>`
@@ -68,7 +90,7 @@ const Content = styled.div<ExProps>`
   align-items: center;
   justify-content: ${p => p.position};
   height: 100%;
-  flex-direction: ${p => p.location ? 'row' : 'row-reverse'};
+  flex-direction: ${p => p.location === 'right' ? 'row' : 'row-reverse'};
   
 `;
 
@@ -76,12 +98,48 @@ const Image = styled.img<ExProps>`
   width: ${p => p.imgSize};
   height: ${p => p.imgSize};
   display: ${(p) => p.visible ? 'bluck' : 'none'};
-  margin-right: ${p => p.location ? '70px' : '0px'};
-  margin-left: ${p => p.location ? '0px' : '70px'};
+  margin-right: ${p => p.location === 'right' ? '200px' : '0px'};
+  margin-left: ${p => p.location === 'left' ? '180px' : '0px'};
+  
+  @media screen and (max-width: 800px){
+    margin-right: ${p => p.location === 'right' ? '150px' : '0px'};
+    margin-left: ${p => p.location === 'left' ? '130px' : '0px'};
+  }
+
+  @media screen and (max-width: 650px){
+    margin-right: ${p => p.location === 'right' ? '80px' : '0px'};
+    margin-left: ${p => p.location === 'left' ? '60px' : '0px'};
+  }
+
+  @media screen and (max-width: 450px){
+    margin-right: ${p => p.location === 'right' ? '50px' : '0px'};
+    margin-left: ${p => p.location === 'left' ? '40px' : '0px'};
+  }
+
+  @media screen and (max-width: 350px){
+    margin-right: ${p => p.location === 'right' ? '20px' : '0px'};
+    margin-left: ${p => p.location === 'left' ? '15px' : '0px'};
+  }
 `;
 
 const Text = styled.p<ExProps>`
   font-size: 40px;
   font-weight: 900;
   display: ${(p) => p.visible ? 'contents' : 'none'};
+
+  @media screen and (max-width: 800px) {
+    font-size: 30px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 26px;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 23px;
+  }
+
+  @media screen and (max-width: 350px) {
+    font-size: 20px;
+  }
 `;
