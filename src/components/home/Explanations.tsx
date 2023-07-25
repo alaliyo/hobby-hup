@@ -1,15 +1,19 @@
 import { useState } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import useHeaderScroll from "../../hooks/useHeaderScroll";
 
 interface ExplanationsPorps {
   className: string;
   height: number;
-  imageUrl: string;
+  imgUrl: string;
+  imgPosition: string;
+  imgSize: string;
+  location: boolean;
   text?: string;
+  backColor?: string;
 }
 
-function Explanations({ className, height, imageUrl, text }: ExplanationsPorps) {
+function Explanations({ className, height, imgUrl, imgPosition, imgSize, location, text, backColor }: ExplanationsPorps) {
   const [visible, setVisible] = useState(false);
   
     useHeaderScroll({
@@ -21,12 +25,10 @@ function Explanations({ className, height, imageUrl, text }: ExplanationsPorps) 
     });
   
     return (
-      <Ex className={className} visible={visible}>
-        <Content>
-          <ImageContainer>
-            <Image src={imageUrl} alt="Image" />
-          </ImageContainer>
-          <Text>{text}</Text>
+      <Ex className={className} visible={visible} backColor={backColor}>
+        <Content position={imgPosition} location={location}>
+          <Image src={imgUrl} visible={visible} imgSize={imgSize} location={location} />
+          {text && <Text visible={visible}>{text}</Text>}
         </Content>
       </Ex>
     );
@@ -35,7 +37,11 @@ function Explanations({ className, height, imageUrl, text }: ExplanationsPorps) 
 export default Explanations;
 
 interface ExProps {
-  visible: boolean;
+  visible?: boolean;
+  position?: string;
+  imgSize?: string;
+  location?: boolean;
+  backColor?: string;
 }
   
 const fadeInUp = keyframes`
@@ -50,50 +56,32 @@ const fadeInUp = keyframes`
 `;
 
 const Ex = styled.div<ExProps>`
-  height: 500px;
-  background-color: ${(p) => (p.visible ? "gray" : "white")};
+  height: 400px;
   opacity: 1;
   transition: opacity 0.5s ease;
-  animation: ${(p) => (p.visible ? fadeInUp : "none")} 0.5s ease;
+  animation: ${(p) => (p.visible ? fadeInUp : "none")} 1s ease;
+  background-color: ${(p) => p.visible ? p.backColor : 'none'};
 `;
 
-const Content = styled.div`
+const Content = styled.div<ExProps>`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: ${p => p.position};
   height: 100%;
-  color: #fff;
+  flex-direction: ${p => p.location ? 'row' : 'row-reverse'};
+  
 `;
 
-// 각 섹션에 맞게 이미지 위치를 조절하는 스타일
-const ImageContainer = styled.div`
-  ${({ className }) =>
-    className === "box1" &&
-    css`
-      /* box1 섹션의 이미지 위치 조절 */
-      order: 2; /* 예시: box1 섹션은 텍스트 다음에 이미지가 오도록 설정 */
-    `}
-
-  ${({ className }) =>
-    className === "box2" &&
-    css`
-      /* box2 섹션의 이미지 위치 조절 */
-      order: 1; /* 예시: box2 섹션은 텍스트 전에 이미지가 오도록 설정 */
-    `}
-    
-  /* 다른 섹션들에 대해서도 동일한 방식으로 스타일을 추가해주세요 */
+const Image = styled.img<ExProps>`
+  width: ${p => p.imgSize};
+  height: ${p => p.imgSize};
+  display: ${(p) => p.visible ? 'bluck' : 'none'};
+  margin-right: ${p => p.location ? '70px' : '0px'};
+  margin-left: ${p => p.location ? '0px' : '70px'};
 `;
 
-const Image = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 16px;
-`;
-
-const Text = styled.p`
-  font-size: 18px;
-  text-align: center;
+const Text = styled.p<ExProps>`
+  font-size: 40px;
+  font-weight: 900;
+  display: ${(p) => p.visible ? 'contents' : 'none'};
 `;

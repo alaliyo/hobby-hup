@@ -1,5 +1,6 @@
-import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
+import { useState } from "react";
 
 export const uploadImages = async (
         images: any,
@@ -22,7 +23,7 @@ export const uploadImages = async (
         }
     }
 
-    const date = new Date()
+    const date = new Date();
     for (let i = 0; i < images.length; i++) {
         const image = images[i];
         const storageRef = ref(storage,
@@ -52,3 +53,20 @@ export const DeleteImages = async (imageUrls: string[]) => {
         });
     }
 };
+
+export const HomeImgs = async () => {
+    const folderPath = "home";
+    const listRef = ref(storage, folderPath);
+    try {
+        const res = await listAll(listRef);
+        const urls = [];
+
+        for (const itemRef of res.items) {
+          const url = await getDownloadURL(itemRef);
+          urls.push(url);
+        }
+        return urls;
+    } catch (error) {
+        throw console.error("Error listing files in the folder:", error);
+    }
+}
