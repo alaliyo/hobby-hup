@@ -11,21 +11,29 @@ import mainImg3 from '../imgs/mainImg3.png'
 function Home() {
     const [imgsSize, setImgsSize] = useState('');
     const [lastImgSize, setLastImgSize] = useState('');
+    const [heightBox2, setHeightBox2] = useState(225);
+    const [heightBox3, setHeightBox3] = useState(450);
     const windowWidth = useWindowWidth();
 
     useEffect(() => {
         if (windowWidth > 800) {
             setImgsSize("300px");
-            setLastImgSize("350px");
+            setLastImgSize("400px");
         } else if (windowWidth > 650) {
             setImgsSize("250px");
-            setLastImgSize("300px");
+            setLastImgSize("350px");
+            setHeightBox2(175);
+            setHeightBox3(350);
         } else if (windowWidth > 450) {
             setImgsSize("200px");
-            setLastImgSize("250px");
+            setLastImgSize("300px");
+            setHeightBox2(125);
+            setHeightBox3(250);
         } else if (windowWidth > 350) {
             setImgsSize("150px");
-            setLastImgSize("200px");
+            setLastImgSize("250px");
+            setHeightBox2(75);
+            setHeightBox3(150);
         }
     }, [windowWidth]);
 
@@ -46,7 +54,7 @@ function Home() {
 
             <Explanations
                 className="box2"
-                height={225}
+                height={heightBox2}
                 imgUrl={mainImg2}
                 imgPosition="end"
                 imgSize={imgsSize}
@@ -58,7 +66,7 @@ function Home() {
 
             <Explanations 
                 className="box3"
-                height={450}
+                height={heightBox3}
                 imgPosition="center"
                 imgSize={lastImgSize}
                 location=""

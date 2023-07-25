@@ -29,11 +29,13 @@ function Explanations({ className, height, imgUrl, imgPosition, imgSize, locatio
       <Ex className={className} visible={visible} backColor={backColor}>
         <Content position={imgPosition} location={location}>
           <Image src={imgUrl} visible={visible} imgSize={imgSize} location={location} />
-          {text1 && <Text visible={visible}>{text1}</Text>}
-          {text2 && (<>
-            <br />
-            <Text visible={visible}>{text2}</Text>
-          </>)}
+          {text1 && text2 && (
+            <Text visible={visible}>
+              {text1}
+              <br />
+              {text2}
+            </Text>
+          )}
         </Content>
       </Ex>
     );
@@ -49,14 +51,14 @@ interface ExProps {
   backColor?: string;
 }
   
-const fadeInUp = keyframes`
+const fadeInRight = keyframes`
   from {
-    transform: translateY(30px);
+    transform: translateX(50px);
     opacity: 0;
   }
 
   to {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
   }
 `;
@@ -65,7 +67,7 @@ const Ex = styled.div<ExProps>`
   height: 400px;
   opacity: 1;
   transition: opacity 0.5s ease;
-  animation: ${(p) => (p.visible ? fadeInUp : "none")} 1s ease;
+  animation: ${(p) => (p.visible ? fadeInRight : "none")} 1.5s ease;
   background-color: ${(p) => p.visible ? p.backColor : 'none'};
 
   @media screen and (max-width: 800px){
@@ -122,10 +124,23 @@ const Image = styled.img<ExProps>`
   }
 `;
 
+const fadeInUp = keyframes`
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
 const Text = styled.p<ExProps>`
   font-size: 40px;
   font-weight: 900;
-  display: ${(p) => p.visible ? 'contents' : 'none'};
+  display: ${(p) => p.visible ? 'bluck' : 'none'};
+  animation: ${(p) => (p.visible ? fadeInUp : "none")} 1.5s ease;
 
   @media screen and (max-width: 800px) {
     font-size: 30px;
