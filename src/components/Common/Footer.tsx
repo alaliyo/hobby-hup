@@ -23,8 +23,8 @@ export default Footer;
 const FooterBox = styled.footer`
     width: 100%;
     height: max-content;
-    background-color: #919191;
     padding: 20px;
+    border-top: 2px solid #cccccc;
     display: grid;
     grid-template-columns: 5fr 5fr;
 
@@ -43,21 +43,21 @@ const FooterBox = styled.footer`
 
 const FooterTextBox = styled.div`
     p {
-        color: white;
-        font-weight: 500;
+        color: gray;
+        font-size: 15px;
+        font-weight: 900;
         margin-bottom: 3px;
 
-        @media screen and (max-width: 650px) {
-            font-size: 15px;
-            margin-bottom: 3px;
-        }
-
-        @media screen and (max-width: 560px) {
+        @media screen and (max-width: 600px) {
             font-size: 13px;
             margin-bottom: 2px;
         }
 
-        @media screen and (max-width: 440px) {
+        @media screen and (max-width: 450px) {
+            font-size: 12px;
+        }
+
+        @media screen and (max-width: 350px) {
             font-size: 11px;
         }
     }

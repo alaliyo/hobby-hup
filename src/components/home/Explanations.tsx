@@ -53,12 +53,12 @@ interface ExProps {
   
 const fadeInRight = keyframes`
   from {
-    transform: translateX(50px);
+    transform: translateY(50px);
     opacity: 0;
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 `;
@@ -126,12 +126,12 @@ const Image = styled.img<ExProps>`
 
 const fadeInUp = keyframes`
   from {
-    transform: translateY(40px);
+    transform: translateX(30px);
     opacity: 0;
   }
 
   to {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
   }
 `;
