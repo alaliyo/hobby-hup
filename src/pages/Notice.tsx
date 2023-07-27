@@ -6,9 +6,11 @@ function Notice() {
             <Title>공지</Title>
             <Body>
                 <NoticePostBox>
-                    <p>제목</p>
+                    <TitleBox>
+                        <PostTitle>제목</PostTitle>
+                        <PostDate>작성 날짜</PostDate>
+                    </TitleBox>
                     <p>내용</p>
-                    <p>작성 날짜</p>
                 </NoticePostBox>
             </Body>
         </NoticeBox>
@@ -35,14 +37,28 @@ const Body = styled.div`
 `;
 
 const NoticePostBox = styled.div`
-    padding: 5px 10px;
+    padding: 7px 15px;
+    border-bottom: 1px solid #d3e1ee;
 
     :hover {
-        background-color: #e1edf8;
+        background-color: #f2f9ff;
     }
 
     p {
-        font-weight: 900;
         margin-bottom: 0;
     }
+`
+
+const TitleBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+const PostTitle = styled.p`
+    font-weight: 900;
+`
+
+const PostDate = styled.p`
+    font-weight: 900;
+    color: gray;
 `

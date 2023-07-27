@@ -19,8 +19,13 @@ import Buy from "./components/Transaction/Buy";
 import Sell from "./components/Transaction/Sell";
 import TransactionDetail from "./components/Transaction/TransactionDetail";
 import TransactionWrite from "./components/Transaction/TransactionWrite";
+
 import Chatting from "./pages/Chatting";
+
 import Notice from "./pages/Notice";
+import NoticeDetail from "./components/Notice/NoticeDetail";
+import NoticeWrite from "./components/Notice/NoticeWrite";
+import NoticePostList from "./components/Notice/NoticePostList";
 
 const router = createBrowserRouter([
     {
@@ -91,6 +96,20 @@ const router = createBrowserRouter([
             {
                 path: 'notice',
                 element: <Notice />,
+                children: [
+                    {
+                        path: '',
+                        element: <NoticePostList />,
+                    },
+                    {
+                        path: 'detail/:postId',
+                        element: <NoticeDetail />,
+                    },
+                    {
+                        path: 'write',
+                        element: <NoticeWrite />,
+                    },
+                ],
             },
             {
                 path: 'login',
