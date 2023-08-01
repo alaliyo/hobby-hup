@@ -19,7 +19,7 @@ interface UserNicknameProps {
     displayName: string;
 }
 
-// Buy date get
+// user date get
 export function UserNicknameData() {
     const [usersData, setUsersData] = useState<UserNicknameProps[]>([]);
     

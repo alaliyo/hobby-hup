@@ -12,6 +12,6 @@ function Notice() {
 export default Notice;
 
 const OutletBox = styled.div`
-    margin-top: 100px;
-    margin-bottom: 50px;
+    width: 95%;
+    margin: 100px auto 50px auto;
 `;

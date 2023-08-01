@@ -146,3 +146,32 @@ export function ChattingData() {
     
     return chattingData;
 }
+
+
+// 공지 data get
+export interface NoticeDataProp {
+    id: number;
+    title: string;
+    version: string;
+    content: string;
+    createdAt: string;
+}
+
+export function NoticeData() {
+    const [noticeData, setNoticeData] = useState<NoticeDataProp[]>([]);
+    
+    useEffect(() => {
+        const q = query(
+            collection(dbService, "notice"),
+            orderBy("id", "desc")
+        );
+        onSnapshot(q, (snapshot) => {
+            const postsArr: any = snapshot.docs.map((doc) => ({
+                ...doc.data(),
+            }));
+            setNoticeData(postsArr);
+        });
+    }, []);
+    
+    return noticeData;
+}
