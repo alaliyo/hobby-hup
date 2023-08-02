@@ -38,12 +38,12 @@ function NoticePostList() {
             </Header>
             <Body>
                 {noticeData ? noticeData.map(data => (
-                    <NoticePostBox onClick={() => handlePostNavigate(data.id)}>
+                    <NoticePostBox key={data.id} onClick={() => handlePostNavigate(data.id)}>
                         <TitleBox>
-                            <PostTitle>{data.title}</PostTitle>
+                            <PostTitle>{data.version} {data.title}</PostTitle>
                             <PostDate>{data.createdAt}</PostDate>
                         </TitleBox>
-                        <p>{data.content.replace(/\\n/g, "")}</p>
+                        <PostContent>{data.content.replace(/\\n/g, "")}</PostContent>
                     </NoticePostBox>
                 )) : null}
             </Body>
@@ -60,16 +60,37 @@ const Header = styled.div`
 
 const Title = styled.h2`
     font-weight: 900;
+    
+    @media screen and (max-width: 650px) {
+        font-size: 22px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 18px;
+    }
 `;
 
 const BtnStyle = styled(Button)`
     height: 30px;
+
+    @media screen and (max-width: 650px) {
+        height: 25px;
+        font-size: 11px;
+    }
+
+    @media screen and (max-width: 450px) {
+        height: 22px;
+        font-size: 10px;
+    }
 `;
 
 const Body = styled.div`
     border-top: 2px solid #bbbbbb;
     margin: 10px 0;
-    height: 100px;
+
+    @media screen and (max-width: 450px) {
+        margin: 5px 0;
+    }
 `;
 
 const NoticePostBox = styled.div`
@@ -82,11 +103,7 @@ const NoticePostBox = styled.div`
     }
 
     p {
-        margin-bottom: 0;
-        display: -webkit-box;
-        -webkit-line-clamp: 1; /* 최대 3줄까지 보이도록 설정 (weight에 따라 조절) */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        margin-bottom: 5px;
     }
 `
 
@@ -96,10 +113,45 @@ const TitleBox = styled.div`
 `;
 
 const PostTitle = styled.p`
+    font-size: 18px;
     font-weight: 900;
+
+    @media screen and (max-width: 650px) {
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 14px;
+    }
 `
 
 const PostDate = styled.p`
     font-weight: 900;
     color: gray;
+    display: flex;
+    align-items: end;
+
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 13px;
+    }
 `
+
+const PostContent = styled.p`
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @media screen and (max-width: 650px) {
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 13px;
+    }
+`;
