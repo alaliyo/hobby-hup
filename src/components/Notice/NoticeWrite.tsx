@@ -52,7 +52,7 @@ function NoticeWrite() {
                 const date = today.getDate();
                 const createdAt = `${year}.${month}.${date}`
 
-                await setDoc(doc(dbService, 'notice', version), {
+                await setDoc(doc(dbService, 'notice', `id${noticeData[0].id + 1}`), {
                         id: noticeData[0].id + 1,
                         title: title,
                         version: `v${version}`,

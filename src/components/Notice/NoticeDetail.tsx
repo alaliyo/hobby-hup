@@ -1,18 +1,42 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { dbService } from "../../firebase";
+import { useLocation } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { NoticeDataProp } from "../../utils/dbService";
 
 function NoticeDetail() {
+    const [datailData, setDatailData] = useState<NoticeDataProp>()
+    const location = useLocation().pathname;
+    
+    // firebass에서 상세 조회 date get
+    useEffect(() => {
+        const fetchData = async () => {
+            const docRef = doc(dbService, 'notice', `id${location.split('/')[3]}`);
+            const snapshot = await getDoc(docRef);
+            if (snapshot.exists()) {
+                const postData = snapshot.data() as NoticeDataProp;
+                setDatailData(postData);
+            }
+        };
+
+        fetchData();
+    }, []);
+    
     return(
         <DetailBox>
-            <DetailHeader>
-                <Title>제목</Title>
-                <Date>23.7.28</Date>
-            </DetailHeader>
+            {datailData && (<>
+                <DetailHeader>
+                    <Title>{datailData.title}</Title>
+                    <Date>{datailData.createdAt}</Date>
+                </DetailHeader>
 
-            <DetailBody>
-                <DetailContent>
-                    123123123123123123123123
-                </DetailContent>
-            </DetailBody>
+                <DetailBody>
+                    <DetailContent>
+                        {datailData.content}
+                    </DetailContent>
+                </DetailBody>
+            </>)}
         </DetailBox>
     );
 }
