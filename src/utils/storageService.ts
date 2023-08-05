@@ -1,6 +1,5 @@
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
-import { useState } from "react";
 
 export const uploadImages = async (
         images: any,
@@ -45,6 +44,7 @@ export const uploadImages = async (
     return imageUrls;
 };
 
+
 export const DeleteImages = async (imageUrls: string[]) => {
     if (imageUrls && imageUrls.length > 0) {
         imageUrls.forEach(async (imageUrls) => {
@@ -53,6 +53,7 @@ export const DeleteImages = async (imageUrls: string[]) => {
         });
     }
 };
+
 
 export const HomeImgs = async () => {
     const folderPath = "home";

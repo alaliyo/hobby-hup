@@ -2,21 +2,9 @@ import styled from "styled-components";
 import TransactionHeader from '../components/Transaction/TransactionHeader';
 import { Outlet, useLocation } from "react-router-dom";
 import { fadeInAnimation } from "./PageStyled";
-import { TransactionBuyDatas, TransactionSellDatas } from "../utils/dbService";
+import { TransactionBuyDatas, TransactionDataProps, TransactionSellDatas } from "../utils/dbService";
 import { useState } from "react";
 import { UserNicknameData } from "../utils/authUtils";
-
-interface TransactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    writer: string
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
 
 function Transaction() {
     const location = useLocation();
@@ -24,7 +12,7 @@ function Transaction() {
     const firstSellData: TransactionDataProps[] = TransactionSellDatas(); // date 첫 호출
     const [buyData, setBuyData] = useState<TransactionDataProps[]>(); // 검색 후
     const [sellData, setSellData] = useState<TransactionDataProps[]>(); // 검색 후
-    const userNicknameData = UserNicknameData(); // 유저 닉네임 data
+    const userNicknameData = UserNicknameData()// 유저 닉네임 data
 
     const handleSearch = (searchResult: TransactionDataProps[]) => {
         location.pathname === "/transaction/buy" ?

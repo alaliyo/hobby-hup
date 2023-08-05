@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authService } from "../../firebase";
-import { NoticeData, NoticeDataProp } from "../../utils/dbService";
+import { NoticeDataProps } from "../../utils/dbService";
+
+interface PostLiskProps {
+    noticeData: NoticeDataProps[]
+}
 
 function NoticePostList() {
     const user = authService.currentUser; // 유저 정보
     const navigate = useNavigate(); // 이동
-    const noticeData: NoticeDataProp[] = NoticeData();
+    const { noticeData }: PostLiskProps = useOutletContext();
 
     const handlePostWrite = () => {
         if (!user) {
@@ -38,12 +42,12 @@ function NoticePostList() {
             </Header>
             <Body>
                 {noticeData ? noticeData.map(data => (
-                    <NoticePostBox key={data.id} onClick={() => handlePostNavigate(data.id)}>
+                    <NoticePostBox key={data.id.integerValue} onClick={() => handlePostNavigate(Number(data.id.integerValue))}>
                         <TitleBox>
-                            <PostTitle>{data.version} {data.title}</PostTitle>
-                            <PostDate>{data.createdAt}</PostDate>
+                            <PostTitle>{data.version.stringValue} {data.title.stringValue}</PostTitle>
+                            <PostDate>{data.createdAt.stringValue}</PostDate>
                         </TitleBox>
-                        <PostContent>{data.content.replace(/\\n/g, "")}</PostContent>
+                        <PostContent>{data.content.stringValue.replace(/\\n/g, "")}</PostContent>
                     </NoticePostBox>
                 )) : null}
             </Body>

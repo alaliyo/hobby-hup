@@ -2,18 +2,7 @@ import { useOutletContext } from 'react-router-dom'
 import PostCard from "./PostCard";
 import { Body } from './styled';
 import styled from 'styled-components';
-
-interface TransactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    writer: string
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
+import { TransactionDataProps } from '../../utils/dbService';
 
 interface BuyData {
     buyData: Array<TransactionDataProps>;

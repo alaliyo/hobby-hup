@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormLabel, FormControl, Button } from "react-bootstrap";
 import { doc, setDoc } from "firebase/firestore";
-import { NoticeData, NoticeDataProp } from "../../utils/dbService";
+import { useNoticeData } from "../../utils/dbService";
 
 function NoticeWrite() {
     const navigate = useNavigate(); // 이동
@@ -12,7 +12,7 @@ function NoticeWrite() {
     const [title, setTitle] = useState(""); // 제목
     const [version, setVersion] = useState(""); // 버전
     const [content, setContent] = useState(""); // 내용
-    const noticeData: NoticeDataProp[] = NoticeData(); // 데이터 
+    const { data: noticeData } = useNoticeData(); // 데이터 
     
     // 클라이언트에게 data 받기
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,16 +52,18 @@ function NoticeWrite() {
                 const date = today.getDate();
                 const createdAt = `${year}.${month}.${date}`
 
-                await setDoc(doc(dbService, 'notice', `id${noticeData[0].id + 1}`), {
-                        id: noticeData[0].id + 1,
+                if (noticeData !== undefined) {
+                    await setDoc(doc(dbService, 'notice', `id${Number(noticeData[0].id.integerValue) + 1}`), {
+                        id: Number(noticeData[0].id.integerValue) + 1,
                         title: title,
                         version: `v${version}`,
                         content: LineBreaks,
                         createdAt: createdAt,
-                    }
-                );
-                alert('게시물이 업로드 되었습니다.')
-                navigate("/notice");
+                    });
+
+                    alert('게시물이 업로드 되었습니다.')
+                    navigate("/notice");
+                }
             }
         } catch (error) {
             alert(error);

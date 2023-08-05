@@ -8,7 +8,7 @@ import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import PostNickname from "../../hooks/PostNickname";
 import { ChattingData } from "../../utils/dbService";
 
-interface transactionDataProps {
+interface DetailHeaderProps {
     title: string;
     selected: string;
     price: number | string;
@@ -26,7 +26,7 @@ function DetailHeader({
     catedory,
     route,
     writer,
-}: transactionDataProps) {
+}: DetailHeaderProps) {
     const [likeArr, setLikeArr] = useState<string[]>([]); //like user Arr
     const user = authService.currentUser; // user 정보
     const userEmail = user?.email; // 유저 아이디 

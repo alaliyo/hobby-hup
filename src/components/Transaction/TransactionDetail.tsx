@@ -9,24 +9,13 @@ import DetailBody from "./DetailBody";
 import { CheckAuth } from "../../utils/authUtils";
 import { fadeInAnimation } from "../../pages/PageStyled";
 import HobbyHubImg from '../../imgs/HobbyHubImg.png'
-
-interface transactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-    writer: string;
-}
+import { TransactionDataProps } from "../../utils/dbService";
 
 function TransactionDetail() {
     const location = useLocation();
     const [catedory, setCatedory] = useState(''); // buy, sell 구분
     const [postDocument, setPostDocument] = useState(''); // firebase 문서 조회 값
-    const [datailData, setDatailData] = useState<transactionDataProps>() // firebase 상세 조회 date
+    const [datailData, setDatailData] = useState<TransactionDataProps>() // firebase 상세 조회 date
     
     // 로그인 확인
     useEffect(() => {
@@ -52,7 +41,7 @@ function TransactionDetail() {
             );
             const snapshot = await getDoc(docRef);
             if (snapshot.exists()) {
-                const postData = snapshot.data() as transactionDataProps;
+                const postData = snapshot.data() as TransactionDataProps;
                 setDatailData(postData);
             }
         };

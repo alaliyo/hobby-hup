@@ -4,30 +4,6 @@ import { useEffect, useState } from "react";
 import TransactionMyPost from "./TransactionMyPost";
 import TransactionLike from "./TransactionLike";
 
-// interface transactionDataProps {
-//     id: number
-//     title: string;
-//     content: string;
-//     email: string;
-//     writer: string
-//     writerProfile: string;
-//     selected: string;
-//     price: number | string;
-//     imgs: string[];
-//     createdAt: string;
-//     route: string;
-// }
-
-// interface userObj {
-//     photoURL: any | undefined;
-//     displayName: string;
-//     email: string;
-// }
-
-// interface UserInfoProps {
-//     userObj: userObj;
-// }
-
 function MyTransaction() {
     const location = useLocation();
     const [changUrl, setChangUrl] = useState('');

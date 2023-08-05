@@ -13,15 +13,21 @@ export const CheckAuth = (text: string, url: string, check: boolean) => {
     });
 };
 
-interface UserNicknameProps {
-    photoURL: string | null;
-    email: string;
+
+// 유저 프로필 data type
+export interface UserObj {
+    photoURL: any | undefined | null;
     displayName: string;
+    email: string;
+}
+
+export interface UserInfoProps {
+    userObj: UserObj;
 }
 
 // user date get
 export function UserNicknameData() {
-    const [usersData, setUsersData] = useState<UserNicknameProps[]>([]);
+    const [usersData, setUsersData] = useState<UserObj[]>([]);
     
     useEffect(() => {
         const q = query(

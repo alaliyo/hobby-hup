@@ -7,7 +7,6 @@ import mainImg1 from '../imgs/mainImg1.png'
 import mainImg2 from '../imgs/mainImg2.png'
 import mainImg3 from '../imgs/mainImg3.png'
 
-
 function Home() {
     const [imgsSize, setImgsSize] = useState('');
     const [lastImgSize, setLastImgSize] = useState('');

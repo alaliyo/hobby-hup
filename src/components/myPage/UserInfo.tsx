@@ -1,15 +1,6 @@
 import styled from 'styled-components';
 import EmptyImg from '../../imgs/EmptyImg.png';
-
-interface userObj {
-    photoURL: any | null | undefined;
-    displayName: string;
-    email: string;
-}
-
-interface UserInfoProps {
-    userObj: userObj;
-}
+import { UserInfoProps } from '../../utils/authUtils';
 
 function UserInfo({ userObj }: UserInfoProps) {
     return(

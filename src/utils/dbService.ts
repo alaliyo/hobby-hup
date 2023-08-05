@@ -1,9 +1,11 @@
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbService } from "../firebase";
+import axios from "axios";
+import { useQuery } from "react-query";
 
 // transaction props
-interface transactionDataProps {
+export interface TransactionDataProps {
     id: number
     title: string;
     content: string;
@@ -18,7 +20,7 @@ interface transactionDataProps {
 
 // Buy date get
 export function TransactionBuyDatas() {
-    const [buyBatas, setBuyBatas] = useState<transactionDataProps[]>([]);
+    const [buyBatas, setBuyBatas] = useState<TransactionDataProps[]>([]);
     
     useEffect(() => {
         const q = query(
@@ -54,7 +56,7 @@ export function BuyDatasMaxId() {
 
 // Sell date get
 export function TransactionSellDatas() {
-    const [sellDatas, setSellData] = useState<transactionDataProps[]>([]);
+    const [sellDatas, setSellData] = useState<TransactionDataProps[]>([]);
     
     useEffect(() => {
         const q = query(
@@ -148,30 +150,33 @@ export function ChattingData() {
 }
 
 
+interface chaildProps {
+    stringValue: string;
+    integerValue: string;
+} 
+
 // 공지 data get
-export interface NoticeDataProp {
-    id: number;
-    title: string;
-    version: string;
-    content: string;
-    createdAt: string;
+export interface NoticeDataProps {
+    id: chaildProps;
+    title: chaildProps;
+    version: chaildProps;
+    content: chaildProps;
+    createdAt: chaildProps;
 }
 
-export function NoticeData() {
-    const [noticeData, setNoticeData] = useState<NoticeDataProp[]>([]);
-    
-    useEffect(() => {
-        const q = query(
-            collection(dbService, "notice"),
-            orderBy("id", "desc")
-        );
-        onSnapshot(q, (snapshot) => {
-            const postsArr: any = snapshot.docs.map((doc) => ({
-                ...doc.data(),
-            }));
-            setNoticeData(postsArr);
+export const NoticeData = async () => {
+    try {
+        const response = await axios.get('https://firestore.googleapis.com/v1/projects/hobby-hub-887d6/databases/(default)/documents/notice');
+        const data = response.data.documents.map((doc: { fields: NoticeDataProps; }) => {
+            const { fields } = doc;
+            return fields;
         });
-    }, []);
-    
-    return noticeData;
-}
+        return data;
+    } catch (error) {
+        alert('서버 에러입니다. 새로고침해주세요.' + error);
+    }
+};
+
+export const useNoticeData = () => {
+    return useQuery<NoticeDataProps[]>('noticeData', NoticeData);
+};

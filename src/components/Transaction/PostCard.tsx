@@ -3,27 +3,17 @@ import { Card } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { authService } from "../../firebase";
 import { useEffect, useState } from "react";
-import { LikeData } from "../../utils/dbService";
+import { LikeData, TransactionDataProps } from "../../utils/dbService";
 import PostNickname from "../../hooks/PostNickname";
 import HobbyHubImg from '../../imgs/HobbyHubImg.png';
 
-interface transactionDataProps {
-    id: number;
-    title: string;
-    selected: string;
-    writer: string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
-
 interface PostCardprops {
-    data: transactionDataProps;
+    data: TransactionDataProps;
 }
 
 function PostCard({ data }: PostCardprops) {
     const user = authService.currentUser; // user 정보
-    const likedata = LikeData(); // firebase Like date get
+    const likeData= LikeData()
     const [like, setLike] = useState(0); // Like 수
     const navigate = useNavigate();
     const location = useLocation().pathname;
@@ -70,10 +60,13 @@ function PostCard({ data }: PostCardprops) {
     
     // Like 숫자료 변환
     useEffect(() => {
-        if (likedata.filter(e => e.id === data.route)[0]) {
-            setLike(likedata.filter(e => e.id === data.route)[0].likeArr.length)
+        if (likeData.length > 0) {
+            const filteredData = likeData.filter((e) => e.id === data.route);
+            if (filteredData.length > 0) {
+                setLike(filteredData[0].likeArr.length);
+            }
         }
-    }, [data.route, likedata]);
+    }, [data.route, likeData]);
     
     return(
         <LinkStyle onClick={handleCardClick}>

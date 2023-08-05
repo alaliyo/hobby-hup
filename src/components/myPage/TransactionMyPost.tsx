@@ -1,6 +1,6 @@
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { TransactionBuyDatas, TransactionSellDatas } from "../../utils/dbService";
+import { TransactionBuyDatas, TransactionDataProps, TransactionSellDatas } from "../../utils/dbService";
 import { deleteDoc, doc } from "firebase/firestore";
 import { dbService } from "../../firebase";
 import { Post, ImgLink, FirstImg, InfoData, InfoLink,
@@ -8,34 +8,13 @@ import { Post, ImgLink, FirstImg, InfoData, InfoLink,
 import { useWindowWidth } from "../../hooks/WindowWidthTracker";
 import HobbyHubImg from '../../imgs/HobbyHubImg.png'
 import { DeleteImages } from "../../utils/storageService";
-
-interface transactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    writer: string
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
-
-interface userObj {
-    photoURL: any | undefined;
-    displayName: string;
-    email: string;
-}
-
-interface UserInfoProps {
-    userObj: userObj;
-}
+import { UserInfoProps } from "../../utils/authUtils";
 
 function TransactionMyPost() {
     const { userObj } = useOutletContext<UserInfoProps>(); //user 정보
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
-    const [myPost, setMyPost] = useState<transactionDataProps[]>(); // 전체 my post
+    const [myPost, setMyPost] = useState<TransactionDataProps[]>(); // 전체 my post
     const navigate = useNavigate();
     const windowWidth = useWindowWidth();
 
@@ -75,8 +54,8 @@ function TransactionMyPost() {
     
     // my post 모으기
     useEffect(() => {
-        const myBuydata = buyPost.filter((data: transactionDataProps) => data.writer === userObj.email);
-        const mySelldata = sellPost.filter((data: transactionDataProps) => data.writer === userObj.email);
+        const myBuydata = buyPost.filter((data: TransactionDataProps) => data.writer === userObj.email);
+        const mySelldata = sellPost.filter((data: TransactionDataProps) => data.writer === userObj.email);
         const myPostArrPlus = [...myBuydata, ...mySelldata].sort((a, b) => Number(new Date(`20${b.createdAt}`)) - Number(new Date(`20${a.createdAt}`)));
         setMyPost(myPostArrPlus)
     }, [buyPost, sellPost, userObj]);

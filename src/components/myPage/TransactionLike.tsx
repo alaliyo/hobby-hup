@@ -4,63 +4,46 @@ import {
     Post, ImgLink, FirstImg, InfoData, 
     InfoLink, Title, Content, Data
 } from './TransactionCordStyle';
-import { LikeData, TransactionBuyDatas, TransactionSellDatas } from '../../utils/dbService';
+import { LikeData, TransactionBuyDatas, TransactionDataProps, TransactionSellDatas } from '../../utils/dbService';
 import styled from 'styled-components';
 import { useWindowWidth } from '../../hooks/WindowWidthTracker';
-
-
-interface transactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    writer: string
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
-
-interface userObj {
-    photoURL: any | undefined;
-    displayName: string;
-    email: string;
-}
-
-interface UserInfoProps {
-    userObj: userObj;
-}
+import { UserInfoProps } from '../../utils/authUtils';
+import HobbyHubImg from '../../imgs/HobbyHubImg.png';
 
 function TransactionLike() {
     const { userObj } = useOutletContext<UserInfoProps>(); //user 정보
     const buyPost = TransactionBuyDatas(); // 판매 post
     const sellPost = TransactionSellDatas(); // 구매 post
-    const likeData = LikeData(); // Like data
-    const [myLikePost, setMyLikePost] = useState<transactionDataProps[]>(); // 전체 my post
+    const likeData= LikeData() // like data
+    const [myLikePost, setMyLikePost] = useState<TransactionDataProps[]>(); // 전체 my post
     const windowWidth = useWindowWidth(); // 웹 크기 값
 
     useEffect(() => {
-        const filteredData = likeData.filter(obj =>
-            obj.likeArr.some(e => e === userObj.email)
-        );
-        const allPost = [...buyPost, ...sellPost].sort((a, b) => 
-            Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`)
-        );
+        if (likeData.length > 0) {
+            const filteredData = likeData.filter((obj) =>
+                obj.likeArr.some((e) => e === userObj.email)
+            );
+            
+            const allPost = [...buyPost, ...sellPost].sort((a, b) => 
+                Number(`20${b.createdAt}`) - Number(`20${a.createdAt}`)
+            );
 
-        const LikePosts = allPost.filter(obj => filteredData.some(e => obj.route === e.id))
-        setMyLikePost(LikePosts);
+            const LikePosts = allPost.filter(obj => filteredData.some((e: { id: string; }) => obj.route === e.id))
+            setMyLikePost(LikePosts);
+        }
+        
     }, [buyPost, likeData, sellPost, userObj.email]);
 
     return(
         <>
-            {myLikePost && (
+            {myLikePost !== undefined && (
                 myLikePost.map((data, i) => (
                     <Post key={i}>
                         <ImgLink
                         to={data.route.slice(0, 3) === 'buy' ?
                             '/transaction/buy/' + data.id : '/transaction/sell/' + data.id} 
                         >
-                            <FirstImg src={data.imgs[0]} alt="" />
+                            <FirstImg src={data.imgs[0] ? data.imgs[0] : HobbyHubImg } alt="" />
                         </ImgLink>
                         <InfoData>
                             <InfoLink

@@ -9,21 +9,9 @@ import { uploadImages } from '../../utils/storageService';
 import AddressDrop from './AddressDrop';
 import useKFilter from "../../hooks/KFilter";
 import useCurrentDate from "../../hooks/currentDate";
-import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
+import { BuyDatasMaxId, SellDatasMaxId, TransactionDataProps } from "../../utils/dbService";
 import { fadeInAnimation } from "../../pages/PageStyled";
 import { CheckAuth } from "../../utils/authUtils";
-
-interface transactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-    writer: string;
-}
 
 function TransactionWrite() {
     const [title, setTitle] = useState("") // 제목
@@ -45,7 +33,7 @@ function TransactionWrite() {
     const user = authService.currentUser; //  유저 정보
     const location = useLocation(); // 링크 이동
     const [detailInquiry, setDetailInquiry] = useState(''); // 상세 조회 
-    const [datailData, setDatailData] = useState<transactionDataProps | null>(null);
+    const [datailData, setDatailData] = useState<TransactionDataProps | null>(null);
 
     // 클라이언트 DATA 받기
     const textChange = (e: ChangeEvent<HTMLInputElement> & ChangeEvent<HTMLSelectElement>) => {
@@ -156,7 +144,7 @@ function TransactionWrite() {
                 );
                 const snapshot = await getDoc(docRef);
                 if (snapshot.exists()) {
-                    const postData = snapshot.data() as transactionDataProps;
+                    const postData = snapshot.data() as TransactionDataProps;
                     setDatailData(postData);
                 }
             };

@@ -4,19 +4,7 @@ import { Button, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { authService } from "../../firebase";
 import Search from "../Common/Search";
-import { BuyDatasMaxId, SellDatasMaxId } from "../../utils/dbService";
-
-interface TransactionDataProps {
-    id: number
-    title: string;
-    content: string;
-    writer: string
-    selected: string;
-    price: number | string;
-    imgs: string[];
-    createdAt: string;
-    route: string;
-}
+import { BuyDatasMaxId, SellDatasMaxId, TransactionDataProps } from "../../utils/dbService";
 
 interface TransactionHeaderProps {
     buyData: TransactionDataProps[];

@@ -8,18 +8,9 @@ import { Button, Form } from "react-bootstrap";
 import Filter from 'bad-words';
 import useKFilter from "../../hooks/KFilter";
 import { uploadImages } from "../../utils/storageService";
+import { UserInfoProps } from "../../utils/authUtils";
 
-interface userObj {
-    displayName: string;
-    email: string;
-    photoURL: any;
-}
-
-interface EditUserInfoProps {
-    userObj: userObj;
-}
-
-function EditUserInfo({ userObj }: EditUserInfoProps) {
+function EditUserInfo({ userObj }: UserInfoProps) {
     const [nickname, setNickname] = useState(userObj.displayName); // 유저 닉네임
     const [image, setImage] = useState<File[]>([]); // 이미지 받기
     const nicknameKFilter = useKFilter(nickname); // 한글 비속어 hook

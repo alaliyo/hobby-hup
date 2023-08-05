@@ -1,11 +1,18 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { fadeInAnimation } from "./PageStyled";
+import { useNoticeData } from "../utils/dbService";
+import CommonSpinner from "../components/Common/CommonSpinner";
 
 function Notice() {
+    const { data: noticeData } = useNoticeData();
+
     return(
         <OutletBox>
-            <Outlet />
+            {noticeData && noticeData !== undefined ? 
+                <Outlet context={{noticeData : noticeData}} /> : <CommonSpinner />
+            }
+            
         </OutletBox>
     );
 }

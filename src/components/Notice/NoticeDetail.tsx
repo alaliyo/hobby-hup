@@ -1,38 +1,44 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { dbService } from "../../firebase";
-import { useLocation } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { NoticeDataProp } from "../../utils/dbService";
+import { useLocation, useOutletContext } from "react-router-dom";
 import uselinesToBreaks from "../../hooks/uselinesToBreaks";
 import { fadeInAnimation } from "../../pages/PageStyled";
+import { NoticeDataProps } from "../../utils/dbService";
+
+interface PostLiskProps {
+    noticeData: NoticeDataProps[]
+}
+
+// 공지 data get
+export interface NoticeDataProp {
+    id: number;
+    title: string;
+    version: string;
+    content: string;
+    createdAt: string;
+}
 
 function NoticeDetail() {
-    const [datailData, setDatailData] = useState<NoticeDataProp>()
+    const [datailData, setDatailData] = useState<NoticeDataProps>()
     const location = useLocation().pathname;
     const [formattedContent, setFormattedContent] = useState<React.ReactNode | null>(null);
-    
+    const { noticeData }: PostLiskProps = useOutletContext();
+
     // firebass에서 상세 조회 date get
     useEffect(() => {
-        const fetchData = async () => {
-            const docRef = doc(dbService, 'notice', `id${location.split('/')[3]}`);
-            const snapshot = await getDoc(docRef);
-            if (snapshot.exists()) {
-                const postData = snapshot.data() as NoticeDataProp;
-                setDatailData(postData);
-                setFormattedContent(uselinesToBreaks(postData.content));
-            }
-        };
-
-        fetchData();
-    }, []);
+        const data = noticeData.filter(e => e.id.integerValue === location.split('/')[3]);
+        setDatailData(data[0])
+        if (datailData) {
+            setFormattedContent(uselinesToBreaks(datailData.content.stringValue));
+        }
+    }, [datailData, location, noticeData]);
     
     return(
         <DetailBox>
             {datailData && (<>
                 <DetailHeader>
-                    <Title>{datailData.title}</Title>
-                    <Date>{datailData.createdAt}</Date>
+                    <Title>{datailData.title.stringValue}</Title>
+                    <Date>{datailData.createdAt.stringValue}</Date>
                 </DetailHeader>
 
                 <DetailBody>

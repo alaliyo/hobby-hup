@@ -4,16 +4,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import CommonSpinner from "../Common/CommonSpinner";
 import ChattingPost from "./ChattingPost";
-
-interface userObj {
-    photoURL: any | undefined;
-    displayName: string;
-    email: string;
-}
-
-interface UserInfoProps {
-    userObj: userObj;
-}
+import { UserInfoProps } from "../../utils/authUtils";
 
 function MyChattings() {
     const chattingDatas = ChattingData(); // 채팅 data
