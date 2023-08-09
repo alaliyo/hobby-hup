@@ -12,7 +12,6 @@ function Notice() {
             {noticeData && noticeData !== undefined ? 
                 <Outlet context={{noticeData : noticeData}} /> : <CommonSpinner />
             }
-            
         </OutletBox>
     );
 }
