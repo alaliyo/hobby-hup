@@ -67,7 +67,7 @@ const router = createBrowserRouter([
                         element: <GatheringList />,
                     },
                     {
-                        path: 'Detail',
+                        path: 'Detail/:postId',
                         element: <GatheringDetail />,
                     },
                 ]

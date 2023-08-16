@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function GatheringHeader() {
+function ListHeader() {
     return(
         <HeaderBox>
 
@@ -8,7 +8,7 @@ function GatheringHeader() {
     );
 }
 
-export default GatheringHeader;
+export default ListHeader;
 
 const HeaderBox = styled.header`
     height: 100px;

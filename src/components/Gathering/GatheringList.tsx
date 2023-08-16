@@ -1,6 +1,12 @@
+import ListBody from "./ListBody";
+import ListHeader from "./ListHeader";
+
 function GatheringList() {
     return(
-        <div></div>
+        <>
+            <ListHeader />
+            <ListBody />
+        </>
     );
 }
 
