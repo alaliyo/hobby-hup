@@ -1,9 +1,16 @@
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
+
 function Gathering() {
     return(
-        <div>
-            <h1>모임</h1>
-        </div>
+        <GatheringBox>
+            <Outlet />
+        </GatheringBox>
     );
 }
 
 export default Gathering;
+
+const GatheringBox = styled.div`
+    height: 700px;
+`;

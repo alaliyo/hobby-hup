@@ -11,8 +11,8 @@ import MyGathering from "./components/MyPage/MyGathering";
 import MyChattings from './components/MyPage/Chattings';
 
 import Gathering from "./pages/Gathering";
-
-import Share from "./pages/Share";
+import GatheringList from "./components/Gathering/GatheringList";
+import GatheringDetail from "./components/Gathering/GatheringDetail";
 
 import Transaction from "./pages/Transaction";
 import Buy from "./components/Transaction/Buy";
@@ -60,12 +60,17 @@ const router = createBrowserRouter([
             },
             {
                 path: 'gathering',
-                element: <Gathering />
-            },
-            {
-                path: 'share',
-                element: <Share />,
-
+                element: <Gathering />,
+                children: [
+                    {
+                        path: '',
+                        element: <GatheringList />,
+                    },
+                    {
+                        path: 'Detail',
+                        element: <GatheringDetail />,
+                    },
+                ]
             },
             {
                 path: 'transaction',

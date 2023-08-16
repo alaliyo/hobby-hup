@@ -54,21 +54,19 @@ function Header({ loggedIn, userObj }: HeaderProps) {
                         </LinkStyled>
                         
                         {pageUrl === 'login' ? null : <>
+                            <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
+                                모임
+                            </LinkStyled>
+
                             <LinkStyled to={'/transaction/buy'} active={pageUrl === 'transaction' ? 'true' : 'false'}>
                                 재능거래
-                            </LinkStyled>
-                            
-                            <LinkStyled to={'/share'} active={pageUrl === 'share' ? 'true' : 'false'}>
-                                취미공유
                             </LinkStyled>
 
                             <LinkStyled to={'/notice'} active={pageUrl === 'notice' ? 'true' : 'false'}>
                                 공지
                             </LinkStyled>
                             
-                            {/* <LinkStyled to={'/gathering'} active={pageUrl === 'gathering' ? 'true' : 'false'}>
-                                모임
-                            </LinkStyled> */}
+                            
                         </>}
                     </LinkBox>
                     
