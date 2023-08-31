@@ -13,6 +13,7 @@ import MyChattings from './components/MyPage/Chattings';
 import Gathering from "./pages/Gathering";
 import GatheringList from "./components/Gathering/GatheringList";
 import GatheringDetail from "./components/Gathering/GatheringDetail";
+import GatheringWrite from "./components/Gathering/GatheringWrite";
 
 import Transaction from "./pages/Transaction";
 import Buy from "./components/Transaction/Buy";
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
                     {
                         path: 'Detail/:postId',
                         element: <GatheringDetail />,
+                    },
+                    {
+                        path: 'write',
+                        element: <GatheringWrite />,
                     },
                 ]
             },

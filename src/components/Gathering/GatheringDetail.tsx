@@ -1,7 +1,15 @@
+import styled from "styled-components";
+
 function GatheringDetail() {
     return(
-        <div></div>
+        <DetailBox>
+            
+        </DetailBox>
     );
 }
 
 export default GatheringDetail;
+
+const DetailBox = styled.div`
+    
+`;

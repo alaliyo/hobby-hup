@@ -1,10 +1,17 @@
+import { useState } from "react";
 import styled from "styled-components";
-import HobbyHubImg from '../../imgs/HobbyHubImg.png';
 import { Link } from "react-router-dom";
+import HobbyHubImg from '../../imgs/HobbyHubImg.png';
 
 function ListCard() {
+    const [count, setCount] = useState(0);
+
+    const handleClickCount = () => {
+        setCount(e => e + 1)
+    }
+
     return(
-        <Card>
+        <Card onClick={handleClickCount}>
             <CardLink to={`Detail/0`}>
                 <CardImgBox>
                     <CardImg src={HobbyHubImg}/>
@@ -14,11 +21,11 @@ function ListCard() {
                     <TextBox>
                         <CardText>경남 양산시 서창동</CardText>
                         <FlexBox>
-                            <CardText>스크랩 2</CardText>
+                            <CardText>스크랩 {0} </CardText>
                             <CardText>운영자</CardText>
                         </FlexBox>
                         <FlexBox>
-                            <CardText>조회수 5</CardText>
+                            <CardText>조회수 {count}</CardText>
                             <CardText>23.08.16</CardText>
                         </FlexBox>
                     </TextBox>

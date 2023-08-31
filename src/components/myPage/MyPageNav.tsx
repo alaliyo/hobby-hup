@@ -32,7 +32,7 @@ function MyPageNav() {
 
                 <DropdownMenu>
                     <LinkBox to="transaction/my-post" onClick={() => categoryChang('거래')}>거래</LinkBox>
-                    <LinkBox to="share/my-post" onClick={() => categoryChang('공유')}>공유</LinkBox>
+                    {/*<LinkBox to="share/my-post" onClick={() => categoryChang('공유')}>공유</LinkBox>*/}
                     <LinkBox to="chattings" onClick={() => categoryChang('채팅')}>채팅</LinkBox>
                     {/* <LinkBox to="gathering" onClick={() => locationChang('모임')}>모임</LinkBox> */}
                 </DropdownMenu>

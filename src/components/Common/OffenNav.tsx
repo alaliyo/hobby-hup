@@ -37,9 +37,11 @@ function Offcanva({ loggedIn }: OffcanvaProps) {
             </Offcanvas.Header>
 
             <Offcanvas.Body>
-                <LinkStyle to={'/gathering'} onClick={onClick}>
-                    모임
-                </LinkStyle>
+                {/*
+                    <LinkStyle to={'/gathering'} onClick={onClick}>
+                        모임
+                    </LinkStyle>
+                */}
 
                 <LinkStyle to={'/transaction/buy'} onClick={onClick}>
                     재능거래
