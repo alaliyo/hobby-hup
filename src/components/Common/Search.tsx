@@ -1,5 +1,6 @@
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import styled from 'styled-components';
+import { UserNicknameData } from '../../utils/authUtils';
 
 interface TransactionDataProps {
     id: number
@@ -22,7 +23,8 @@ interface SearchProps {
 };
 
 function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearchResult}: SearchProps) {
-    
+    const userNicknameData = UserNicknameData();
+    console.log(postsData);
     // 검색어 상태 갱신
     const handleSearchInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -40,7 +42,9 @@ function Search({postsData, searchQuery, searchResult, setSearchQuery, setSearch
             selected: string;
         }) =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.writer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            userNicknameData.filter(date => date.email === item.writer)[0]
+                .displayName.toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
             item.selected.toLowerCase().includes(searchQuery) ||
             item.createdAt.toLowerCase().includes(searchQuery)
         );
